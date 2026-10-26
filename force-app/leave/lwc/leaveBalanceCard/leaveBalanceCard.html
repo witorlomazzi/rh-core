@@ -1,0 +1,83 @@
+<template>
+    <lightning-card title={cardTitle} icon-name="standard:today">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar saldo"
+                title="Atualizar"
+                onclick={handleRefresh}
+                class="refresh"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando saldo de férias" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:date_input" size="small" alternative-text="Sem períodos"></lightning-icon>
+                    <p class="slds-m-top_x-small">{emptyText}</p>
+                </div>
+            </template>
+            <template lwc:if={hasPeriods}>
+                <ul>
+                    <template for:each={periodViews} for:item="p">
+                        <li key={p.id} class="period slds-m-bottom_small">
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-grid_align-spread">
+                                <div class="period-title">
+                                    <lightning-icon icon-name="utility:event" size="x-small" class="slds-m-right_x-small" alternative-text="Período"></lightning-icon>
+                                    <span class="period-range">{p.rangeLabel}</span>
+                                </div>
+                                <span class={p.badgeClass}>{p.statusLabel}</span>
+                            </div>
+                            <div class="slds-m-top_x-small">
+                                <lightning-progress-bar value={p.usedPercent} size="medium"></lightning-progress-bar>
+                                <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">{p.usedLabel}</p>
+                            </div>
+                            <div class="stats slds-grid slds-wrap slds-m-top_small">
+                                <div class="stat">
+                                    <span class="stat-value entitled">{p.entitledDays}</span>
+                                    <span class="stat-label">Direito</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value taken">{p.daysTaken}</span>
+                                    <span class="stat-label">Gozados</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value sold">{p.daysSold}</span>
+                                    <span class="stat-label">Vendidos</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value pending">{p.daysPending}</span>
+                                    <span class="stat-label">Pendentes</span>
+                                </div>
+                                <div class="stat stat-balance">
+                                    <span class="stat-value balance">{p.balanceDays}</span>
+                                    <span class="stat-label">Saldo</span>
+                                </div>
+                            </div>
+                            <template lwc:if={p.showDeadline}>
+                                <p class={p.deadlineClass}>
+                                    <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small" alternative-text="Prazo"></lightning-icon>
+                                    {p.deadlineLabel}
+                                </p>
+                            </template>
+                            <template lwc:if={p.canRequest}>
+                                <div class="slds-m-top_x-small">
+                                    <lightning-button label="Solicitar férias" variant="brand-outline" data-id={p.id} onclick={handleRequest} class="request"></lightning-button>
+                                </div>
+                            </template>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>

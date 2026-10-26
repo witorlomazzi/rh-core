@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Avisa os componentes de férias da mesma página que uma solicitação foi criada ou cancelada, para atualizarem saldo e lista.</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>Colaborador dono da solicitação alterada.</description>
+        <fieldName>employeeId</fieldName>
+    </lightningMessageFields>
+    <masterLabel>Férias alteradas</masterLabel>
+</LightningMessageChannel>

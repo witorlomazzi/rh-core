@@ -1,0 +1,18 @@
+.request {
+    list-style: none;
+    padding: 0.75rem;
+    border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+    border-radius: 0.5rem;
+    background: var(--slds-g-color-neutral-base-100, #ffffff);
+}
+
+.request-range {
+    font-weight: 700;
+}
+
+.confirm-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+}

@@ -83,6 +83,9 @@ public with sharing class LeaveRequestController {
         public List<PeriodView> periods = new List<PeriodView>();
         @AuraEnabled
         public String emptyMessage;
+        /** Verdadeiro para o RH: libera a excecao de antecedencia no formulario. */
+        @AuraEnabled
+        public Boolean isHr = false;
     }
 
     public class RuleView {
@@ -173,6 +176,7 @@ public with sharing class LeaveRequestController {
     public static BalanceView getBalance(Id employeeId) {
         try {
             BalanceView view = new BalanceView();
+            view.isHr = LeaveRequestService.isHrAdmin();
             Employee__c employee = resolveEmployee(employeeId);
             if (employee == null) {
                 view.emptyMessage = 'Seu usuário ainda não está vinculado a um colaborador.';
