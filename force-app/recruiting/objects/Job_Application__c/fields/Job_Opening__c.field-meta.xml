@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Opening__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Vaga.</description>
+    <label>Vaga</label>
+    <referenceTo>Job_Opening__c</referenceTo>
+    <relationshipLabel>Candidaturas</relationshipLabel>
+    <relationshipName>Applications</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

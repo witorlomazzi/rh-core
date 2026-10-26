@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hierarchy_Path__c</fullName>
+    <description>Ids da cadeia de gestores, da raiz ao gestor direto, separados por ponto e vírgula. Mantido por Apex.</description>
+    <label>Caminho na hierarquia</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

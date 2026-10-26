@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>Abrangência do feriado.</description>
+    <label>Tipo</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Nacional</fullName>
+                <default>false</default>
+                <label>Nacional</label>
+            </value>
+            <value>
+                <fullName>Estadual</fullName>
+                <default>false</default>
+                <label>Estadual</label>
+            </value>
+            <value>
+                <fullName>Municipal</fullName>
+                <default>false</default>
+                <label>Municipal</label>
+            </value>
+            <value>
+                <fullName>Empresa</fullName>
+                <default>false</default>
+                <label>Empresa</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

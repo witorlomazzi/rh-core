@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Situação do período.</description>
+    <label>Situação</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Em_Aquisicao</fullName>
+                <default>false</default>
+                <label>Em aquisição</label>
+            </value>
+            <value>
+                <fullName>Disponivel</fullName>
+                <default>false</default>
+                <label>Disponível</label>
+            </value>
+            <value>
+                <fullName>Prazo_Proximo</fullName>
+                <default>false</default>
+                <label>Prazo próximo</label>
+            </value>
+            <value>
+                <fullName>Concluido</fullName>
+                <default>false</default>
+                <label>Concluído</label>
+            </value>
+            <value>
+                <fullName>Perdido</fullName>
+                <default>false</default>
+                <label>Perdido</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_To__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Usuário responsável.</description>
+    <label>Atribuída a</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Tarefas de onboarding</relationshipLabel>
+    <relationshipName>HR_Onboarding_Tasks</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

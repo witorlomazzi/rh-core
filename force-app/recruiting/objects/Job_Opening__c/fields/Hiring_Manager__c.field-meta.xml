@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hiring_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Gestor dono da vaga.</description>
+    <label>Gestor contratante</label>
+    <referenceTo>Employee__c</referenceTo>
+    <relationshipLabel>Vagas</relationshipLabel>
+    <relationshipName>Job_Openings</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

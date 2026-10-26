@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Tarefas padrão geradas no plano de onboarding.</description>
+    <label>Modelo de tarefa de onboarding</label>
+    <pluralLabel>Modelos de tarefa de onboarding</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

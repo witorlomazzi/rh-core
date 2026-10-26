@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Taken__c</fullName>
+    <description>Dias de gozo aprovados, em gozo ou concluídos.</description>
+    <label>Dias gozados ou aprovados</label>
+    <summarizedField>Leave_Request__c.Days__c</summarizedField>
+    <summaryFilterItems>
+        <field>Leave_Request__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Aprovado, Em_Gozo, Concluido</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Leave_Request__c.Accrual_Period__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Salary_Band__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Faixa salarial do cargo.</description>
+    <label>Faixa salarial</label>
+    <referenceTo>Salary_Band__c</referenceTo>
+    <relationshipLabel>Cargos</relationshipLabel>
+    <relationshipName>Positions</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

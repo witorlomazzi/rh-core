@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Tabela do art. 130 da CLT: dias de férias por faltas injustificadas.</description>
+    <label>Regra de faltas</label>
+    <pluralLabel>Regras de faltas</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

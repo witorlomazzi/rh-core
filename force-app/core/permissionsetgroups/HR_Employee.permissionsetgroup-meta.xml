@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Pacote de acesso do colaborador.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>RH Core - Colaborador</label>
+    <permissionSets>HR_Core_Employee</permissionSets>
+    <permissionSets>HR_Leave_Employee</permissionSets>
+    <permissionSets>HR_Position_History_Employee</permissionSets>
+    <permissionSets>HR_Performance_Employee</permissionSets>
+    <permissionSets>HR_Onboarding_Employee</permissionSets>
+    <permissionSets>HR_MyHR_User</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

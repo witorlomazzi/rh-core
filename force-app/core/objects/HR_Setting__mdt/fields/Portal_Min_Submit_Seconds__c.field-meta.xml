@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portal_Min_Submit_Seconds__c</fullName>
+    <description>Segundos mínimos entre abrir e enviar.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Tempo mínimo de envio no portal</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

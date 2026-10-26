@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Situação do plano.</description>
+    <label>Situação</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Nao_Iniciado</fullName>
+                <default>true</default>
+                <label>Não iniciado</label>
+            </value>
+            <value>
+                <fullName>Em_Andamento</fullName>
+                <default>false</default>
+                <label>Em andamento</label>
+            </value>
+            <value>
+                <fullName>Concluido</fullName>
+                <default>false</default>
+                <label>Concluído</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

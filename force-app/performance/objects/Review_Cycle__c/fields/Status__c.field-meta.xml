@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Fase do ciclo.</description>
+    <label>Situação</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Planejado</fullName>
+                <default>true</default>
+                <label>Planejado</label>
+            </value>
+            <value>
+                <fullName>Autoavaliacao</fullName>
+                <default>false</default>
+                <label>Autoavaliação</label>
+            </value>
+            <value>
+                <fullName>Avaliacao_Gestor</fullName>
+                <default>false</default>
+                <label>Avaliação do gestor</label>
+            </value>
+            <value>
+                <fullName>Calibracao</fullName>
+                <default>false</default>
+                <label>Calibração</label>
+            </value>
+            <value>
+                <fullName>Concluido</fullName>
+                <default>false</default>
+                <label>Concluído</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

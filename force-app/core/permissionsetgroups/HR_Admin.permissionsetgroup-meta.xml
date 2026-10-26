@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Pacote de acesso do RH: todos os acessos administrativos.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>RH Core - RH</label>
+    <permissionSets>HR_Core_Admin</permissionSets>
+    <permissionSets>HR_Leave_Admin</permissionSets>
+    <permissionSets>HR_Promotion_Admin</permissionSets>
+    <permissionSets>HR_Performance_Admin</permissionSets>
+    <permissionSets>HR_Onboarding_Admin</permissionSets>
+    <permissionSets>HR_Recruiting_Recruiter</permissionSets>
+    <permissionSets>HR_MyHR_User</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accrual_Period__c</fullName>
+    <description>Período aquisitivo de origem.</description>
+    <label>Período aquisitivo</label>
+    <referenceTo>Leave_Accrual_Period__c</referenceTo>
+    <relationshipLabel>Solicitações de férias</relationshipLabel>
+    <relationshipName>Leave_Requests</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>true</writeRequiresMasterRead>
+</CustomField>

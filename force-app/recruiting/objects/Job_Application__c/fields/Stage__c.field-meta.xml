@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Etapa no funil.</description>
+    <label>Etapa</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Nova</fullName>
+                <default>true</default>
+                <label>Nova</label>
+            </value>
+            <value>
+                <fullName>Triagem</fullName>
+                <default>false</default>
+                <label>Triagem</label>
+            </value>
+            <value>
+                <fullName>Entrevista_RH</fullName>
+                <default>false</default>
+                <label>Entrevista com RH</label>
+            </value>
+            <value>
+                <fullName>Entrevista_Tecnica</fullName>
+                <default>false</default>
+                <label>Entrevista técnica</label>
+            </value>
+            <value>
+                <fullName>Proposta</fullName>
+                <default>false</default>
+                <label>Proposta</label>
+            </value>
+            <value>
+                <fullName>Contratado</fullName>
+                <default>false</default>
+                <label>Contratado</label>
+            </value>
+            <value>
+                <fullName>Reprovado</fullName>
+                <default>false</default>
+                <label>Reprovado</label>
+            </value>
+            <value>
+                <fullName>Desistiu</fullName>
+                <default>false</default>
+                <label>Desistiu</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

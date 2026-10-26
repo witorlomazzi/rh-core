@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parent_Department__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Departamento ao qual este se subordina.</description>
+    <label>Departamento pai</label>
+    <referenceTo>Department__c</referenceTo>
+    <relationshipLabel>Departamentos filhos</relationshipLabel>
+    <relationshipName>Child_Departments</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

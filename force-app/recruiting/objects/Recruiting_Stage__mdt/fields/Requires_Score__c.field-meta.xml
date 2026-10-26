@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requires_Score__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Exige Score__c para entrar.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Exige nota</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Promotion_Request__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Solicitação de promoção.</description>
+    <label>Solicitação de promoção</label>
+    <referenceTo>Promotion_Request__c</referenceTo>
+    <relationshipLabel>Etapas de aprovação</relationshipLabel>
+    <relationshipName>Approval_Steps</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

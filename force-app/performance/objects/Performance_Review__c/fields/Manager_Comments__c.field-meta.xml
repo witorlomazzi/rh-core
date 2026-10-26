@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager_Comments__c</fullName>
+    <description>Comentários do gestor.</description>
+    <label>Comentários do gestor</label>
+    <length>4000</length>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

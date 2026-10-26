@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Plan__c</fullName>
+    <description>Plano de onboarding.</description>
+    <label>Plano</label>
+    <referenceTo>Onboarding_Plan__c</referenceTo>
+    <relationshipLabel>Tarefas</relationshipLabel>
+    <relationshipName>Tasks</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>true</writeRequiresMasterRead>
+</CustomField>

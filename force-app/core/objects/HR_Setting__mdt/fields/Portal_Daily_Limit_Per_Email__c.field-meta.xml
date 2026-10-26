@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portal_Daily_Limit_Per_Email__c</fullName>
+    <description>Candidaturas por e-mail por dia.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Limite diário por e-mail</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

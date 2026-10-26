@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outcome_Handler__c</fullName>
+    <description>Classe Apex que implementa ApprovalOutcomeHandler.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Classe de desfecho</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

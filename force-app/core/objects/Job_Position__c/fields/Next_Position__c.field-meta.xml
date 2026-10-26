@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_Position__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Próximo passo natural da trilha.</description>
+    <label>Próximo cargo</label>
+    <referenceTo>Job_Position__c</referenceTo>
+    <relationshipLabel>Cargos anteriores</relationshipLabel>
+    <relationshipName>Previous_Positions</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

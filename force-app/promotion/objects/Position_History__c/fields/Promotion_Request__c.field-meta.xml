@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Promotion_Request__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Promoção de origem.</description>
+    <label>Solicitação de promoção</label>
+    <referenceTo>Promotion_Request__c</referenceTo>
+    <relationshipLabel>Histórico de cargo</relationshipLabel>
+    <relationshipName>Position_History</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager_Review_Due__c</fullName>
+    <description>Prazo do gestor.</description>
+    <label>Prazo da avaliação do gestor</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

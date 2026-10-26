@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Acesso do usuário convidado do site apenas ao controller do portal.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>RH Portal de vagas - Convidado</label>
+</PermissionSet>

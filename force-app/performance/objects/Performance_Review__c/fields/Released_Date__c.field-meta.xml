@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Released_Date__c</fullName>
+    <description>Momento da liberação.</description>
+    <label>Data de liberação</label>
+    <required>false</required>
+    <type>DateTime</type>
+</CustomField>

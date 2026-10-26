@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decided_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Usuário que decidiu.</description>
+    <label>Decidido por</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Etapas decididas</relationshipLabel>
+    <relationshipName>HR_Decided_Steps</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Progress_Percent__c</fullName>
+    <description>Percentual de tarefas concluídas.</description>
+    <formula>IF(BLANKVALUE(Total_Tasks__c, 0) = 0, 0, Completed_Tasks__c / Total_Tasks__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Progresso</label>
+    <precision>5</precision>
+    <scale>2</scale>
+    <type>Percent</type>
+</CustomField>

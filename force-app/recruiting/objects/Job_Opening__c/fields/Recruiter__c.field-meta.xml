@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recruiter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Recrutador responsável.</description>
+    <label>Recrutador</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Vagas</relationshipLabel>
+    <relationshipName>HR_Job_Openings</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

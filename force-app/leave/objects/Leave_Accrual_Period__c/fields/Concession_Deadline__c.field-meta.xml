@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Concession_Deadline__c</fullName>
+    <description>Fim do período concessivo (fim + 12 meses). Mantido por Apex.</description>
+    <label>Prazo concessivo</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

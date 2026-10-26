@@ -1,0 +1,13 @@
+{
+  "orgName": "Vetra RH Core",
+  "edition": "Developer",
+  "language": "pt_BR",
+  "country": "BR",
+  "features": ["Communities", "EnableSetPasswordInApi"],
+  "settings": {
+    "lightningExperienceSettings": { "enableS1DesktopEnabled": true },
+    "communitiesSettings": { "enableNetworksEnabled": true },
+    "mobileSettings": { "enableS1EncryptedStoragePref2": false },
+    "languageSettings": { "enableTranslationWorkbench": false }
+  }
+}

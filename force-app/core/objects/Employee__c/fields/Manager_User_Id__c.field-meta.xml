@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager_User_Id__c</fullName>
+    <description>Usuário Salesforce do gestor direto.</description>
+    <formula>CASESAFEID(Manager__r.User__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Id do usuário do gestor</label>
+    <type>Text</type>
+</CustomField>

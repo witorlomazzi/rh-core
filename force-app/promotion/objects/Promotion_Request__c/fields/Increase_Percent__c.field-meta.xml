@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Increase_Percent__c</fullName>
+    <description>Aumento proposto sobre o salário atual.</description>
+    <formula>IF(OR(ISBLANK(Current_Salary__c), Current_Salary__c = 0, ISBLANK(Proposed_Salary__c)), null, (Proposed_Salary__c - Current_Salary__c) / Current_Salary__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Percentual de aumento</label>
+    <precision>5</precision>
+    <scale>2</scale>
+    <type>Percent</type>
+</CustomField>

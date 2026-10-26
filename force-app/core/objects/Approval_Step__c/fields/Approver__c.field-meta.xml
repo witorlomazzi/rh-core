@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approver__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Vazio quando a etapa é da equipe de RH.</description>
+    <label>Aprovador</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Etapas de aprovação</relationshipLabel>
+    <relationshipName>HR_Approval_Steps</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>
