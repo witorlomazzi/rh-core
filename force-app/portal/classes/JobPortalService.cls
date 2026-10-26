@@ -201,7 +201,7 @@ public inherited sharing class JobPortalService {
         return dto;
     }
 
-    private static void assertNotTooFast(Long renderedAt) {
+    private static void assertNotTooFast(Decimal renderedAt) {
         Decimal configured = HrSettings.get().Portal_Min_Submit_Seconds__c;
         Decimal minSeconds = configured == null ? DEFAULT_MIN_SECONDS : configured;
         if (renderedAt == null || (Datetime.now().getTime() - renderedAt) < (minSeconds * 1000)) {

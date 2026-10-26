@@ -25,7 +25,7 @@ public class PortalApplicationInput {
     /** Honeypot: campo escondido que pessoas nao preenchem. */
     @AuraEnabled
     public String website;
-    /** Momento (epoch ms, relogio do servidor) em que o formulario foi exibido. */
+    /** Momento (epoch ms, relogio do servidor; Decimal porque o runtime do site pode enviar o numero em notacao cientifica) em que o formulario foi exibido. */
     @AuraEnabled
-    public Long renderedAt;
+    public Decimal renderedAt;
 }

@@ -1,0 +1,78 @@
+{
+  "type": "sfdc_cms__view",
+  "title": "Vaga",
+  "contentBody": {
+    "component": {
+      "children": [
+        {
+          "children": [
+            {
+              "attributes": {
+                "backgroundImageConfig": "",
+                "backgroundImageOverlay": "rgba(0,0,0,0)",
+                "componentSpacerSize": "",
+                "layoutDirectionDesktop": "row",
+                "layoutDirectionMobile": "column",
+                "layoutDirectionTablet": "column",
+                "maxContentWidth": "",
+                "sectionColumnGutterWidth": "",
+                "sectionConfig": "{\"UUID\":\"9ef7d58c-6a17-4b6a-870e-19445a74edd9\",\"columns\":[{\"UUID\":\"eb3104be-d4e1-46cb-ac62-6561412c2a2d\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+                "sectionMinHeight": "",
+                "sectionVerticalAlign": "flex-start"
+              },
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {},
+                      "definition": "c:portalJobDetail",
+                      "id": "a5195810-a3ba-43b3-9cab-8a8db68bef7a",
+                      "type": "component"
+                    }
+                  ],
+                  "id": "eb3104be-d4e1-46cb-ac62-6561412c2a2d",
+                  "name": "col1",
+                  "title": "Coluna 1",
+                  "type": "region"
+                }
+              ],
+              "definition": "community_layout:section",
+              "id": "9ef7d58c-6a17-4b6a-870e-19445a74edd9",
+              "type": "component"
+            }
+          ],
+          "id": "053da775-2562-46dc-9ecd-51c28a855778",
+          "name": "content",
+          "title": "Conteúdo",
+          "type": "region"
+        },
+        {
+          "children": [
+            {
+              "attributes": {
+                "customHeadTags": "",
+                "description": "Detalhes da vaga e formulário de candidatura.",
+                "pageTitle": "Vaga | Vetra Distribuidora",
+                "recordId": "{!recordId}"
+              },
+              "definition": "community_builder:seoAssistant",
+              "id": "2a97cec9-bd8d-4b92-a5fe-d7ef0a63d96e",
+              "type": "component"
+            }
+          ],
+          "id": "08fbe836-6f96-4e9b-a70a-51d96a60cd68",
+          "name": "sfdcHiddenRegion",
+          "title": "sfdcHiddenRegion",
+          "type": "region"
+        }
+      ],
+      "definition": "community_layout:sldsFlexibleLayout",
+      "id": "3ee1e627-d97c-4783-9b7a-0c20782658ef",
+      "type": "component"
+    },
+    "dataProviders": [],
+    "themeLayoutType": "Inner",
+    "viewType": "custom-vaga"
+  },
+  "urlName": "vaga"
+}
