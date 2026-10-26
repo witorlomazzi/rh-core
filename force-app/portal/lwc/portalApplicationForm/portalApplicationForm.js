@@ -1,14 +1,14 @@
-import { LightningElement, api } from "lwc";
-import getFormConfig from "@salesforce/apex/JobPortalController.getFormConfig";
-import submitApplication from "@salesforce/apex/JobPortalController.submitApplication";
+import { LightningElement, api } from 'lwc';
+import getFormConfig from '@salesforce/apex/JobPortalController.getFormConfig';
+import submitApplication from '@salesforce/apex/JobPortalController.submitApplication';
 
-const GENERIC_ERROR = "Não foi possível enviar sua candidatura agora. Tente novamente em alguns minutos.";
+const GENERIC_ERROR = 'Não foi possível enviar sua candidatura agora. Tente novamente em alguns minutos.';
 const MAX = { name: 120, email: 80, phone: 25, city: 80, linkedInUrl: 255, message: 2000 };
 const EMAIL_FORMAT = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const PHONE_FORMAT = /^[0-9+()\-\s.]{8,25}$/;
 const URL_FORMAT = /^https?:\/\/\S+$/i;
 // Ordem de foco quando ha mais de um erro: a mesma ordem visual do formulario.
-const FIELD_ORDER = ["name", "email", "phone", "city", "linkedInUrl", "message", "consent"];
+const FIELD_ORDER = ['name', 'email', 'phone', 'city', 'linkedInUrl', 'message', 'consent'];
 
 export default class PortalApplicationForm extends LightningElement {
     /** Identificador publico da vaga (Public_Slug__c). */
@@ -16,15 +16,15 @@ export default class PortalApplicationForm extends LightningElement {
     /** Titulo da vaga, so para o texto do formulario. */
     @api jobTitle;
 
-    values = { name: "", email: "", phone: "", city: "", linkedInUrl: "", message: "", website: "" };
+    values = { name: '', email: '', phone: '', city: '', linkedInUrl: '', message: '', website: '' };
     consent = false;
     errors = {};
-    formError = "";
-    consentTextVersion = "";
+    formError = '';
+    consentTextVersion = '';
     renderedAt = null;
     submitting = false;
     submitted = false;
-    successMessage = "";
+    successMessage = '';
 
     connectedCallback() {
         this.loadConfig();
@@ -33,23 +33,23 @@ export default class PortalApplicationForm extends LightningElement {
     async loadConfig() {
         try {
             const config = await getFormConfig();
-            this.consentTextVersion = config.consentTextVersion || "";
+            this.consentTextVersion = config.consentTextVersion || '';
             this.renderedAt = config.renderedAt;
         } catch (e) {
-            this.formError = "Não foi possível preparar o formulário. Recarregue a página e tente de novo.";
+            this.formError = 'Não foi possível preparar o formulário. Recarregue a página e tente de novo.';
         }
     }
 
     get heading() {
-        return this.jobTitle ? `Candidatar-se: ${this.jobTitle}` : "Candidatar-se";
+        return this.jobTitle ? `Candidatar-se: ${this.jobTitle}` : 'Candidatar-se';
     }
 
     get versionText() {
-        return this.consentTextVersion ? `Versão do termo: ${this.consentTextVersion}` : "";
+        return this.consentTextVersion ? `Versão do termo: ${this.consentTextVersion}` : '';
     }
 
     get submitLabel() {
-        return this.submitting ? "Enviando..." : "Enviar candidatura";
+        return this.submitting ? 'Enviando...' : 'Enviar candidatura';
     }
 
     get messageCount() {
@@ -61,73 +61,73 @@ export default class PortalApplicationForm extends LightningElement {
     }
 
     get nameError() {
-        return this.errors.name || "";
+        return this.errors.name || '';
     }
 
     get emailError() {
-        return this.errors.email || "";
+        return this.errors.email || '';
     }
 
     get phoneError() {
-        return this.errors.phone || "";
+        return this.errors.phone || '';
     }
 
     get cityError() {
-        return this.errors.city || "";
+        return this.errors.city || '';
     }
 
     get linkedInUrlError() {
-        return this.errors.linkedInUrl || "";
+        return this.errors.linkedInUrl || '';
     }
 
     get messageError() {
-        return this.errors.message || "";
+        return this.errors.message || '';
     }
 
     get consentError() {
-        return this.errors.consent || "";
+        return this.errors.consent || '';
     }
 
     get nameInvalid() {
-        return this.errors.name ? "true" : "false";
+        return this.errors.name ? 'true' : 'false';
     }
 
     get emailInvalid() {
-        return this.errors.email ? "true" : "false";
+        return this.errors.email ? 'true' : 'false';
     }
 
     get phoneInvalid() {
-        return this.errors.phone ? "true" : "false";
+        return this.errors.phone ? 'true' : 'false';
     }
 
     get cityInvalid() {
-        return this.errors.city ? "true" : "false";
+        return this.errors.city ? 'true' : 'false';
     }
 
     get linkedInUrlInvalid() {
-        return this.errors.linkedInUrl ? "true" : "false";
+        return this.errors.linkedInUrl ? 'true' : 'false';
     }
 
     get messageInvalid() {
-        return this.errors.message ? "true" : "false";
+        return this.errors.message ? 'true' : 'false';
     }
 
     get consentInvalid() {
-        return this.errors.consent ? "true" : "false";
+        return this.errors.consent ? 'true' : 'false';
     }
 
     handleInput(event) {
         const field = event.target.dataset.field;
         this.values = { ...this.values, [field]: event.target.value };
         if (this.errors[field]) {
-            this.errors = { ...this.errors, [field]: "" };
+            this.errors = { ...this.errors, [field]: '' };
         }
     }
 
     handleConsent(event) {
         this.consent = event.target.checked;
         if (this.errors.consent) {
-            this.errors = { ...this.errors, consent: "" };
+            this.errors = { ...this.errors, consent: '' };
         }
     }
 
@@ -137,30 +137,30 @@ export default class PortalApplicationForm extends LightningElement {
         const errors = {};
         const name = v.name.trim();
         if (name.length < 2) {
-            errors.name = "Informe seu nome completo.";
+            errors.name = 'Informe seu nome completo.';
         } else if (name.length > MAX.name) {
             errors.name = `O nome pode ter no máximo ${MAX.name} caracteres.`;
         }
         const email = v.email.trim();
         if (!email || email.length > MAX.email || !EMAIL_FORMAT.test(email)) {
-            errors.email = "Informe um e-mail válido.";
+            errors.email = 'Informe um e-mail válido.';
         }
         const phone = v.phone.trim();
         if (phone && !PHONE_FORMAT.test(phone)) {
-            errors.phone = "Informe um telefone válido, com DDD.";
+            errors.phone = 'Informe um telefone válido, com DDD.';
         }
         if (v.city.trim().length > MAX.city) {
             errors.city = `A cidade pode ter no máximo ${MAX.city} caracteres.`;
         }
         const linkedIn = v.linkedInUrl.trim();
         if (linkedIn && (linkedIn.length > MAX.linkedInUrl || !URL_FORMAT.test(linkedIn))) {
-            errors.linkedInUrl = "Informe o endereço do LinkedIn começando com https://.";
+            errors.linkedInUrl = 'Informe o endereço do LinkedIn começando com https://.';
         }
         if (v.message.length > MAX.message) {
             errors.message = `A mensagem pode ter no máximo ${MAX.message} caracteres.`;
         }
         if (!this.consent) {
-            errors.consent = "É necessário aceitar o termo de privacidade.";
+            errors.consent = 'É necessário aceitar o termo de privacidade.';
         }
         return errors;
     }
@@ -185,7 +185,7 @@ export default class PortalApplicationForm extends LightningElement {
         if (this.submitting) {
             return;
         }
-        this.formError = "";
+        this.formError = '';
         const errors = this.validate();
         this.errors = errors;
         if (Object.keys(errors).some((field) => errors[field])) {
@@ -194,7 +194,8 @@ export default class PortalApplicationForm extends LightningElement {
         }
         this.submitting = true;
         try {
-            const result = await submitApplication({ input: this.buildInput() });
+            // JSON em texto: o runtime do site entrega objeto de classe Apex com campos vazios.
+            const result = await submitApplication({ payload: JSON.stringify(this.buildInput()) });
             if (result && result.success) {
                 this.successMessage = result.message;
                 this.submitted = true;

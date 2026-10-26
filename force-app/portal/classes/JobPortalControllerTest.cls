@@ -59,6 +59,10 @@ private class JobPortalControllerTest {
         return i;
     }
 
+    private static JobPortalController.SubmitResult send(PortalApplicationInput data) {
+        return JobPortalController.submitApplication(JSON.serialize(data));
+    }
+
     private static void overrideSettings(Map<String, Object> changes) {
         Map<String, Object> values = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(HrSettings.get()));
         values.putAll(changes);
@@ -167,7 +171,7 @@ private class JobPortalControllerTest {
         data.message = 'Ola <b>equipe</b><script>alert(1)</script>\nTenho interesse.';
         JobPortalController.SubmitResult result;
         System.runAs(guest()) {
-            result = JobPortalController.submitApplication(data);
+            result = send(data);
         }
         System.assertEquals(true, result.success, result.message);
         Candidate__c candidate = [
@@ -213,7 +217,7 @@ private class JobPortalControllerTest {
         data.website = 'http://spam.example.com';
         JobPortalController.SubmitResult result;
         System.runAs(guest()) {
-            result = JobPortalController.submitApplication(data);
+            result = send(data);
         }
         System.assertEquals(true, result.success, 'o robo recebe sucesso falso');
         System.assertEquals(
@@ -239,9 +243,9 @@ private class JobPortalControllerTest {
         JobPortalController.SubmitResult noClockResult;
         JobPortalController.SubmitResult garbageResult;
         System.runAs(guest()) {
-            fastResult = JobPortalController.submitApplication(fast);
-            noClockResult = JobPortalController.submitApplication(noClock);
-            garbageResult = JobPortalController.submitApplication(garbage);
+            fastResult = send(fast);
+            noClockResult = send(noClock);
+            garbageResult = send(garbage);
         }
         System.assertEquals(false, fastResult.success);
         System.assertEquals(JobPortalService.TOO_FAST_MESSAGE, fastResult.message);
@@ -307,12 +311,12 @@ private class JobPortalControllerTest {
         };
         System.runAs(guest()) {
             for (Integer i = 0; i < all.size(); i++) {
-                JobPortalController.SubmitResult result = JobPortalController.submitApplication(all[i]);
+                JobPortalController.SubmitResult result = send(all[i]);
                 System.assertEquals(false, result.success, 'caso ' + i);
                 System.assertEquals(expectedFields[i], result.field, 'caso ' + i + ': ' + result.message);
                 System.assert(String.isNotBlank(result.message));
             }
-            JobPortalController.SubmitResult nullInput = JobPortalController.submitApplication(null);
+            JobPortalController.SubmitResult nullInput = send(null);
             System.assertEquals(false, nullInput.success);
             System.assertEquals(JobPortalService.GENERIC_MESSAGE, nullInput.message);
         }
@@ -327,6 +331,18 @@ private class JobPortalControllerTest {
     }
 
     @IsTest
+    static void unreadablePayloadGetsAGenericMessage() {
+        List<String> payloads = new List<String>{ null, '', '{nao e json', '[1,2]' };
+        System.runAs(guest()) {
+            for (String payload : payloads) {
+                JobPortalController.SubmitResult result = JobPortalController.submitApplication(payload);
+                System.assertEquals(false, result.success);
+                System.assertEquals(JobPortalService.GENERIC_MESSAGE, result.message);
+            }
+        }
+    }
+
+    @IsTest
     static void ineligibleOrMissingJobIsRejected() {
         List<String> slugs = new List<String>{
             slugOf('Oculta do portal'),
@@ -338,9 +354,7 @@ private class JobPortalControllerTest {
         };
         System.runAs(guest()) {
             for (String slug : slugs) {
-                JobPortalController.SubmitResult result = JobPortalController.submitApplication(
-                    input(slug, 'zztest-vaga@example.com')
-                );
+                JobPortalController.SubmitResult result = send(input(slug, 'zztest-vaga@example.com'));
                 System.assertEquals(false, result.success, 'slug ' + slug);
                 System.assertEquals(JobPortalService.CLOSED_MESSAGE, result.message);
             }
@@ -358,8 +372,8 @@ private class JobPortalControllerTest {
         JobPortalController.SubmitResult first;
         JobPortalController.SubmitResult second;
         System.runAs(guest()) {
-            first = JobPortalController.submitApplication(input(slugOf('Analista Fiscal'), email));
-            second = JobPortalController.submitApplication(input(slugOf('Analista de Logistica'), email));
+            first = send(input(slugOf('Analista Fiscal'), email));
+            second = send(input(slugOf('Analista de Logistica'), email));
         }
         System.assertEquals(true, first.success, first.message);
         System.assertEquals(false, second.success);
@@ -377,8 +391,8 @@ private class JobPortalControllerTest {
         JobPortalController.SubmitResult first;
         JobPortalController.SubmitResult second;
         System.runAs(guest()) {
-            first = JobPortalController.submitApplication(input(slug, email));
-            second = JobPortalController.submitApplication(input(slug, email.toUpperCase()));
+            first = send(input(slug, email));
+            second = send(input(slug, email.toUpperCase()));
         }
         System.assertEquals(true, first.success, first.message);
         System.assertEquals(false, second.success);
@@ -404,7 +418,7 @@ private class JobPortalControllerTest {
         data.city = 'Recife';
         JobPortalController.SubmitResult result;
         System.runAs(guest()) {
-            result = JobPortalController.submitApplication(data);
+            result = send(data);
         }
         System.assertEquals(true, result.success, result.message);
         List<Candidate__c> candidates = [

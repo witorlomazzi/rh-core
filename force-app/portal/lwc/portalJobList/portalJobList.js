@@ -1,19 +1,19 @@
-import { LightningElement, api } from "lwc";
-import basePath from "@salesforce/community/basePath";
-import getJobs from "@salesforce/apex/JobPortalController.getJobs";
-import { workModelLabel, employmentLabel, formatDate, jobHref, DEMO_NOTICE } from "c/portalUtils";
+import { LightningElement, api } from 'lwc';
+import basePath from '@salesforce/community/basePath';
+import getJobs from '@salesforce/apex/JobPortalController.getJobs';
+import { workModelLabel, employmentLabel, formatDate, jobHref, DEMO_NOTICE } from 'c/portalUtils';
 
-const ALL = "";
-const LOAD_ERROR = "Não foi possível carregar as vagas agora. Tente novamente em alguns minutos.";
+const ALL = '';
+const LOAD_ERROR = 'Não foi possível carregar as vagas agora. Tente novamente em alguns minutos.';
 
 export default class PortalJobList extends LightningElement {
     /** Nome da pagina de detalhe da vaga no site (rota sem barras). */
-    @api detailPath = "vaga";
+    @api detailPath = 'vaga';
 
     demoNotice = DEMO_NOTICE;
     jobs = [];
     loading = true;
-    error = "";
+    error = '';
     workModel = ALL;
     department = ALL;
 
@@ -23,7 +23,7 @@ export default class PortalJobList extends LightningElement {
 
     async load() {
         this.loading = true;
-        this.error = "";
+        this.error = '';
         try {
             const rows = await getJobs();
             this.jobs = Array.isArray(rows) ? rows : [];
@@ -45,7 +45,7 @@ export default class PortalJobList extends LightningElement {
             location: job.location,
             workModel: workModelLabel(job.workModel),
             employmentType: employmentLabel(job.employmentType),
-            openedText: job.openedDate ? `Aberta em ${formatDate(job.openedDate)}` : ""
+            openedText: job.openedDate ? `Aberta em ${formatDate(job.openedDate)}` : ''
         }));
     }
 
@@ -62,18 +62,18 @@ export default class PortalJobList extends LightningElement {
         return this.buildOptions(
             values.map((v) => ({ value: v, label: workModelLabel(v) })),
             this.workModel,
-            "Todos os modelos"
+            'Todos os modelos'
         );
     }
 
     get departmentOptions() {
         const values = [...new Set(this.jobs.map((j) => j.department).filter(Boolean))].sort((a, b) =>
-            a.localeCompare(b, "pt-BR")
+            a.localeCompare(b, 'pt-BR')
         );
         return this.buildOptions(
             values.map((v) => ({ value: v, label: v })),
             this.department,
-            "Todas as áreas"
+            'Todas as áreas'
         );
     }
 
@@ -98,8 +98,8 @@ export default class PortalJobList extends LightningElement {
 
     get emptyMessage() {
         return this.jobs.length === 0
-            ? "No momento não há vagas abertas. Volte em breve."
-            : "Nenhuma vaga encontrada com esses filtros.";
+            ? 'No momento não há vagas abertas. Volte em breve.'
+            : 'Nenhuma vaga encontrada com esses filtros.';
     }
 
     get showClear() {
@@ -108,10 +108,10 @@ export default class PortalJobList extends LightningElement {
 
     get countText() {
         if (this.loading || this.error) {
-            return "";
+            return '';
         }
         const n = this.cards.length;
-        return n === 1 ? "1 vaga encontrada" : `${n} vagas encontradas`;
+        return n === 1 ? '1 vaga encontrada' : `${n} vagas encontradas`;
     }
 
     handleWorkModel(event) {

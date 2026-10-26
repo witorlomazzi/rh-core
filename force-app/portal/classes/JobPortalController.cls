@@ -43,11 +43,15 @@ public without sharing class JobPortalController {
         return config;
     }
 
+    /**
+     * Recebe a candidatura como texto JSON (PortalApplicationInput serializado). O runtime LWR do site entrega
+     * parametro de classe Apex com todos os campos vazios; texto atravessa sem perda.
+     */
     @AuraEnabled
-    public static SubmitResult submitApplication(PortalApplicationInput input) {
+    public static SubmitResult submitApplication(String payload) {
         SubmitResult result = new SubmitResult();
         try {
-            JobPortalService.submit(input);
+            JobPortalService.submit(parse(payload));
             result.success = true;
             result.message = 'Candidatura enviada. Obrigado pelo interesse!';
         } catch (JobPortalService.PortalException e) {
@@ -61,5 +65,16 @@ public without sharing class JobPortalController {
             result.message = JobPortalService.GENERIC_MESSAGE;
         }
         return result;
+    }
+
+    private static PortalApplicationInput parse(String payload) {
+        if (String.isBlank(payload)) {
+            return null;
+        }
+        try {
+            return (PortalApplicationInput) JSON.deserialize(payload, PortalApplicationInput.class);
+        } catch (JSONException e) {
+            return null;
+        }
     }
 }
