@@ -1,5 +1,6 @@
 /**
- * Consultas de Onboarding_Plan__c e dos colaboradores em pre-admissao.
+ * Consultas de Onboarding_Plan__c e dos colaboradores em pre-admissao. As consultas de usuario nao selecionam o lookup
+ * Job_Application__c: quem nao le o objeto de candidatura (colaborador, gestor) perderia a consulta inteira em USER_MODE.
  *
  * Os metodos sem prefixo rodam em USER_MODE: o compartilhamento do colaborador (que o plano herda) e a FLS decidem o
  * que volta. Os metodos system* rodam em modo sistema e so podem ser chamados por OnboardingService (contexto de
@@ -15,7 +16,6 @@ public inherited sharing class OnboardingPlanSelector {
                 Employee__r.Name,
                 Employee__r.Status__c,
                 Employee__r.Hire_Date__c,
-                Job_Application__c,
                 Start_Date__c,
                 Status__c
             FROM Onboarding_Plan__c
@@ -34,7 +34,6 @@ public inherited sharing class OnboardingPlanSelector {
                 Employee__r.Name,
                 Employee__r.Status__c,
                 Employee__r.Hire_Date__c,
-                Job_Application__c,
                 Start_Date__c,
                 Status__c
             FROM Onboarding_Plan__c
