@@ -186,7 +186,8 @@ public inherited sharing class CandidateService {
                 if (blocked.contains(c.Id)) {
                     continue;
                 }
-                String anonymousEmail = 'anon-' + c.Id + ANONYMIZED_DOMAIN;
+                // Minusculo, como todo e-mail normalizado (C4); o campo de e-mail do Salesforce tambem guarda minusculo.
+                String anonymousEmail = ('anon-' + c.Id + ANONYMIZED_DOMAIN).toLowerCase();
                 toUpdate.add(
                     new Candidate__c(
                         Id = c.Id,

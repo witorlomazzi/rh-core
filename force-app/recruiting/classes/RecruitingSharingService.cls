@@ -33,7 +33,17 @@ public without sharing class RecruitingSharingService {
             candidateIds.add(a.Candidate__c);
             byId.put(a.Id, a);
         }
-        Map<Id, Id> managerUserByOpening = managerUsers(openingIds);
+        // O candidato e compartilhado com o gestor de cada vaga a que ele se candidatou, nao so as do lote.
+        List<Job_Application__c> candidateApplications = [
+            SELECT Id, Candidate__c, Job_Opening__c, OwnerId
+            FROM Job_Application__c
+            WHERE Candidate__c IN :candidateIds
+        ];
+        Set<Id> allOpeningIds = new Set<Id>(openingIds);
+        for (Job_Application__c a : candidateApplications) {
+            allOpeningIds.add(a.Job_Opening__c);
+        }
+        Map<Id, Id> managerUserByOpening = managerUsers(allOpeningIds);
 
         // Shares desejados da candidatura: um por candidatura, para o gestor da vaga.
         Map<String, Job_Application__Share> desiredApplication = new Map<String, Job_Application__Share>();
@@ -44,20 +54,10 @@ public without sharing class RecruitingSharingService {
             }
         }
 
-        // Shares desejados do candidato: consideram todas as candidaturas dele, nao so as do lote.
+        // Shares desejados do candidato.
         Map<String, Candidate__Share> desiredCandidate = new Map<String, Candidate__Share>();
-        Set<Id> allOpeningIds = new Set<Id>(openingIds);
-        List<Job_Application__c> candidateApplications = [
-            SELECT Id, Candidate__c, Job_Opening__c, OwnerId
-            FROM Job_Application__c
-            WHERE Candidate__c IN :candidateIds
-        ];
         for (Job_Application__c a : candidateApplications) {
-            allOpeningIds.add(a.Job_Opening__c);
-        }
-        Map<Id, Id> allManagers = managerUsers(allOpeningIds);
-        for (Job_Application__c a : candidateApplications) {
-            Id userId = allManagers.get(a.Job_Opening__c);
+            Id userId = managerUserByOpening.get(a.Job_Opening__c);
             if (userId != null && userId != a.OwnerId) {
                 desiredCandidate.put(key(a.Candidate__c, userId), newCandidateShare(a.Candidate__c, userId));
             }
