@@ -2,6 +2,8 @@
  * Garante que os relatorios e o painel do modulo analytics foram implantados na pasta "RH Core".
  * Os dados de relatorios e paineis so ficam visiveis para o Apex com SeeAllData; o teste nao grava nem le dado de pessoa.
  */
+// Report e Dashboard so aparecem ao Apex com SeeAllData; o teste so le metadado de pasta, nao dado de pessoa.
+@SuppressWarnings('PMD.ApexUnitTestShouldNotUseSeeAllDataTrue')
 @IsTest(SeeAllData=true)
 private class HrAnalyticsMetadataTest {
     private static final Set<String> REPORT_NAMES = new Set<String>{
