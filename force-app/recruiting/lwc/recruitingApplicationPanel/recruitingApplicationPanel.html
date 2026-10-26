@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="Histórico de etapas" icon-name="standard:timeline">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar histórico"
+                title="Atualizar histórico"
+                onclick={handleRefresh}
+                class="refresh"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando histórico" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={isEmpty}>
+                <p class="slds-text-color_weak empty">Nenhuma mudança de etapa registrada.</p>
+            </template>
+            <template lwc:if={hasItems}>
+                <ol class="slds-timeline timeline">
+                    <template for:each={items} for:item="item">
+                        <li key={item.id} class="slds-timeline__item_expandable slds-is-open timeline-item slds-p-vertical_x-small">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="utility:right" size="x-small" alternative-text="Mudança de etapa"></lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <p class="slds-text-body_regular item-title">{item.title}</p>
+                                    <p class="slds-text-body_small slds-text-color_weak">
+                                        <lightning-formatted-date-time
+                                            value={item.changedAt}
+                                            year="numeric"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            hour="2-digit"
+                                            minute="2-digit"
+                                        ></lightning-formatted-date-time>
+                                        <span class="item-by"> {item.byLabel}</span>
+                                    </p>
+                                    <template lwc:if={item.daysLabel}>
+                                        <p class="slds-text-body_small item-days">{item.daysLabel}</p>
+                                    </template>
+                                    <template lwc:if={item.note}>
+                                        <p class="slds-text-body_small slds-text-color_weak item-note">{item.note}</p>
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ol>
+            </template>
+        </div>
+    </lightning-card>
+</template>

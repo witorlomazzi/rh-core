@@ -1,0 +1,169 @@
+<template>
+    <lightning-card title={boardTitle} icon-name="standard:people">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar funil"
+                title="Atualizar funil"
+                onclick={handleRefresh}
+                class="refresh"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={showPicker}>
+                <template lwc:if={hasOpenings}>
+                    <lightning-combobox
+                        name="opening"
+                        label="Vaga"
+                        value={selectedOpeningId}
+                        options={openingOptions}
+                        onchange={handleOpeningChange}
+                        class="opening-picker slds-size_1-of-1 slds-medium-size_1-of-3"
+                    ></lightning-combobox>
+                </template>
+            </template>
+
+            <p class="slds-assistive-text" aria-live="polite" role="status">{announcement}</p>
+
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando funil" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-m-vertical_small error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+
+            <template lwc:if={isEmptyList}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:info" size="small" alternative-text="Sem vagas"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhuma vaga com funil para mostrar.</p>
+                </div>
+            </template>
+
+            <template lwc:if={hasBoard}>
+                <div class="board slds-grid slds-m-top_small">
+                    <template for:each={columns} for:item="column">
+                        <section
+                            key={column.value}
+                            class={column.columnClass}
+                            data-stage={column.value}
+                            aria-label={column.ariaLabel}
+                            ondragover={handleDragOver}
+                            ondragleave={handleDragLeave}
+                            ondrop={handleDrop}
+                        >
+                            <div class="column-bar" style={column.barStyle}></div>
+                            <header class="column-header slds-p-around_x-small">
+                                <h3 class="slds-text-heading_small column-title">{column.label}</h3>
+                                <span class="slds-text-body_small slds-text-color_weak column-count">{column.countLabel}</span>
+                            </header>
+                            <ul class="column-cards slds-p-horizontal_x-small slds-p-bottom_x-small">
+                                <template for:each={column.cards} for:item="card">
+                                    <li
+                                        key={card.id}
+                                        class={card.cardClass}
+                                        data-id={card.id}
+                                        draggable={card.draggable}
+                                        ondragstart={handleDragStart}
+                                        ondragend={handleDragEnd}
+                                    >
+                                        <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-start">
+                                            <div class="slds-col">
+                                                <p class="slds-text-body_regular card-name">{card.candidateName}</p>
+                                                <p class="slds-text-body_small slds-text-color_weak card-number">{card.applicationNumber}</p>
+                                            </div>
+                                            <lightning-button-menu
+                                                class="card-menu"
+                                                data-id={card.id}
+                                                alternative-text={card.menuAlt}
+                                                icon-size="x-small"
+                                                menu-alignment="right"
+                                                disabled={card.isBusy}
+                                                onselect={handleMenuSelect}
+                                            >
+                                                <template for:each={card.menuItems} for:item="item">
+                                                    <lightning-menu-item
+                                                        key={item.value}
+                                                        value={item.value}
+                                                        label={item.label}
+                                                    ></lightning-menu-item>
+                                                </template>
+                                            </lightning-button-menu>
+                                        </div>
+                                        <div class="slds-m-top_x-small">
+                                            <span class={card.scoreClass}>{card.scoreLabel}</span>
+                                            <span class="slds-text-body_small slds-text-color_weak slds-m-left_x-small card-days">{card.daysLabel}</span>
+                                        </div>
+                                        <template lwc:if={card.reasonLabel}>
+                                            <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small card-reason">Motivo: {card.reasonLabel}</p>
+                                        </template>
+                                    </li>
+                                </template>
+                                <template lwc:if={column.isEmpty}>
+                                    <li class="slds-text-body_small slds-text-color_weak slds-p-around_x-small column-empty">Nenhuma candidatura</li>
+                                </template>
+                            </ul>
+                        </section>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template lwc:if={hasModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="kanban-modal-title"
+            class="slds-modal slds-fade-in-open modal"
+            onkeydown={handleModalKeydown}
+        >
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="kanban-modal-title" class="slds-modal__title slds-hyphenate modal-title">{modalTitle}</h2>
+                    <p class="slds-m-top_x-small modal-subtitle">{modalSubtitle}</p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template lwc:if={modalNeedsReason}>
+                        <lightning-combobox
+                            name="reason"
+                            label="Motivo da reprovação"
+                            options={reasonOptions}
+                            value={modalReason}
+                            required
+                            onchange={handleReasonChange}
+                            class="modal-reason modal-focus"
+                        ></lightning-combobox>
+                    </template>
+                    <template lwc:if={modalNeedsScore}>
+                        <lightning-input
+                            type="number"
+                            name="score"
+                            label="Nota (0 a 5)"
+                            min="0"
+                            max="5"
+                            step="1"
+                            value={modalScore}
+                            required
+                            onchange={handleScoreChange}
+                            class="modal-score"
+                        ></lightning-input>
+                    </template>
+                    <template lwc:if={modalError}>
+                        <p class="slds-text-color_error slds-m-top_small modal-error" role="alert">{modalError}</p>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancelar" onclick={handleCancelModal} class="modal-cancel slds-m-right_x-small"></lightning-button>
+                    <lightning-button label={modalConfirmLabel} variant="brand" onclick={handleConfirmModal} class="modal-confirm"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

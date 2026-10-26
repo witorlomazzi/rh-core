@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Kanban do funil de recrutamento por vaga.</description>
+    <flexiPage>RH_Funil</flexiPage>
+    <label>Funil de recrutamento</label>
+    <motif>Custom63: Megaphone</motif>
+</CustomTab>
