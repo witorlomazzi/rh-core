@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Saldo por período, solicitação e histórico de férias.</description>
+    <flexiPage>RH_Minhas_Ferias</flexiPage>
+    <label>Minhas férias</label>
+    <motif>Custom45: Calendar</motif>
+</CustomTab>

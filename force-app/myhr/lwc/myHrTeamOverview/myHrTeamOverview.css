@@ -1,0 +1,39 @@
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.alert-summary {
+    justify-content: flex-start;
+    margin-bottom: 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.person {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.initials {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--slds-g-color-brand-base-40, #0176d3);
+}
+
+.next-range {
+    margin-bottom: 0.125rem;
+}

@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Meu_RH</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <classAccesses>
+        <apexClass>MyHrController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyHrSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyHrService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Acesso ao app Meu RH e às classes do módulo.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>RH Meu RH - Usuário</label>
+    <tabSettings>
+        <tab>RH_MeuRH_Inicio</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Minhas_Ferias</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Minha_Equipe</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Painel_RH</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

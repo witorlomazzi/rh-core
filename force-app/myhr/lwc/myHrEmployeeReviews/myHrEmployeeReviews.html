@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Avaliações de desempenho" icon-name="standard:performance">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando avaliações" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <p class="slds-text-color_weak empty">Nenhuma avaliação disponível para você ver.</p>
+            </template>
+            <template lwc:if={hasRows}>
+                <ul class="slds-has-dividers_bottom-space reviews">
+                    <template for:each={rows} for:item="row">
+                        <li key={row.id} class="slds-item review">
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <strong class="cycle-name">{row.cycleName}</strong>
+                                    <p class="slds-text-color_weak slds-text-body_small released">{row.releasedLabel}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                    <span class={row.statusClass}>{row.statusLabel}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                    <template lwc:if={row.hasRating}>
+                                        <span class="slds-text-heading_small rating">Nota final: {row.finalRating}</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>

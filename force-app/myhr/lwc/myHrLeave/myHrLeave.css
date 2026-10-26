@@ -1,0 +1,15 @@
+.leave-page {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1rem;
+    padding: 0.75rem;
+    align-items: start;
+}
+
+.column {
+    min-width: 0;
+}
+
+.column-wide {
+    grid-column: 1 / -1;
+}
