@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Portal: lista de vagas</masterLabel>
+    <description>Lista pública de vagas abertas com filtros por modelo de trabalho e área.</description>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                name="detailPath"
+                type="String"
+                default="vaga"
+                label="Página de detalhe da vaga"
+                description="Rota da página que mostra a vaga, sem barras. O identificador da vaga vai no parâmetro vaga."
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

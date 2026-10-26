@@ -1,0 +1,180 @@
+<template>
+    <section class="panel" aria-labelledby="form-heading">
+        <h2 id="form-heading" class="heading">{heading}</h2>
+
+        <template lwc:if={submitted}>
+            <div class="success" role="status">
+                <p class="success-title">{successMessage}</p>
+                <p class="success-text">
+                    Recebemos seus dados. Se o seu perfil seguir no processo, a equipe de recrutamento entrará em
+                    contato pelo e-mail informado.
+                </p>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <p class="hint">Os campos marcados com asterisco (*) são obrigatórios.</p>
+
+            <template lwc:if={hasFormError}>
+                <p class="form-error" role="alert">{formError}</p>
+            </template>
+
+            <form class="form" novalidate onsubmit={handleSubmit}>
+                <div class="field">
+                    <label for="applicant-name">Nome completo *</label>
+                    <input
+                        id="applicant-name"
+                        class="control"
+                        type="text"
+                        name="name"
+                        autocomplete="name"
+                        required
+                        maxlength="120"
+                        data-field="name"
+                        aria-invalid={nameInvalid}
+                        aria-describedby="applicant-name-error"
+                        value={values.name}
+                        oninput={handleInput}
+                    />
+                    <p id="applicant-name-error" class="error">{nameError}</p>
+                </div>
+
+                <div class="field">
+                    <label for="applicant-email">E-mail *</label>
+                    <input
+                        id="applicant-email"
+                        class="control"
+                        type="email"
+                        name="email"
+                        autocomplete="email"
+                        required
+                        maxlength="80"
+                        data-field="email"
+                        aria-invalid={emailInvalid}
+                        aria-describedby="applicant-email-error"
+                        value={values.email}
+                        oninput={handleInput}
+                    />
+                    <p id="applicant-email-error" class="error">{emailError}</p>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label for="applicant-phone">Telefone</label>
+                        <input
+                            id="applicant-phone"
+                            class="control"
+                            type="tel"
+                            name="phone"
+                            autocomplete="tel"
+                            maxlength="25"
+                            data-field="phone"
+                            aria-invalid={phoneInvalid}
+                            aria-describedby="applicant-phone-error"
+                            value={values.phone}
+                            oninput={handleInput}
+                        />
+                        <p id="applicant-phone-error" class="error">{phoneError}</p>
+                    </div>
+                    <div class="field">
+                        <label for="applicant-city">Cidade</label>
+                        <input
+                            id="applicant-city"
+                            class="control"
+                            type="text"
+                            name="city"
+                            autocomplete="address-level2"
+                            maxlength="80"
+                            data-field="city"
+                            aria-invalid={cityInvalid}
+                            aria-describedby="applicant-city-error"
+                            value={values.city}
+                            oninput={handleInput}
+                        />
+                        <p id="applicant-city-error" class="error">{cityError}</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="applicant-linkedin">LinkedIn</label>
+                    <input
+                        id="applicant-linkedin"
+                        class="control"
+                        type="url"
+                        name="linkedin"
+                        autocomplete="url"
+                        placeholder="https://www.linkedin.com/in/seu-perfil"
+                        maxlength="255"
+                        data-field="linkedInUrl"
+                        aria-invalid={linkedInUrlInvalid}
+                        aria-describedby="applicant-linkedin-error"
+                        value={values.linkedInUrl}
+                        oninput={handleInput}
+                    />
+                    <p id="applicant-linkedin-error" class="error">{linkedInUrlError}</p>
+                </div>
+
+                <div class="field">
+                    <label for="applicant-message">Mensagem</label>
+                    <textarea
+                        id="applicant-message"
+                        class="control area"
+                        name="message"
+                        rows="5"
+                        data-field="message"
+                        aria-invalid={messageInvalid}
+                        aria-describedby="applicant-message-count applicant-message-error"
+                        oninput={handleInput}
+                    ></textarea>
+                    <p id="applicant-message-count" class="counter">{messageCount}</p>
+                    <p id="applicant-message-error" class="error">{messageError}</p>
+                </div>
+
+                <!-- Honeypot: invisivel e fora da navegacao por teclado e por leitor de tela. Pessoas nao preenchem. -->
+                <div class="trap" aria-hidden="true">
+                    <label>
+                        Não preencha este campo
+                        <input
+                            class="trap-input"
+                            type="text"
+                            name="website"
+                            tabindex="-1"
+                            autocomplete="off"
+                            data-field="website"
+                            value={values.website}
+                            oninput={handleInput}
+                        />
+                    </label>
+                </div>
+
+                <fieldset class="privacy">
+                    <legend>Termo de privacidade</legend>
+                    <p class="privacy-text">
+                        Ao enviar, você autoriza a Vetra Distribuidora (empresa fictícia, em projeto demonstrativo) a
+                        tratar seus dados pessoais apenas para avaliar sua candidatura a esta vaga, nos termos da Lei
+                        Geral de Proteção de Dados. Os dados ficam guardados pelo prazo de retenção definido pela
+                        empresa e depois são anonimizados. Você pode pedir a exclusão a qualquer momento. Não há envio
+                        de currículo nesta versão.
+                    </p>
+                    <p class="privacy-version">{versionText}</p>
+                    <div class="consent">
+                        <input
+                            id="applicant-consent"
+                            type="checkbox"
+                            name="consent"
+                            data-field="consent"
+                            aria-invalid={consentInvalid}
+                            aria-describedby="applicant-consent-error"
+                            checked={consent}
+                            onchange={handleConsent}
+                        />
+                        <label for="applicant-consent">Li e aceito o termo de privacidade *</label>
+                    </div>
+                    <p id="applicant-consent-error" class="error">{consentError}</p>
+                </fieldset>
+
+                <button type="submit" class="submit" disabled={submitting}>{submitLabel}</button>
+            </form>
+        </template>
+    </section>
+</template>

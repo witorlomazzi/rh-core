@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Portal: formulário de candidatura</masterLabel>
+    <description
+    >Formulário público de candidatura com termo de privacidade, usado dentro da página da vaga.</description>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                name="slug"
+                type="String"
+                label="Identificador da vaga"
+                description="Identificador público (slug) da vaga. Normalmente informado pelo componente de detalhe da vaga."
+            />
+            <property name="jobTitle" type="String" label="Título da vaga" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
