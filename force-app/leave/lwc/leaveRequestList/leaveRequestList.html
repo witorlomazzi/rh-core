@@ -1,0 +1,94 @@
+<template>
+    <lightning-card title="Minhas solicitações de férias" icon-name="standard:event">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar lista"
+                title="Atualizar"
+                onclick={handleRefresh}
+                class="refresh"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando solicitações" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={isEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:event" size="small" alternative-text="Sem solicitações"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhuma solicitação de férias ainda.</p>
+                </div>
+            </template>
+            <template lwc:if={hasRequests}>
+                <p class="slds-text-color_weak slds-m-bottom_small count">{countLabel}</p>
+                <ul>
+                    <template for:each={requestViews} for:item="r">
+                        <li key={r.id} class="request slds-m-bottom_small">
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-grid_align-spread">
+                                <div>
+                                    <span class="request-range">{r.rangeLabel}</span>
+                                    <span class="slds-text-color_weak slds-m-left_x-small request-name">{r.name}</span>
+                                </div>
+                                <span class={r.badgeClass}>{r.statusLabel}</span>
+                            </div>
+                            <p class="slds-text-body_small slds-m-top_xx-small request-days">{r.daysLabel}</p>
+                            <template lwc:if={r.awaitingLabel}>
+                                <p class="slds-text-body_small awaiting">
+                                    <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small" alternative-text="Etapa atual"></lightning-icon>
+                                    {r.awaitingLabel}
+                                </p>
+                            </template>
+                            <template lwc:if={r.hasConflict}>
+                                <p class="slds-text-body_small slds-text-color_weak conflict">
+                                    <lightning-icon icon-name="utility:warning" size="xx-small" class="slds-m-right_xx-small" alternative-text="Aviso"></lightning-icon>
+                                    {r.teamConflictWarning}
+                                </p>
+                            </template>
+                            <template lwc:if={r.notes}>
+                                <p class="slds-text-body_small slds-text-color_weak notes">{r.notes}</p>
+                            </template>
+                            <template lwc:if={r.canCancel}>
+                                <template lwc:if={r.isConfirming}>
+                                    <div class="slds-m-top_x-small confirm-box" role="alert">
+                                        <span class="slds-m-right_x-small">Cancelar esta solicitação?</span>
+                                        <lightning-button
+                                            label="Manter"
+                                            onclick={handleKeep}
+                                            class="keep slds-m-right_x-small"
+                                        ></lightning-button>
+                                        <lightning-button
+                                            label="Cancelar solicitação"
+                                            variant="destructive"
+                                            data-id={r.id}
+                                            disabled={r.isBusy}
+                                            onclick={handleConfirmCancel}
+                                            class="confirm-cancel"
+                                        ></lightning-button>
+                                    </div>
+                                </template>
+                                <template lwc:else>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-button
+                                            label="Cancelar"
+                                            variant="destructive-text"
+                                            data-id={r.id}
+                                            onclick={handleAskCancel}
+                                            class="ask-cancel"
+                                        ></lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>

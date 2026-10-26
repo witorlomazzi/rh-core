@@ -1,0 +1,138 @@
+<template>
+    <lightning-card title="Solicitar férias" icon-name="standard:event">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando períodos" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showNoPeriods}>
+                <div class="slds-p-around_medium slds-text-align_center no-periods">
+                    <lightning-icon icon-name="utility:info" size="small" alternative-text="Informação"></lightning-icon>
+                    <p class="slds-m-top_x-small">{noPeriodsText}</p>
+                </div>
+            </template>
+            <template lwc:if={showForm}>
+                <div class="slds-grid slds-wrap slds-gutters_small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-combobox
+                            label="Período aquisitivo"
+                            name="period"
+                            data-field="selectedPeriodId"
+                            value={periodId}
+                            options={periodOptions}
+                            placeholder="Escolha o período"
+                            required
+                            onchange={handleChange}
+                            class="field-period"
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                        <lightning-input
+                            type="date"
+                            label="Início das férias"
+                            data-field="startDate"
+                            value={startDate}
+                            required
+                            onchange={handleChange}
+                            class="field-start"
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3">
+                        <lightning-input
+                            type="number"
+                            label="Dias de gozo"
+                            data-field="days"
+                            value={days}
+                            min="1"
+                            max="30"
+                            step="1"
+                            required
+                            onchange={handleChange}
+                            class="field-days"
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3">
+                        <lightning-input
+                            type="number"
+                            label="Dias vendidos (abono)"
+                            data-field="soldDays"
+                            value={soldDays}
+                            min="0"
+                            max="10"
+                            step="1"
+                            field-level-help="Até um terço do direito pode ser convertido em abono pecuniário."
+                            onchange={handleChange}
+                            class="field-sold"
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-textarea
+                            label="Observações"
+                            data-field="notes"
+                            value={notes}
+                            maxlength="255"
+                            onchange={handleChange}
+                            class="field-notes"
+                        ></lightning-textarea>
+                    </div>
+                    <template lwc:if={isHr}>
+                        <div class="slds-col slds-size_1-of-1 slds-m-top_x-small">
+                            <lightning-input
+                                type="checkbox"
+                                label="Exceção de antecedência (somente RH)"
+                                data-field="allowException"
+                                checked={allowException}
+                                onchange={handleChange}
+                                class="field-exception"
+                            ></lightning-input>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button
+                        label="Verificar regras"
+                        variant="neutral"
+                        icon-name="utility:rules"
+                        disabled={checkDisabled}
+                        onclick={handleCheck}
+                        class="check slds-m-right_x-small"
+                    ></lightning-button>
+                    <lightning-button
+                        label="Enviar para aprovação"
+                        variant="brand"
+                        icon-name="utility:send"
+                        disabled={submitDisabled}
+                        onclick={handleSubmit}
+                        class="submit"
+                    ></lightning-button>
+                </div>
+
+                <template lwc:if={hasResult}>
+                    <div class="slds-m-top_medium result" aria-live="polite">
+                        <p class={summaryClass} role="status">{summaryText}</p>
+                        <ul class="rule-list">
+                            <template for:each={ruleViews} for:item="r">
+                                <li key={r.code} class={r.itemClass} data-level={r.level}>
+                                    <lightning-icon icon-name={r.icon} size="x-small" class={r.iconClass} alternative-text={r.levelText}></lightning-icon>
+                                    <div>
+                                        <span class="rule-title">{r.title}</span>
+                                        <template lwc:if={r.message}>
+                                            <p class="rule-message slds-text-body_small">{r.message}</p>
+                                        </template>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

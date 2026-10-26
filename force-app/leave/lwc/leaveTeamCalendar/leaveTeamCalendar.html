@@ -1,0 +1,86 @@
+<template>
+    <lightning-card title="Calendário de férias da equipe" icon-name="standard:event">
+        <div slot="actions" class="slds-grid slds-grid_vertical-align-center">
+            <lightning-button label="Hoje" onclick={handleToday} class="today slds-m-right_x-small"></lightning-button>
+            <lightning-button-icon
+                icon-name="utility:chevronleft"
+                alternative-text="Mês anterior"
+                title="Mês anterior"
+                onclick={handlePrevious}
+                class="previous"
+            ></lightning-button-icon>
+            <span class="month-title slds-m-horizontal_small" aria-live="polite">{monthTitle}</span>
+            <lightning-button-icon
+                icon-name="utility:chevronright"
+                alternative-text="Próximo mês"
+                title="Próximo mês"
+                onclick={handleNext}
+                class="next"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando calendário" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:people" size="small" alternative-text="Sem equipe"></lightning-icon>
+                    <p class="slds-m-top_x-small">{emptyText}</p>
+                </div>
+            </template>
+            <template lwc:if={hasRows}>
+                <div class="calendar-scroll" tabindex="0" role="region" aria-label="Calendário de férias da equipe">
+                    <table class="calendar">
+                        <caption class="slds-assistive-text">Férias da equipe em {monthTitle}</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="person-head">Pessoa</th>
+                                <template for:each={dayHeaders} for:item="d">
+                                    <th key={d.isoDate} scope="col" class={d.className} title={d.title}>
+                                        <span class="day-number">{d.day}</span>
+                                        <span class="day-weekday">{d.initial}</span>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rowViews} for:item="row">
+                                <tr key={row.employeeId} class="person-row">
+                                    <th scope="row" class="person-cell">
+                                        <span class="person-name">{row.name}</span>
+                                        <template lwc:if={row.positionName}>
+                                            <span class="person-position slds-text-color_weak">{row.positionName}</span>
+                                        </template>
+                                    </th>
+                                    <template for:each={row.cells} for:item="cell">
+                                        <td key={cell.key} class={cell.className} title={cell.title}>
+                                            <template lwc:if={cell.status}>
+                                                <span class="slds-assistive-text">{cell.label}</span>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small overlap">{overlapText}</p>
+                <ul class="legend slds-m-top_small slds-grid slds-wrap">
+                    <template for:each={legend} for:item="item">
+                        <li key={item.key} class="legend-item slds-m-right_medium">
+                            <span class={item.swatch}></span>
+                            <span class="slds-text-body_small">{item.label}</span>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>
