@@ -23,5 +23,8 @@
     <pluralLabel>Colaboradores</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>Private</sharingModel>
+    <sharingRecalculations>
+        <className>EmployeeSharingRecalcBatch</className>
+    </sharingRecalculations>
     <visibility>Public</visibility>
 </CustomObject>
