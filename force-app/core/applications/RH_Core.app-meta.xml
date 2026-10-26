@@ -31,5 +31,8 @@
     <tabs>RH_Desempenho_Meu_Ciclo</tabs>
     <tabs>RH_Desempenho_Equipe</tabs>
     <tabs>RH_Desempenho_Admin</tabs>
+    <tabs>RH_Onboarding_Visao_Geral</tabs>
+    <tabs>RH_Onboarding_Ativacao</tabs>
+    <tabs>RH_Onboarding_Meu</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
