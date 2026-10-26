@@ -1,0 +1,185 @@
+:host {
+    display: block;
+    --portal-ink: #032d60;
+    --portal-text: #181818;
+    --portal-muted: #444444;
+    --portal-border: #c9c9c9;
+    --portal-brand: #0b5cab;
+    --portal-brand-dark: #014486;
+    --portal-surface: #ffffff;
+    --portal-soft: #eef4ff;
+    --portal-error: #ba0517;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+    color: var(--portal-text);
+}
+
+.portal {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 2rem;
+}
+
+.title {
+    margin: 0 0 0.5rem;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    color: var(--portal-ink);
+}
+
+.lead {
+    margin: 0 0 1.25rem;
+    color: var(--portal-muted);
+    font-size: 1rem;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    background: var(--portal-soft);
+    border-radius: 0.5rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 12rem;
+    flex: 1 1 12rem;
+}
+
+.field label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--portal-ink);
+}
+
+.control {
+    min-height: 2.5rem;
+    padding: 0 0.5rem;
+    font: inherit;
+    color: var(--portal-text);
+    background: var(--portal-surface);
+    border: 1px solid var(--portal-border);
+    border-radius: 0.25rem;
+}
+
+.control:focus-visible,
+.link-button:focus-visible,
+.card-link:focus-visible {
+    outline: 3px solid var(--portal-brand);
+    outline-offset: 2px;
+}
+
+.link-button {
+    min-height: 2.5rem;
+    padding: 0 0.5rem;
+    font: inherit;
+    color: var(--portal-brand-dark);
+    text-decoration: underline;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.count {
+    margin: 0 0 0.75rem;
+    min-height: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--portal-muted);
+}
+
+.state {
+    padding: 1rem;
+    margin: 0 0 1rem;
+    border-radius: 0.5rem;
+    background: var(--portal-soft);
+}
+
+.state.error {
+    color: var(--portal-error);
+    background: #fef1ee;
+    border: 1px solid var(--portal-error);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1rem 1.25rem;
+    background: var(--portal-surface);
+    border: 1px solid var(--portal-border);
+    border-left: 4px solid var(--portal-brand);
+    border-radius: 0.5rem;
+}
+
+.card:hover {
+    box-shadow: 0 2px 8px rgba(3, 45, 96, 0.18);
+}
+
+.card-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+    line-height: 1.3;
+}
+
+.card-link {
+    color: var(--portal-brand-dark);
+    text-decoration: none;
+}
+
+/* A area clicavel cobre o cartao inteiro sem aninhar elementos interativos. */
+.card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    list-style: none;
+}
+
+.chip {
+    padding: 0.125rem 0.625rem;
+    font-size: 0.8125rem;
+    color: var(--portal-ink);
+    background: var(--portal-soft);
+    border-radius: 999px;
+}
+
+.chip-area {
+    font-weight: 600;
+}
+
+.opened {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--portal-muted);
+}
+
+.notice {
+    margin: 2rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--portal-muted);
+}

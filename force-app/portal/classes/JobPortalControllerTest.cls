@@ -216,8 +216,14 @@ private class JobPortalControllerTest {
             result = JobPortalController.submitApplication(data);
         }
         System.assertEquals(true, result.success, 'o robo recebe sucesso falso');
-        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-robo@example.com']);
-        System.assertEquals(0, [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = 'zztest-robo@example.com']);
+        System.assertEquals(
+            0,
+            [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-robo@example.com']
+        );
+        System.assertEquals(
+            0,
+            [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = 'zztest-robo@example.com']
+        );
     }
 
     @IsTest
@@ -236,7 +242,10 @@ private class JobPortalControllerTest {
         System.assertEquals(false, fastResult.success);
         System.assertEquals(JobPortalService.TOO_FAST_MESSAGE, fastResult.message);
         System.assertEquals(false, noClockResult.success);
-        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-rapido@example.com']);
+        System.assertEquals(
+            0,
+            [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-rapido@example.com']
+        );
     }
 
     @IsTest
@@ -266,10 +275,30 @@ private class JobPortalControllerTest {
         nullConsent.consent = null;
 
         List<PortalApplicationInput> all = new List<PortalApplicationInput>{
-            shortName, tagOnlyName, longName, badEmail, longEmail, badPhone, longCity, badUrl, longMessage, noConsent, nullConsent
+            shortName,
+            tagOnlyName,
+            longName,
+            badEmail,
+            longEmail,
+            badPhone,
+            longCity,
+            badUrl,
+            longMessage,
+            noConsent,
+            nullConsent
         };
         List<String> expectedFields = new List<String>{
-            'name', 'name', 'name', 'email', 'email', 'phone', 'city', 'linkedInUrl', 'message', 'consent', 'consent'
+            'name',
+            'name',
+            'name',
+            'email',
+            'email',
+            'phone',
+            'city',
+            'linkedInUrl',
+            'message',
+            'consent',
+            'consent'
         };
         System.runAs(guest()) {
             for (Integer i = 0; i < all.size(); i++) {
@@ -282,7 +311,14 @@ private class JobPortalControllerTest {
             System.assertEquals(false, nullInput.success);
             System.assertEquals(JobPortalService.GENERIC_MESSAGE, nullInput.message);
         }
-        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Name LIKE 'ZZTEST-%' AND Email_Normalized__c LIKE 'zztest-invalido%']);
+        System.assertEquals(
+            0,
+            [
+                SELECT COUNT()
+                FROM Candidate__c
+                WHERE Name LIKE 'ZZTEST-%' AND Email_Normalized__c LIKE 'zztest-invalido%'
+            ]
+        );
     }
 
     @IsTest
@@ -304,7 +340,10 @@ private class JobPortalControllerTest {
                 System.assertEquals(JobPortalService.CLOSED_MESSAGE, result.message);
             }
         }
-        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-vaga@example.com']);
+        System.assertEquals(
+            0,
+            [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-vaga@example.com']
+        );
     }
 
     @IsTest
@@ -320,7 +359,10 @@ private class JobPortalControllerTest {
         System.assertEquals(true, first.success, first.message);
         System.assertEquals(false, second.success);
         System.assertEquals('Limite diário de candidaturas atingido.', second.message);
-        System.assertEquals(1, [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = :email]);
+        System.assertEquals(
+            1,
+            [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = :email]
+        );
     }
 
     @IsTest
@@ -336,8 +378,24 @@ private class JobPortalControllerTest {
         System.assertEquals(true, first.success, first.message);
         System.assertEquals(false, second.success);
         System.assertEquals('Este candidato já se inscreveu nesta vaga.', second.message);
-        System.assertEquals(1, [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = :email]);
+        System.assertEquals(
+            1,
+            [SELECT COUNT() FROM Job_Application__c WHERE Candidate__r.Email_Normalized__c = :email]
+        );
         System.assertEquals(1, [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = :email]);
+    }
+
+    @IsTest
+    static void emailRejectedByThePlatformGetsAGenericMessageWithoutTechnicalDetail() {
+        JobPortalController.SubmitResult result;
+        System.runAs(guest()) {
+            result = JobPortalController.submitApplication(
+                input(slugOf('Analista Fiscal'), 'zztest..duplo@example.com')
+            );
+        }
+        System.assertEquals(false, result.success);
+        System.assertEquals(JobPortalService.GENERIC_MESSAGE, result.message);
+        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Name = 'ZZTEST-Maria Souza']);
     }
 
     @IsTest

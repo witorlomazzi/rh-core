@@ -1,0 +1,193 @@
+:host {
+    display: block;
+    --portal-ink: #032d60;
+    --portal-text: #181818;
+    --portal-muted: #444444;
+    --portal-border: #8a8a8a;
+    --portal-brand: #0b5cab;
+    --portal-brand-dark: #014486;
+    --portal-surface: #ffffff;
+    --portal-soft: #eef4ff;
+    --portal-error: #ba0517;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+    color: var(--portal-text);
+}
+
+.panel {
+    padding: 1.5rem;
+    background: var(--portal-surface);
+    border: 1px solid #c9c9c9;
+    border-top: 4px solid var(--portal-brand);
+    border-radius: 0.5rem;
+}
+
+.heading {
+    margin: 0 0 0.5rem;
+    font-size: 1.375rem;
+    color: var(--portal-ink);
+}
+
+.hint {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+    color: var(--portal-muted);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+label,
+legend {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--portal-ink);
+}
+
+.control {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    color: var(--portal-text);
+    background: var(--portal-surface);
+    border: 1px solid var(--portal-border);
+    border-radius: 0.25rem;
+}
+
+.area {
+    resize: vertical;
+}
+
+.control[aria-invalid="true"] {
+    border-color: var(--portal-error);
+    box-shadow: 0 0 0 1px var(--portal-error);
+}
+
+.control:focus-visible,
+.submit:focus-visible,
+.consent input:focus-visible {
+    outline: 3px solid var(--portal-brand);
+    outline-offset: 2px;
+}
+
+.error {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--portal-error);
+}
+
+.error:empty {
+    display: none;
+}
+
+.counter {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--portal-muted);
+}
+
+.form-error {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    color: var(--portal-error);
+    background: #fef1ee;
+    border: 1px solid var(--portal-error);
+    border-radius: 0.25rem;
+}
+
+/* Honeypot: fora da tela, sem display:none (robos simples ignoram campos com display:none). */
+.trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.privacy {
+    margin: 0;
+    padding: 1rem;
+    background: var(--portal-soft);
+    border: 1px solid #c9c9c9;
+    border-radius: 0.5rem;
+}
+
+.privacy-text {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.privacy-version {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--portal-muted);
+}
+
+.consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.consent input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+}
+
+.submit {
+    align-self: flex-start;
+    min-height: 2.75rem;
+    padding: 0 1.5rem;
+    font: inherit;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--portal-brand);
+    border: 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.submit:hover:not([disabled]) {
+    background: var(--portal-brand-dark);
+}
+
+.submit[disabled] {
+    cursor: progress;
+    opacity: 0.7;
+}
+
+.success {
+    padding: 1rem 1.25rem;
+    color: #0b3d1c;
+    background: #ebf7e6;
+    border: 1px solid #2e844a;
+    border-radius: 0.5rem;
+}
+
+.success-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.success-text {
+    margin: 0;
+}

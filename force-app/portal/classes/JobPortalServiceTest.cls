@@ -10,8 +10,11 @@ private class JobPortalServiceTest {
         System.assertEquals('oi', JobPortalService.clean('<script>alert(1)</script>oi', false));
         System.assertEquals('oi', JobPortalService.clean('<STYLE type="x">a{}</STYLE>oi', false));
         System.assertEquals('a b', JobPortalService.clean('a<img src=x onerror=alert(1)>b', false));
-        System.assertEquals('1 2', JobPortalService.clean('1 < 2', false).replaceAll('\\s+', ' ').replace(' 2', ' 2'));
-        System.assertEquals('a b', JobPortalService.clean('a' + String.fromCharArray(new List<Integer>{ 0, 7 }) + 'b', false));
+        System.assertEquals('1 2', JobPortalService.clean('1 < 2', false));
+        System.assertEquals(
+            'a b',
+            JobPortalService.clean('a' + String.fromCharArray(new List<Integer>{ 0, 7 }) + 'b', false)
+        );
         System.assertEquals(null, JobPortalService.clean('<p></p>', false));
         System.assertEquals(null, JobPortalService.clean('   ', false));
         System.assertEquals(null, JobPortalService.clean(null, false));

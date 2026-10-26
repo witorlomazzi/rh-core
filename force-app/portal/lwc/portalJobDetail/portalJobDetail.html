@@ -1,0 +1,57 @@
+<template>
+    <article class="portal">
+        <nav class="crumbs" aria-label="Navegação">
+            <a class="back" href={homeUrl}>Todas as vagas</a>
+        </nav>
+
+        <template lwc:if={loading}>
+            <p class="state" role="status">Carregando vaga...</p>
+        </template>
+
+        <template lwc:if={error}>
+            <p class="state error" role="alert">{error}</p>
+        </template>
+
+        <template lwc:if={notFound}>
+            <div class="state" role="status">
+                <h1 class="title">Vaga não encontrada</h1>
+                <p>Esta vaga não está mais disponível ou o endereço está incorreto.</p>
+                <p><a class="back" href={homeUrl}>Ver as vagas abertas</a></p>
+            </div>
+        </template>
+
+        <template lwc:if={hasJob}>
+            <header class="header">
+                <h1 class="title">{title}</h1>
+                <ul class="chips" aria-label="Detalhes da vaga">
+                    <template for:each={chips} for:item="chip">
+                        <li key={chip.key} class={chip.cssClass}>{chip.label}</li>
+                    </template>
+                </ul>
+                <p class="opened">{openedText}</p>
+            </header>
+
+            <div class="layout">
+                <div class="content">
+                    <template lwc:if={hasDescription}>
+                        <section class="block" aria-labelledby="description-heading">
+                            <h2 id="description-heading" class="block-title">Sobre a vaga</h2>
+                            <lightning-formatted-rich-text value={description}></lightning-formatted-rich-text>
+                        </section>
+                    </template>
+                    <template lwc:if={hasRequirements}>
+                        <section class="block" aria-labelledby="requirements-heading">
+                            <h2 id="requirements-heading" class="block-title">Requisitos</h2>
+                            <lightning-formatted-rich-text value={requirements}></lightning-formatted-rich-text>
+                        </section>
+                    </template>
+                </div>
+                <div class="apply">
+                    <c-portal-application-form slug={slug} job-title={title}></c-portal-application-form>
+                </div>
+            </div>
+        </template>
+
+        <p class="notice">{demoNotice}</p>
+    </article>
+</template>

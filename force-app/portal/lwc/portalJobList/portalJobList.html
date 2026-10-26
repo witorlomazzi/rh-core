@@ -1,0 +1,81 @@
+<template>
+    <section class="portal" aria-labelledby="jobs-heading">
+        <header class="intro">
+            <h1 id="jobs-heading" class="title">Vagas abertas</h1>
+            <p class="lead">Conheça as oportunidades da Vetra Distribuidora e candidate-se em poucos minutos.</p>
+        </header>
+
+        <template lwc:if={hasFilters}>
+            <div class="filters" role="search" aria-label="Filtrar vagas">
+                <div class="field">
+                    <label for="filter-model">Modelo de trabalho</label>
+                    <select id="filter-model" class="control" onchange={handleWorkModel}>
+                        <template for:each={workModelOptions} for:item="option">
+                            <option key={option.value} value={option.value} selected={option.selected}>
+                                {option.label}
+                            </option>
+                        </template>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="filter-department">Área</label>
+                    <select id="filter-department" class="control" onchange={handleDepartment}>
+                        <template for:each={departmentOptions} for:item="option">
+                            <option key={option.value} value={option.value} selected={option.selected}>
+                                {option.label}
+                            </option>
+                        </template>
+                    </select>
+                </div>
+                <template lwc:if={showClear}>
+                    <button type="button" class="link-button clear" onclick={handleClear}>Limpar filtros</button>
+                </template>
+            </div>
+        </template>
+
+        <p class="count" role="status" aria-live="polite">{countText}</p>
+
+        <template lwc:if={loading}>
+            <p class="state loading" role="status">Carregando vagas...</p>
+        </template>
+
+        <template lwc:if={error}>
+            <p class="state error" role="alert">{error}</p>
+        </template>
+
+        <template lwc:if={showEmpty}>
+            <p class="state empty">{emptyMessage}</p>
+        </template>
+
+        <template lwc:if={hasCards}>
+            <ul class="cards">
+                <template for:each={cards} for:item="card">
+                    <li key={card.key}>
+                        <article class="card">
+                            <h2 class="card-title">
+                                <a class="card-link" href={card.href}>{card.title}</a>
+                            </h2>
+                            <ul class="chips" aria-label="Detalhes da vaga">
+                                <template lwc:if={card.department}>
+                                    <li class="chip chip-area">{card.department}</li>
+                                </template>
+                                <template lwc:if={card.workModel}>
+                                    <li class="chip">{card.workModel}</li>
+                                </template>
+                                <template lwc:if={card.employmentType}>
+                                    <li class="chip">{card.employmentType}</li>
+                                </template>
+                                <template lwc:if={card.location}>
+                                    <li class="chip">{card.location}</li>
+                                </template>
+                            </ul>
+                            <p class="opened">{card.openedText}</p>
+                        </article>
+                    </li>
+                </template>
+            </ul>
+        </template>
+
+        <p class="notice">{demoNotice}</p>
+    </section>
+</template>
