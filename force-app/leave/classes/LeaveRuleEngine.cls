@@ -136,7 +136,7 @@ public with sharing class LeaveRuleEngine {
             return new LeaveRuleResult(
                 R_V1,
                 true,
-                'O período aquisitivo termina em ' + fmt(c.period.End_Date__c) + '. As férias só podem ser tiradas depois disso.'
+                'O período aquisitivo termina em ' + formatDate(c.period.End_Date__c) + '. As férias só podem ser tiradas depois disso.'
             );
         }
         return null;
@@ -184,7 +184,7 @@ public with sharing class LeaveRuleEngine {
                     'O início não pode ocorrer nos ' +
                         blockDays +
                         ' dias que antecedem feriado ou descanso semanal (' +
-                        fmt(d) +
+                        formatDate(d) +
                         '). Art. 134, § 3º da CLT.'
                 );
             }
@@ -299,7 +299,7 @@ public with sharing class LeaveRuleEngine {
                 return new LeaveRuleResult(
                     R_V11,
                     true,
-                    'As datas coincidem com outro pedido seu (' + fmt(r.Start_Date__c) + ' a ' + fmt(otherEnd) + ').'
+                    'As datas coincidem com outro pedido seu (' + formatDate(r.Start_Date__c) + ' a ' + formatDate(otherEnd) + ').'
                 );
             }
         }
@@ -356,7 +356,7 @@ public with sharing class LeaveRuleEngine {
         return value == null ? fallback : value.intValue();
     }
 
-    private static String fmt(Date d) {
+    public static String formatDate(Date d) {
         return String.valueOf(d.day()).leftPad(2, '0') + '/' + String.valueOf(d.month()).leftPad(2, '0') + '/' + d.year();
     }
 }
