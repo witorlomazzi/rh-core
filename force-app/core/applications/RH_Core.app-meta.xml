@@ -34,5 +34,7 @@
     <tabs>RH_Onboarding_Visao_Geral</tabs>
     <tabs>RH_Onboarding_Ativacao</tabs>
     <tabs>RH_Onboarding_Meu</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

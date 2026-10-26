@@ -9,6 +9,7 @@
     <permissionSets>HR_Performance_Admin</permissionSets>
     <permissionSets>HR_Onboarding_Admin</permissionSets>
     <permissionSets>HR_Recruiting_Recruiter</permissionSets>
+    <permissionSets>HR_Analytics_Admin</permissionSets>
     <permissionSets>HR_MyHR_User</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
