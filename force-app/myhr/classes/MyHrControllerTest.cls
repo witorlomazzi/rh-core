@@ -157,7 +157,6 @@ private class MyHrControllerTest {
         HrTestDataFactory.OrgTree t = HrTestDataFactory.loadOrgTree();
         LeaveTestData.generatePeriods(new Set<Id>{ t.emp1.Id, t.emp2.Id, t.emp3.Id });
         Leave_Accrual_Period__c p1 = LeaveTestData.firstPeriod(t.emp1.Id);
-        Leave_Accrual_Period__c p2 = LeaveTestData.firstPeriod(t.emp2.Id);
         // emp1: prazo concessivo em 30 dias (dentro da janela de 60); emp2: prazo distante
         TriggerHandler.bypass('LeaveAccrualPeriodTriggerHandler');
         update new Leave_Accrual_Period__c(Id = p1.Id, Concession_Deadline__c = Date.today().addDays(30));
