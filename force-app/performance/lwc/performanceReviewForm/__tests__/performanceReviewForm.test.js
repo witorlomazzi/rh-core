@@ -1,3 +1,4 @@
+/* eslint-disable @lwc/lwc/no-async-operation */
 import { createElement } from 'lwc';
 import PerformanceReviewForm from 'c/performanceReviewForm';
 import getReviewForm from '@salesforce/apex/PerformanceReviewController.getReviewForm';

@@ -32,6 +32,10 @@ export default class PerformanceReviewForm extends LightningElement {
         return this._reviewId;
     }
     set reviewId(value) {
+        this.applyId(value);
+    }
+
+    applyId(value) {
         if (value && value !== this._reviewId) {
             this._reviewId = value;
             this.load();
@@ -44,7 +48,7 @@ export default class PerformanceReviewForm extends LightningElement {
         return this._reviewId;
     }
     set recordId(value) {
-        this.reviewId = value;
+        this.applyId(value);
     }
 
     async load() {

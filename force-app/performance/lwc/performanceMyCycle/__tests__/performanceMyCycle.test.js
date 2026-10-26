@@ -1,3 +1,4 @@
+/* eslint-disable @lwc/lwc/no-async-operation */
 import { createElement } from 'lwc';
 import PerformanceMyCycle from 'c/performanceMyCycle';
 import getMyCycle from '@salesforce/apex/PerformanceReviewController.getMyCycle';
