@@ -272,10 +272,19 @@ public with sharing class PromotionService {
             if ((status == BAND_BELOW || status == BAND_ABOVE) && String.isBlank(comments)) {
                 throw new PromotionException(MSG_OUT_OF_BAND);
             }
-            Promotion_Request__c salaryUpdate = new Promotion_Request__c(Id = requestId, Proposed_Salary__c = proposedSalary);
-            update as user salaryUpdate;
         }
-        ApprovalService.decide(step.Id, approve, comments);
+        // O salario so fica gravado se a decisao tambem for registrada.
+        Savepoint sp = Database.setSavepoint();
+        try {
+            if (approve == true) {
+                Promotion_Request__c salaryUpdate = new Promotion_Request__c(Id = requestId, Proposed_Salary__c = proposedSalary);
+                update as user salaryUpdate;
+            }
+            ApprovalService.decide(step.Id, approve, comments);
+        } catch (Exception e) {
+            Database.rollback(sp);
+            throw e;
+        }
     }
 
     /** Situacao do salario em relacao a faixa: Dentro, Abaixo, Acima ou SemFaixa (cargo sem faixa cadastrada). */
