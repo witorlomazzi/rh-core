@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>View</actionName>
+        <content>Colaborador_RH_Core</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Employee__c</pageOrSobjectType>
+    </actionOverrides>
+    <brand>
+        <headerColor>#0176D3</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Experiência do colaborador e do gestor: dados, férias, aprovações, onboarding, desempenho e equipe.</description>
+    <formFactors>Large</formFactors>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Meu RH</label>
+    <navType>Standard</navType>
+    <tabs>RH_MeuRH_Inicio</tabs>
+    <tabs>RH_Organograma</tabs>
+    <tabs>RH_Minhas_Ferias</tabs>
+    <tabs>RH_Minha_Equipe</tabs>
+    <tabs>RH_Aprovacoes</tabs>
+    <tabs>RH_Desempenho_Meu_Ciclo</tabs>
+    <tabs>RH_Desempenho_Equipe</tabs>
+    <tabs>RH_Onboarding_Meu</tabs>
+    <tabs>RH_Solicitar_Promocao</tabs>
+    <tabs>RH_Historico_Cargos</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

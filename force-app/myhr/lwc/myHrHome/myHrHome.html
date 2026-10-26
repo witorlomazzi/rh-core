@@ -1,0 +1,110 @@
+<template>
+    <div class="myhr-home">
+        <template lwc:if={loading}>
+            <div class="slds-is-relative slds-p-around_xx-large loading">
+                <lightning-spinner alternative-text="Carregando o Meu RH" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={showError}>
+            <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                <h2>{error}</h2>
+                <lightning-button
+                    label="Tentar de novo"
+                    variant="neutral"
+                    class="slds-m-left_small retry"
+                    onclick={handleRetry}
+                ></lightning-button>
+            </div>
+        </template>
+
+        <template lwc:if={showEmpty}>
+            <div class="empty-state slds-text-align_center">
+                <lightning-icon icon-name="utility:user" size="large" alternative-text="Sem vínculo"></lightning-icon>
+                <h2 class="slds-text-heading_medium slds-m-top_small">Meu RH</h2>
+                <p class="slds-m-top_x-small empty-text">{emptyText}</p>
+            </div>
+        </template>
+
+        <template lwc:if={showHome}>
+            <section class="hero" aria-label="Seus dados">
+                <span class="avatar" aria-hidden="true">{context.initials}</span>
+                <div class="hero-text">
+                    <h1 class="hero-name">{context.employeeName}</h1>
+                    <p class="hero-subtitle">{subtitle}</p>
+                    <ul class="chips">
+                        <li class="chip manager-chip">
+                            <lightning-icon icon-name="utility:user" size="xx-small" alternative-text="Gestor" class="chip-icon"></lightning-icon>
+                            <span class="manager-text">{managerText}</span>
+                        </li>
+                        <li class="chip tenure-chip">
+                            <lightning-icon icon-name="utility:clock" size="xx-small" alternative-text="Tempo de casa" class="chip-icon"></lightning-icon>
+                            <span class="tenure-text">{tenureText}</span>
+                        </li>
+                        <li class="chip hire-chip">
+                            <lightning-icon icon-name="utility:event" size="xx-small" alternative-text="Admissão" class="chip-icon"></lightning-icon>
+                            <span class="hire-text">{hireText}</span>
+                        </li>
+                        <li class="chip">
+                            <span class={statusClass}>{context.statusLabel}</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="grid">
+                <div class="cell">
+                    <c-leave-balance-card onrequestleave={handleRequestLeave}></c-leave-balance-card>
+                </div>
+
+                <div class="cell">
+                    <lightning-card title="Próximas férias" icon-name="standard:event">
+                        <div class="slds-p-horizontal_medium next-leave">
+                            <template lwc:if={hasNextLeave}>
+                                <p class="next-leave-range">{nextLeaveRange}</p>
+                                <p class="slds-text-color_weak">
+                                    <span class="next-leave-days">{nextLeaveDays}</span>
+                                    <span class={nextLeaveBadge}>{nextLeaveStatus}</span>
+                                </p>
+                            </template>
+                            <template lwc:else>
+                                <p class="slds-text-color_weak next-leave-empty">Você não tem férias programadas.</p>
+                            </template>
+                        </div>
+                    </lightning-card>
+                </div>
+
+                <div class="cell cell-wide">
+                    <c-leave-request-list></c-leave-request-list>
+                </div>
+
+                <div class="cell">
+                    <c-core-approval-inbox></c-core-approval-inbox>
+                </div>
+
+                <template lwc:if={hasOnboarding}>
+                    <div class="cell cell-wide onboarding-cell">
+                        <c-onboarding-checklist></c-onboarding-checklist>
+                    </div>
+                </template>
+
+                <div class="cell cell-wide">
+                    <c-performance-my-cycle></c-performance-my-cycle>
+                </div>
+            </div>
+
+            <template lwc:if={isManager}>
+                <section class="team-section" aria-label="Minha equipe">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_small">Minha equipe</h2>
+                    <c-my-hr-team-overview></c-my-hr-team-overview>
+                </section>
+            </template>
+
+            <template lwc:if={showLeaveModal}>
+                <c-my-hr-modal heading="Solicitar férias" onclose={handleCloseLeaveModal}>
+                    <c-leave-request-form period-id={requestPeriodId} onsubmitted={handleLeaveSubmitted}></c-leave-request-form>
+                </c-my-hr-modal>
+            </template>
+        </template>
+    </div>
+</template>

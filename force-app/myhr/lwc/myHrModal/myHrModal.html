@@ -1,0 +1,29 @@
+<template>
+    <section
+        role="dialog"
+        tabindex="-1"
+        aria-modal="true"
+        aria-label={heading}
+        class={dialogClass}
+        onkeydown={handleKeydown}
+    >
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <lightning-button-icon
+                    class="slds-modal__close close"
+                    icon-name="utility:close"
+                    variant="bare-inverse"
+                    size="large"
+                    alternative-text="Fechar"
+                    title="Fechar"
+                    onclick={handleClose}
+                ></lightning-button-icon>
+                <h2 class="slds-modal__title slds-hyphenate modal-title">{heading}</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+                <slot></slot>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open backdrop" role="presentation" onclick={handleClose}></div>
+</template>

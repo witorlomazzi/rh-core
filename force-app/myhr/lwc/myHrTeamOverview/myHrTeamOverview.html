@@ -1,0 +1,120 @@
+<template>
+    <lightning-card title="Minha equipe" icon-name="standard:people">
+        <div slot="actions" class="actions">
+            <lightning-button
+                class="promotion-shortcut"
+                label="Solicitar promoção"
+                icon-name="utility:upload"
+                variant="neutral"
+                onclick={handleOpenPromotion}
+            ></lightning-button>
+            <lightning-button
+                class="calendar-shortcut"
+                label="Calendário de férias"
+                icon-name="utility:event"
+                variant="neutral"
+                onclick={handleOpenCalendar}
+            ></lightning-button>
+            <lightning-button-icon
+                class="refresh"
+                icon-name="utility:refresh"
+                alternative-text="Atualizar equipe"
+                title="Atualizar"
+                onclick={handleRefresh}
+            ></lightning-button-icon>
+        </div>
+
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando a equipe" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template lwc:if={showError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+
+            <template lwc:if={showEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:people" size="small" alternative-text="Sem equipe"></lightning-icon>
+                    <p class="slds-m-top_x-small empty-text">{emptyText}</p>
+                </div>
+            </template>
+
+            <template lwc:if={hasMembers}>
+                <p class="slds-text-color_weak slds-m-bottom_x-small summary">{summary}</p>
+                <template lwc:if={hasAlerts}>
+                    <div class="slds-notify slds-notify_alert slds-theme_warning alert-summary" role="status">
+                        <lightning-icon icon-name="utility:warning" size="x-small" alternative-text="Atenção" class="slds-m-right_x-small"></lightning-icon>
+                        <h2>{alertSummary}</h2>
+                    </div>
+                </template>
+                <div class="table-wrap">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-max-medium-table_stacked-horizontal team-table">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">Colaborador</th>
+                                <th scope="col">Situação</th>
+                                <th scope="col">Saldo de férias</th>
+                                <th scope="col">Próximas férias</th>
+                                <th scope="col">Prazo concessivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rows} for:item="row">
+                                <tr key={row.employeeId} class="member">
+                                    <th scope="row" data-label="Colaborador">
+                                        <div class="person">
+                                            <span class="initials" aria-hidden="true">{row.initials}</span>
+                                            <div>
+                                                <div class="slds-text-title_bold member-name">{row.name}</div>
+                                                <div class="slds-text-color_weak slds-text-body_small member-position">{row.positionName}</div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td data-label="Situação">
+                                        <span class={row.statusClass}>{row.statusLabel}</span>
+                                    </td>
+                                    <td data-label="Saldo de férias">
+                                        <span class="balance">{row.balanceLabel}</span>
+                                    </td>
+                                    <td data-label="Próximas férias">
+                                        <template lwc:if={row.hasNextLeave}>
+                                            <div class="next-range">{row.nextLeaveRange}</div>
+                                            <span class={row.nextLeaveClass}>{row.nextLeaveStatus}</span>
+                                        </template>
+                                        <template lwc:else>
+                                            <span class="slds-text-color_weak no-leave">Sem férias programadas</span>
+                                        </template>
+                                    </td>
+                                    <td data-label="Prazo concessivo">
+                                        <template lwc:if={row.hasDeadline}>
+                                            <span class={row.deadlineClass}>{row.deadlineLabel}</span>
+                                        </template>
+                                        <template lwc:else>
+                                            <span class="slds-text-color_weak">Sem saldo a vencer</span>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template lwc:if={showPromotionModal}>
+        <c-my-hr-modal heading="Solicitar promoção" onclose={handleCloseModal}>
+            <c-promotion-request-form></c-promotion-request-form>
+        </c-my-hr-modal>
+    </template>
+    <template lwc:if={showCalendarModal}>
+        <c-my-hr-modal heading="Calendário de férias da equipe" size="large" onclose={handleCloseModal}>
+            <c-leave-team-calendar></c-leave-team-calendar>
+        </c-my-hr-modal>
+    </template>
+</template>
