@@ -1,0 +1,91 @@
+<template>
+    <lightning-card title="Planos de onboarding" icon-name="standard:task">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar planos"
+                title="Atualizar planos"
+                class="refresh"
+                onclick={handleRefresh}
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando planos" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showContent}>
+                <div class="slds-grid slds-wrap slds-m-bottom_small">
+                    <div class="slds-box slds-box_x-small slds-m-right_small tile tile-count">
+                        <p class="slds-text-title">Planos</p>
+                        <p class="slds-text-heading_medium">{result.planCount}</p>
+                    </div>
+                    <div class="slds-box slds-box_x-small slds-m-right_small tile tile-overdue">
+                        <p class="slds-text-title">Com atraso</p>
+                        <p class="slds-text-heading_medium">{result.overduePlanCount}</p>
+                    </div>
+                    <div class="slds-box slds-box_x-small tile tile-average">
+                        <p class="slds-text-title">Progresso médio</p>
+                        <p class="slds-text-heading_medium">{result.averageProgress}%</p>
+                    </div>
+                    <div class="slds-col_bump-left slds-align-bottom">
+                        <lightning-input type="checkbox" label="Mostrar concluídos" checked={includeCompleted} class="show-completed" onchange={handleToggleCompleted}></lightning-input>
+                    </div>
+                </div>
+            </template>
+            <template lwc:if={isEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:success" size="small" alternative-text="Sem planos"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhum plano de onboarding em andamento.</p>
+                </div>
+            </template>
+            <template lwc:if={hasPlans}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col"><div class="slds-truncate">Colaborador</div></th>
+                            <th scope="col"><div class="slds-truncate">Início</div></th>
+                            <th scope="col"><div class="slds-truncate">Situação</div></th>
+                            <th scope="col"><div class="slds-truncate">Progresso</div></th>
+                            <th scope="col"><div class="slds-truncate">Atrasos</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={plans} for:item="plan">
+                            <tr key={plan.planId} class={plan.rowClass}>
+                                <th scope="row" data-label="Colaborador">
+                                    <button class="slds-button plan-open" data-id={plan.planId} onclick={handleSelect}>{plan.employeeName}</button>
+                                </th>
+                                <td data-label="Início"><div class="slds-truncate plan-start">{plan.startText}</div></td>
+                                <td data-label="Situação"><span class={plan.statusClass}>{plan.statusLabel}</span></td>
+                                <td data-label="Progresso">
+                                    <lightning-progress-bar value={plan.progressPercent} size="small"></lightning-progress-bar>
+                                    <span class="slds-text-body_small slds-text-color_weak plan-progress">{plan.progressText}</span>
+                                </td>
+                                <td data-label="Atrasos">
+                                    <template lwc:if={plan.hasOverdue}>
+                                        <span class="slds-badge slds-theme_error plan-overdue">{plan.overdueText}</span>
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+            <template lwc:if={hasSelection}>
+                <div class="slds-m-top_medium detail">
+                    <div class="slds-text-align_right">
+                        <lightning-button label="Fechar detalhe" variant="base" class="close-detail" onclick={handleCloseDetail}></lightning-button>
+                    </div>
+                    <c-onboarding-checklist record-id={selectedPlanId}></c-onboarding-checklist>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

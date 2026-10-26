@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>OnboardingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Leitura do plano e conclusão das próprias tarefas de onboarding.</description>
     <fieldPermissions>
         <editable>false</editable>
@@ -44,6 +48,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Onboarding_Task__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Onboarding_Task__c.Due_Offset_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -97,6 +106,10 @@
     </objectPermissions>
     <tabSettings>
         <tab>Onboarding_Plan__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Onboarding_Meu</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
