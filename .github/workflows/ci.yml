@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [develop]
+
+jobs:
+  jest:
+    name: Jest (LWC)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci --legacy-peer-deps
+      - run: npm run test:unit -- --coverage
+
+  code-analyzer:
+    name: Salesforce Code Analyzer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Install Salesforce CLI and Code Analyzer
+        run: |
+          npm install -g @salesforce/cli
+          sf plugins install code-analyzer
+      - name: PMD (severidade 1 e 2 reprovam)
+        run: sf code-analyzer run --workspace force-app --rule-selector pmd:Recommended --severity-threshold 2 --output-file code-analyzer.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-analyzer
+          path: code-analyzer.json
+
+  apex:
+    name: Apex (scratch org)
+    # Ligado so quando a variavel APEX_CI_ENABLED for 'true' e o segredo SFDX_AUTH_URL (Dev Hub) existir.
+    if: ${{ vars.APEX_CI_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Salesforce CLI
+        run: npm install -g @salesforce/cli
+      - name: Authenticate Dev Hub
+        run: |
+          if [ -z "$SFDX_AUTH_URL" ]; then echo "Segredo SFDX_AUTH_URL ausente"; exit 1; fi
+          echo "$SFDX_AUTH_URL" > auth-url.txt
+          sf org login sfdx-url --sfdx-url-file auth-url.txt --alias devhub --set-default-dev-hub
+          rm auth-url.txt
+      - name: Create scratch org
+        run: sf org create scratch --definition-file config/project-scratch-def.json --alias ci --duration-days 1 --wait 30
+      - name: Deploy
+        run: sf project deploy start --source-dir force-app --target-org ci --wait 60
+      - name: Assign admin permission set groups
+        run: sf apex run --file scripts/apex/assign-admin-psg.apex --target-org ci
+      - name: Run local tests
+        run: sf apex run test --test-level RunLocalTests --code-coverage --result-format json --wait 60 --target-org ci > apex-results.json
+      - name: Validate coverage (85% por classe)
+        run: |
+          jq -e '.result.summary.outcome == "Passed"' apex-results.json
+          MIN=$(jq '[.result.coverage.coverage[].coveredPercent] | min' apex-results.json)
+          echo "Menor cobertura por classe: $MIN%"
+          awk "BEGIN { exit !($MIN >= 85) }"
+      - name: Delete scratch org
+        if: always()
+        run: sf org delete scratch --target-org ci --no-prompt
