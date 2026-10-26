@@ -46,6 +46,8 @@ const CHECK_BLOCKED = {
     canSubmit: false
 };
 
+// Espera a fila de microtarefas e renderizacao do componente nos testes.
+// eslint-disable-next-line @lwc/lwc/no-async-operation
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 function mount(props = {}) {
