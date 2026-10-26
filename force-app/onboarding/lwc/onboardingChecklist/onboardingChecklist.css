@@ -1,0 +1,16 @@
+.task-done .task-title {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.task-row + .task-row {
+    border-top: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+}
+
+.task-overdue {
+    font-weight: 600;
+}
+
+.status-badge {
+    text-transform: none;
+}

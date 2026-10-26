@@ -1,0 +1,85 @@
+<template>
+    <lightning-card title="Ativar colaborador" icon-name="standard:employee">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando colaboradores" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={loadError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{loadError}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:success" size="small" alternative-text="Nada a ativar"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhum colaborador em pré-admissão.</p>
+                </div>
+            </template>
+            <template lwc:if={showForm}>
+                <p class="slds-text-color_weak slds-m-bottom_small">
+                    Complete os dados da admissão para ativar o colaborador. O histórico de cargo é criado na ativação.
+                </p>
+                <lightning-combobox
+                    class="employee"
+                    name="employee"
+                    label="Colaborador em pré-admissão"
+                    placeholder="Escolha o colaborador"
+                    options={employeeOptions}
+                    value={employeeId}
+                    required
+                    onchange={handleEmployeeChange}
+                ></lightning-combobox>
+                <template lwc:if={hasSelection}>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small provisional">
+                        Matrícula provisória: {provisionalNumber}
+                    </p>
+                    <lightning-input
+                        class="number"
+                        name="employeeNumber"
+                        label="Matrícula definitiva"
+                        maxlength="20"
+                        value={employeeNumber}
+                        required
+                        onchange={handleNumberChange}
+                    ></lightning-input>
+                    <lightning-input
+                        class="hire-date"
+                        type="date"
+                        name="hireDate"
+                        label="Data de admissão"
+                        value={hireDate}
+                        required
+                        onchange={handleDateChange}
+                    ></lightning-input>
+                    <lightning-combobox
+                        class="manager"
+                        name="manager"
+                        label="Gestor"
+                        placeholder="Escolha o gestor"
+                        options={managerOptions}
+                        value={managerId}
+                        onchange={handleManagerChange}
+                    ></lightning-combobox>
+                    <lightning-combobox
+                        class="position"
+                        name="position"
+                        label="Cargo"
+                        placeholder="Escolha o cargo"
+                        options={positionOptions}
+                        value={positionId}
+                        required
+                        onchange={handlePositionChange}
+                    ></lightning-combobox>
+                </template>
+                <template lwc:if={formError}>
+                    <p class="slds-text-color_error slds-m-top_x-small form-error" role="alert">{formError}</p>
+                </template>
+                <div class="slds-m-top_medium slds-m-bottom_medium">
+                    <lightning-button label="Ativar colaborador" variant="brand" class="submit" disabled={submitDisabled} onclick={handleSubmit}></lightning-button>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

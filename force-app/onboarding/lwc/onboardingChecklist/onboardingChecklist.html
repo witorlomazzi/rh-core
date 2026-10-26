@@ -1,0 +1,85 @@
+<template>
+    <lightning-card title={title} icon-name="standard:task">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando onboarding" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:task" size="small" alternative-text="Sem plano"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhum plano de onboarding para mostrar.</p>
+                </div>
+            </template>
+            <template lwc:if={showChecklist}>
+                <div class="slds-grid slds-grid_vertical-align-center slds-wrap slds-m-bottom_x-small">
+                    <span class={statusBadgeClass}>{view.planStatusLabel}</span>
+                    <span class="slds-m-left_small slds-text-color_weak start-text">{startText}</span>
+                    <template lwc:if={hasOverdue}>
+                        <span class="slds-badge slds-theme_error slds-m-left_small overdue-badge">
+                            <lightning-icon icon-name="utility:warning" size="xx-small" variant="inverse" alternative-text="Atraso" class="slds-m-right_xx-small"></lightning-icon>
+                            {overdueText}
+                        </span>
+                    </template>
+                </div>
+                <lightning-progress-bar value={view.progressPercent} size="large" class="progress"></lightning-progress-bar>
+                <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small slds-m-bottom_small progress-text">{progressText}</p>
+
+                <template lwc:if={showSync}>
+                    <div class="slds-notify slds-notify_alert slds-alert_warning slds-m-bottom_small sync-alert" role="status">
+                        <h2>A data de admissão mudou. Os prazos das tarefas pendentes estão desatualizados.</h2>
+                        <lightning-button label="Recalcular prazos" variant="neutral" class="slds-m-left_small sync-button" disabled={syncing} onclick={handleSync}></lightning-button>
+                    </div>
+                </template>
+
+                <template for:each={groups} for:item="group">
+                    <section key={group.role} class="slds-m-bottom_medium group" data-role={group.role}>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-border_bottom slds-p-bottom_xx-small">
+                            <lightning-icon icon-name={group.icon} size="x-small" alternative-text={group.roleLabel} class="slds-m-right_x-small"></lightning-icon>
+                            <h3 class="slds-text-heading_small group-title">{group.roleLabel}</h3>
+                            <span class="slds-col_bump-left slds-text-color_weak slds-text-body_small group-summary">{group.summary}</span>
+                        </div>
+                        <ul>
+                            <template for:each={group.tasks} for:item="task">
+                                <li key={task.id} class={task.rowClass}>
+                                    <div class="slds-grid slds-grid_vertical-align-start">
+                                        <lightning-input
+                                            type="checkbox"
+                                            class="task-check"
+                                            data-id={task.id}
+                                            label={task.title}
+                                            variant="label-hidden"
+                                            checked={task.done}
+                                            disabled={task.disabled}
+                                            onchange={handleToggle}
+                                        ></lightning-input>
+                                        <div class="slds-col slds-m-left_x-small">
+                                            <p class="task-title">{task.title}</p>
+                                            <p class="slds-text-body_small slds-text-color_weak task-description">{task.description}</p>
+                                            <p class="slds-text-body_small">
+                                                <span class={task.dueClass}>Prazo: {task.dueText}</span>
+                                                <span class="slds-text-color_weak slds-m-left_small task-assignee">{task.assigneeText}</span>
+                                                <template lwc:if={task.overdue}>
+                                                    <span class="slds-badge slds-theme_error slds-m-left_small task-late">Atrasada</span>
+                                                </template>
+                                                <template lwc:if={task.notApplicable}>
+                                                    <span class="slds-badge slds-m-left_small task-na">Não aplicável</span>
+                                                </template>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </section>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
