@@ -1,0 +1,127 @@
+<template>
+    <lightning-card title="Ciclos de avaliação" icon-name="standard:performance">
+        <div slot="actions">
+            <lightning-button label="Novo ciclo" onclick={handleToggleCreate} class="toggle-create"></lightning-button>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+
+            <template lwc:if={creating}>
+                <div class="slds-box slds-m-bottom_medium create-form">
+                    <lightning-input label="Nome do ciclo" required data-field="name" onchange={handleNewField} class="new-name"></lightning-input>
+                    <lightning-input type="date" label="Início" data-field="startDate" onchange={handleNewField}></lightning-input>
+                    <lightning-input type="date" label="Fim" data-field="endDate" onchange={handleNewField}></lightning-input>
+                    <lightning-input type="date" label="Prazo da autoavaliação" data-field="selfDue" onchange={handleNewField}></lightning-input>
+                    <lightning-input type="date" label="Prazo do gestor" data-field="managerDue" onchange={handleNewField}></lightning-input>
+                    <lightning-input type="number" label="Nota máxima" min="2" max="9" value="5" data-field="scaleMax" onchange={handleNewField}></lightning-input>
+                    <lightning-button label="Criar ciclo" variant="brand" disabled={busy} onclick={handleCreate} class="create slds-m-top_small"></lightning-button>
+                </div>
+            </template>
+
+            <template lwc:if={noCycles}>
+                <p class="slds-text-color_weak no-cycles">Nenhum ciclo cadastrado. Crie o primeiro com o botão Novo ciclo.</p>
+            </template>
+            <template lwc:if={cycles.length}>
+                <lightning-combobox label="Ciclo" value={cycleId} options={cycleOptions} onchange={handleCycleChange} class="cycle-picker"></lightning-combobox>
+            </template>
+
+            <template lwc:if={hasOverview}>
+                <div class="slds-m-vertical_medium">
+                    <span class="slds-badge cycle-status">{statusLabel}</span>
+                    <span class="slds-m-left_small slds-text-color_weak">Colaboradores elegíveis: <span class="eligible">{overview.eligibleEmployees}</span></span>
+                </div>
+
+                <div class="slds-grid slds-wrap slds-gutters_small counts">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-6">
+                        <div class="slds-box slds-text-align_center">
+                            <p class="slds-text-heading_medium self-count">{selfLabel}</p>
+                            <p class="slds-text-body_small">Autoavaliações enviadas</p>
+                        </div>
+                    </div>
+                    <template for:each={statusCounts} for:item="count">
+                        <div key={count.status} class="slds-col slds-size_1-of-2 slds-medium-size_1-of-6 status-count">
+                            <div class="slds-box slds-text-align_center">
+                                <p class="slds-text-heading_medium count-total">{count.total}</p>
+                                <p class="slds-text-body_small count-label">{count.label}</p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <template lwc:if={overview.withoutReviewer}>
+                    <p class="slds-m-top_small slds-text-color_weak without-reviewer">{overview.withoutReviewer} avaliação(ões) sem avaliador definido.</p>
+                </template>
+
+                <template lwc:if={hasNextAction}>
+                    <template lwc:if={confirming}>
+                        <div class="slds-box slds-theme_warning slds-m-top_medium confirm-box" role="alertdialog">
+                            <p class="confirm-text">{confirmText}</p>
+                            <div class="slds-m-top_small">
+                                <lightning-button label="Cancelar" onclick={handleCancelConfirm} class="cancel-confirm slds-m-right_x-small"></lightning-button>
+                                <lightning-button label="Confirmar" variant="brand" disabled={busy} onclick={handleConfirm} class="confirm"></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <lightning-button label={nextActionLabel} variant="brand" disabled={busy} onclick={handleNextAction} class="next-action slds-m-top_medium"></lightning-button>
+                    </template>
+                </template>
+
+                <template lwc:if={showCalibration}>
+                    <h3 class="slds-text-heading_small slds-m-top_large slds-m-bottom_x-small">Calibração</h3>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">Colaborador</th>
+                                <th scope="col">Situação</th>
+                                <th scope="col">Nota do gestor</th>
+                                <th scope="col">Nota calibrada</th>
+                                <th scope="col">Nota final</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={calibrationView} for:item="row">
+                                <tr key={row.reviewId} class="calibration-row">
+                                    <td class="row-name">{row.employeeName}</td>
+                                    <td class="row-status">{row.statusLabel}</td>
+                                    <td class="row-manager">{row.managerLabel}</td>
+                                    <td>
+                                        <template lwc:if={row.canCalibrate}>
+                                            <lightning-combobox
+                                                label="Nota calibrada"
+                                                variant="label-hidden"
+                                                value={row.value}
+                                                options={row.options}
+                                                data-id={row.reviewId}
+                                                onchange={handleCalibrationChange}
+                                                class="row-select"
+                                            ></lightning-combobox>
+                                        </template>
+                                        <template lwc:else>
+                                            <span class="row-calibrated">{row.calibratedLabel}</span>
+                                        </template>
+                                    </td>
+                                    <td class="row-final">{row.finalLabel}</td>
+                                    <td class="slds-text-align_right">
+                                        <template lwc:if={row.canCalibrate}>
+                                            <lightning-button label="Calibrar" data-id={row.reviewId} disabled={row.saveDisabled} onclick={handleCalibrate} class="row-calibrate"></lightning-button>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

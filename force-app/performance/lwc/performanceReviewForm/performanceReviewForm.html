@@ -1,0 +1,95 @@
+<template>
+    <lightning-card title="Avaliação do colaborador" icon-name="standard:performance">
+        <div slot="actions">
+            <lightning-button label="Voltar" onclick={handleClose} class="close"></lightning-button>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={hasView}>
+                <div class="slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small employee-name">{view.employeeName}</h2>
+                    <p class="slds-text-color_weak position">{view.positionName}</p>
+                    <p>
+                        <span class="slds-text-color_weak">{view.cycle.name}</span>
+                        <span class="slds-badge slds-m-left_x-small review-status">{statusLabel}</span>
+                    </p>
+                </div>
+
+                <h3 class="slds-text-heading_small slds-m-bottom_x-small">Metas do colaborador</h3>
+                <template lwc:if={hasGoals}>
+                    <ul class="goal-list">
+                        <template for:each={goalRows} for:item="goal">
+                            <li key={goal.id} class="slds-m-bottom_x-small goal-row">
+                                <strong>{goal.name}</strong>
+                                <span class="slds-badge slds-m-left_x-small">{goal.weightLabel}</span>
+                                <span class="slds-m-left_x-small slds-text-color_weak">{goal.scoreLabel}</span>
+                                <p class="slds-text-body_small">{goal.target}</p>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="slds-text-color_weak no-goals">O colaborador não registrou metas.</p>
+                </template>
+
+                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Autoavaliação</h3>
+                <template lwc:if={hasSelf}>
+                    <template lwc:if={selfSubmitted}>
+                        <p>Nota: <strong class="self-rating">{view.selfAssessment.rating}</strong></p>
+                        <p class="self-strengths"><strong>Pontos fortes:</strong> {view.selfAssessment.strengths}</p>
+                        <p class="self-improvements"><strong>Pontos a melhorar:</strong> {view.selfAssessment.improvements}</p>
+                    </template>
+                    <template lwc:else>
+                        <p class="slds-text-color_weak self-pending">O colaborador ainda não enviou a autoavaliação.</p>
+                    </template>
+                </template>
+                <template lwc:else>
+                    <p class="slds-text-color_weak">Sem autoavaliação neste ciclo.</p>
+                </template>
+
+                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Avaliação do gestor</h3>
+                <lightning-combobox
+                    label="Nota"
+                    value={rating}
+                    options={ratingOptions}
+                    disabled={readOnly}
+                    data-field="rating"
+                    onchange={handleField}
+                    class="manager-rating"
+                ></lightning-combobox>
+                <lightning-textarea
+                    label="Comentário"
+                    value={comments}
+                    disabled={readOnly}
+                    data-field="comments"
+                    onchange={handleField}
+                    class="manager-comments"
+                ></lightning-textarea>
+                <template lwc:if={view.canEdit}>
+                    <div class="slds-m-top_small">
+                        <lightning-button label="Salvar rascunho" disabled={busy} onclick={handleSaveDraft} class="save-draft slds-m-right_x-small"></lightning-button>
+                        <lightning-button label="Enviar avaliação" variant="brand" disabled={submitDisabled} onclick={handleSubmit} class="submit-review"></lightning-button>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <p class="slds-text-color_weak slds-m-top_small locked-note">Esta avaliação não pode ser editada por você agora.</p>
+                </template>
+                <template lwc:if={hasCalibration}>
+                    <p class="slds-m-top_small">Nota calibrada (RH): <strong class="calibrated-rating">{view.calibratedRating}</strong></p>
+                </template>
+                <template lwc:if={hasFinalRating}>
+                    <p class="slds-m-top_small">Nota final: <strong class="final-rating">{view.finalRating}</strong></p>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

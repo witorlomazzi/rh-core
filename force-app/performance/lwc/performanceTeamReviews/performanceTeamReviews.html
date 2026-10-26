@@ -1,0 +1,62 @@
+<template>
+    <template lwc:if={selectedReviewId}>
+        <c-performance-review-form review-id={selectedReviewId} onclose={handleClose}></c-performance-review-form>
+    </template>
+    <template lwc:if={showList}>
+        <lightning-card title="Avaliações da equipe" icon-name="standard:team_member">
+            <div slot="actions">
+                <lightning-button-icon icon-name="utility:refresh" alternative-text="Atualizar" title="Atualizar" onclick={handleRefresh} class="refresh"></lightning-button-icon>
+            </div>
+            <div class="slds-p-horizontal_medium">
+                <template lwc:if={loading}>
+                    <div class="slds-is-relative slds-p-around_large">
+                        <lightning-spinner alternative-text="Carregando" size="medium"></lightning-spinner>
+                    </div>
+                </template>
+                <template lwc:if={error}>
+                    <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                        <h2>{error}</h2>
+                    </div>
+                </template>
+                <template lwc:if={noCycles}>
+                    <p class="slds-text-color_weak no-cycles">Nenhum ciclo de avaliação disponível.</p>
+                </template>
+                <template lwc:if={cycles.length}>
+                    <lightning-combobox label="Ciclo" value={cycleId} options={cycleOptions} onchange={handleCycleChange} class="cycle-picker"></lightning-combobox>
+                </template>
+                <template lwc:if={isEmpty}>
+                    <p class="slds-m-top_medium slds-text-color_weak empty">Nenhuma avaliação de equipe visível para você neste ciclo.</p>
+                </template>
+                <template lwc:if={hasRows}>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_small">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">Colaborador</th>
+                                <th scope="col">Relação</th>
+                                <th scope="col">Autoavaliação</th>
+                                <th scope="col">Avaliação do gestor</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rows} for:item="row">
+                                <tr key={row.reviewId} class="team-row">
+                                    <td>
+                                        <strong class="employee-name">{row.employeeName}</strong>
+                                        <div class="slds-text-body_small slds-text-color_weak">{row.positionName}</div>
+                                    </td>
+                                    <td class="relation">{row.relationLabel}</td>
+                                    <td class="self-status">{row.selfLabel}</td>
+                                    <td><span class="slds-badge review-status">{row.statusLabel}</span></td>
+                                    <td class="slds-text-align_right">
+                                        <lightning-button label={row.actionLabel} data-id={row.reviewId} onclick={handleOpen} class="open-review"></lightning-button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+</template>
