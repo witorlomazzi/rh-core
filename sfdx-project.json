@@ -1,10 +1,23 @@
 {
   "packageDirectories": [
-    { "path": "force-app", "default": true, "package": "RH Core", "versionName": "Versao 1.0", "versionNumber": "1.0.0.NEXT", "versionDescription": "RH Core: estrutura organizacional, ferias CLT, promocoes, recrutamento, onboarding e desempenho." },
-    { "path": "unpackaged", "default": false }
+    {
+      "path": "force-app",
+      "default": true,
+      "package": "RH Core",
+      "versionName": "Versao 1.0",
+      "versionNumber": "1.0.0.NEXT",
+      "versionDescription": "RH Core: estrutura organizacional, ferias CLT, promocoes, recrutamento, onboarding e desempenho."
+    },
+    {
+      "path": "unpackaged",
+      "default": false
+    }
   ],
   "name": "rh-core",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "62.0"
+  "sourceApiVersion": "62.0",
+  "packageAliases": {
+    "RH Core": "0Hobm0000008g6vCAA"
+  }
 }
