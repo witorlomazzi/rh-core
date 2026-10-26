@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permite executar os relatórios e ver o painel da pasta RH Core. Os dados continuam limitados pelo compartilhamento e pelas permissões de cada módulo.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>HR Analytics - Relatórios e painel</label>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunReports</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewDashboards</name>
+    </userPermissions>
+</PermissionSet>
