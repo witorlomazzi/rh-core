@@ -83,7 +83,7 @@
       var avgs = R.STAGES.filter(function (s) { return !s.terminal; }).map(function (s) {
         var arr = sums[s.value] || [];
         var avg = arr.length ? arr.reduce(function (a, b) { return a + b; }, 0) / arr.length : 0;
-        return { label: s.label, value: Math.round(avg * 10) / 10, display: arr.length ? avg.toFixed(1).replace('.', ',') + ' d' : '—', color: s.color };
+        return { label: s.label, value: Math.round(avg * 10) / 10, display: arr.length ? avg.toFixed(1).replace('.', ',') + ' d' : '-', color: s.color };
       });
       var reviewCount = {};
       Object.keys(st.reviews).forEach(function (k) { reviewCount[st.reviews[k].status] = (reviewCount[st.reviews[k].status] || 0) + 1; });

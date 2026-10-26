@@ -65,7 +65,7 @@
     }
     return (
       '<article class="rhc-inbox-item' + (item.canDecide ? ' is-mine' : '') + '"><header>' + UI.avatar(e.name) +
-      '<div><strong>' + esc(itemTitle(ctx, item)) + '</strong><small>' + esc(item.req.id) + ' · pedido por ' + esc(requester ? requester.name : '—') + ' em ' + U.fmtBR(r.createdAt) + '</small></div>' +
+      '<div><strong>' + esc(itemTitle(ctx, item)) + '</strong><small>' + esc(item.req.id) + ' · pedido por ' + esc(requester ? requester.name : '-') + ' em ' + U.fmtBR(r.createdAt) + '</small></div>' +
       UI.badge(isLeave ? 'Férias' : 'Promoção', isLeave ? 'info' : 'neutral', isLeave ? 'calendar' : 'trendUp') + '</header>' +
       '<p class="rhc-inbox-step">' + UI.icon('clock') + '<span>' + esc(stepLabel(ctx, item.step)) + '</span></p>' + extra +
       '<footer class="rhc-actions">' + buttons + '</footer></article>'

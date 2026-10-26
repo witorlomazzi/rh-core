@@ -65,8 +65,8 @@
       return (
         '<tr><td data-label="Pessoa"><div class="rhc-person">' + UI.avatar(e.name) + '<div><strong>' + esc(e.name) + '</strong><small>' + esc(Q.posName(st, e.pos)) + '</small></div></div></td>' +
         '<td data-label="Status">' + (e.status === 'Ferias' ? UI.badge('Em férias', 'info', 'sun') : e.type === 'Estagio' ? UI.badge('Estágio', 'neutral') : UI.badge('Ativo', 'success', 'check')) + '</td>' +
-        '<td data-label="Saldo">' + (e.type === 'CLT' ? bal + ' d' : '—') + (urgent ? ' ' + UI.badge('Prazo próximo', 'warning', 'warning') : '') + '</td>' +
-        '<td data-label="Próximas férias">' + (next ? U.fmtShort(next.start) + ' a ' + U.fmtShort(RH.leave.requestEnd(next)) + ' ' + UI.statusBadge(next.status, RH.leave.REQUEST_STATUS_LABEL[next.status]) : '<span class="rhc-muted">—</span>') + '</td></tr>'
+        '<td data-label="Saldo">' + (e.type === 'CLT' ? bal + ' d' : '-') + (urgent ? ' ' + UI.badge('Prazo próximo', 'warning', 'warning') : '') + '</td>' +
+        '<td data-label="Próximas férias">' + (next ? U.fmtShort(next.start) + ' a ' + U.fmtShort(RH.leave.requestEnd(next)) + ' ' + UI.statusBadge(next.status, RH.leave.REQUEST_STATUS_LABEL[next.status]) : '<span class="rhc-muted">-</span>') + '</td></tr>'
       );
     }).join('');
     return UI.card('Minha equipe (' + team.length + ')', '<div class="rhc-tablewrap"><table class="rhc-table rhc-table-stack"><caption class="rhc-sr">Equipe direta</caption><thead><tr><th scope="col">Pessoa</th><th scope="col">Status</th><th scope="col">Saldo</th><th scope="col">Próximas férias</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
@@ -82,10 +82,10 @@
       var head =
         '<section class="rhc-hero" aria-label="Resumo do colaborador">' + UI.avatar(me.name) +
         '<div><p class="rhc-eyebrow">Meu RH</p><h2 tabindex="-1" id="rhc-page-title">Olá, ' + esc(Q.firstName(me.name)) + '</h2><p>' + esc(Q.posName(ctx.st, me.pos)) + ' · ' + esc(Q.deptName(ctx.st, me.dept)) + '</p></div>' +
-        '<dl class="rhc-hero-facts"><div><dt>Gestor</dt><dd>' + esc(mgr ? mgr.name : '—') + '</dd></div><div><dt>Tempo de casa</dt><dd>' + esc(U.tenureText(me.hire, ctx.st.today)) + '</dd></div><div><dt>Matrícula</dt><dd>' + esc(me.num) + '</dd></div><div><dt>Salário</dt><dd>' + UI.salaryCell(me.salary, V.canSeeSalary(ctx.persona)) + '</dd></div></dl></section>';
+        '<dl class="rhc-hero-facts"><div><dt>Gestor</dt><dd>' + esc(mgr ? mgr.name : '-') + '</dd></div><div><dt>Tempo de casa</dt><dd>' + esc(U.tenureText(me.hire, ctx.st.today)) + '</dd></div><div><dt>Matrícula</dt><dd>' + esc(me.num) + '</dd></div><div><dt>Salário</dt><dd>' + UI.salaryCell(me.salary, V.canSeeSalary(ctx.persona)) + '</dd></div></dl></section>';
       var tiles = '<div class="rhc-tiles">' + balanceCard(ctx, me) + nextLeaveCard(ctx, me) + (p.role === 'manager' ? approvalsCard(ctx) : '') + cycleCard(ctx, me) + onboardingCard(ctx) + '</div>';
       var note = p.role === 'employee'
-        ? '<p class="rhc-note rhc-note-info">' + UI.icon('shield') + '<span>Como colaborador, você vê só os seus dados. Seu salário aparece mascarado para as demais personas, e só o RH o lê.</span></p>'
+        ? '<p class="rhc-note rhc-note-info">' + UI.icon('shield') + '<span>Como colaborador, você vê só os seus dados. Até o seu salário aparece mascarado: o campo é protegido por FLS e só o RH o lê.</span></p>'
         : '';
       return head + note + tiles + (p.role === 'manager' ? teamCard(ctx, me) : '');
     }

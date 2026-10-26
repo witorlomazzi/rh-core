@@ -30,9 +30,9 @@
   /** A3 e A4 no envio. */
   function validateSelfSubmit(goals, self) {
     var errors = [];
-    if (!validRating(self.rating)) errors.push('Informe uma nota de 1 a ' + SCALE_MAX + '.');
     var total = weightSum(goals);
     if (total !== 100) errors.push('A soma dos pesos das metas ativas precisa ser 100% (hoje: ' + total + '%).');
+    if (!validRating(self.rating)) errors.push('Informe uma nota de 1 a ' + SCALE_MAX + '.');
     return errors;
   }
   /** A5: avaliacao do gestor so pelo Reviewer, com o ciclo em Avaliacao_Gestor. */

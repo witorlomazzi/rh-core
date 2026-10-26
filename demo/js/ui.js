@@ -43,7 +43,7 @@
     return '<span class="rhc-locked" title="Campo restrito por FLS: somente os permission sets de RH leem este valor.">' + icon('lock') + '<span class="rhc-locked-dots" aria-hidden="true">R$ ••••••</span><span class="rhc-sr">' + esc(label || 'Salário restrito ao RH') + '</span></span>';
   }
   function salaryCell(value, canSee) {
-    if (value === null || value === undefined || value === '') return '<span class="rhc-muted">—</span>';
+    if (value === null || value === undefined || value === '') return '<span class="rhc-muted">-</span>';
     return canSee ? '<strong class="rhc-money">' + esc(U.brl(value)) + '</strong>' : locked('Salário restrito ao RH');
   }
   function kv(label, valueHtml) {

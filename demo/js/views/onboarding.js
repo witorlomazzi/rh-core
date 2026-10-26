@@ -54,7 +54,7 @@
       var late = pl.tasks.filter(function (t) { return t.status === 'Pendente' && t.due < st.today; }).length;
       return (
         '<tr><td data-label="Colaborador"><div class="rhc-person">' + UI.avatar(e.name) + '<div><strong>' + esc(e.name) + '</strong><small>' + esc(e.num) + (e.status === 'Pre_Admissao' ? ' · pré-admissão' : '') + '</small></div></div></td>' +
-        '<td data-label="Gestor">' + esc(mg ? mg.name : '—') + '</td><td data-label="Admissão">' + U.fmtBR(pl.start) + '</td>' +
+        '<td data-label="Gestor">' + esc(mg ? mg.name : '-') + '</td><td data-label="Admissão">' + U.fmtBR(pl.start) + '</td>' +
         '<td data-label="Progresso"><div class="rhc-progress rhc-progress-sm" role="img" aria-label="' + prog.percent + '%"><span style="width:' + prog.percent + '%"></span></div><small>' + prog.done + '/' + prog.total + '</small></td>' +
         '<td data-label="Atrasos">' + (late ? UI.badge(late + ' atrasada(s)', 'danger', 'warning') : UI.badge('Em dia', 'success', 'check')) + '</td>' +
         '<td><button type="button" class="rhc-btn rhc-btn-secondary rhc-btn-sm" data-act="onb.open" data-plan="' + pl.id + '">' + UI.icon('clipboard') + 'Abrir plano</button></td></tr>'

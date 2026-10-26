@@ -85,7 +85,7 @@
       hr = '<div class="rhc-actions"><span class="rhc-muted">Aguardando ' + esc(w2 ? w2.name : 'aprovador') + '.</span><button type="button" class="rhc-btn rhc-btn-ghost rhc-btn-sm" data-act="appr.simulate" data-kind="Promotion" data-id="' + r.id + '" title="Atalho de demonstração">' + UI.icon('play') + 'Simular aprovação de ' + esc(w2 ? Q.firstName(w2.name) : 'aprovador') + '</button></div>';
     }
     return (
-      '<article class="rhc-promo"><header>' + UI.avatar(e.name) + '<div><strong>' + esc(e.name) + '</strong><small>' + esc(r.id) + ' · pedido de ' + esc((Q.emp(ctx.st, r.requestedBy) || { name: '—' }).name) + ' em ' + U.fmtBR(r.createdAt) + '</small></div>' + UI.statusBadge(r.status, P.STATUS_LABEL[r.status]) + '</header>' + body + hr + '</article>'
+      '<article class="rhc-promo"><header>' + UI.avatar(e.name) + '<div><strong>' + esc(e.name) + '</strong><small>' + esc(r.id) + ' · pedido de ' + esc((Q.emp(ctx.st, r.requestedBy) || { name: '-' }).name) + ' em ' + U.fmtBR(r.createdAt) + '</small></div>' + UI.statusBadge(r.status, P.STATUS_LABEL[r.status]) + '</header>' + body + hr + '</article>'
     );
   }
 

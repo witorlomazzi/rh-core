@@ -138,7 +138,7 @@
       return (
         '<tr><td data-label="Matrícula">' + esc(e.num) + '</td><td data-label="Nome"><button type="button" class="rhc-link" data-act="org.select" data-num="' + e.num + '">' + esc(e.name) + '</button></td>' +
         '<td data-label="Cargo">' + esc(Q.posName(ctx.st, e.pos)) + '</td><td data-label="Departamento">' + esc(Q.deptName(ctx.st, e.dept)) + '</td>' +
-        '<td data-label="Gestor">' + (mgr ? esc(mgr.name) : '<span class="rhc-muted">—</span>') + '</td><td data-label="Admissão">' + U.fmtBR(e.hire) + '</td>' +
+        '<td data-label="Gestor">' + (mgr ? esc(mgr.name) : '<span class="rhc-muted">-</span>') + '</td><td data-label="Admissão">' + U.fmtBR(e.hire) + '</td>' +
         '<td data-label="Status">' + (statusChip(e) || UI.badge('Ativo', 'success', 'check')) + '</td><td data-label="Salário">' + UI.salaryCell(e.salary, canSal) + '</td></tr>'
       );
     }).join('');

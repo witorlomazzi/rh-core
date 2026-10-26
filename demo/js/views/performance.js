@@ -41,7 +41,7 @@
     var ok = sum === 100;
     var rows = goals.map(function (x) {
       return (
-        '<tr><td data-label="Meta"><strong>' + esc(x.name) + '</strong><small class="rhc-cellsub">Alvo: ' + esc(x.target || '—') + '</small></td>' +
+        '<tr><td data-label="Meta"><strong>' + esc(x.name) + '</strong><small class="rhc-cellsub">Alvo: ' + esc(x.target || '-') + '</small></td>' +
         '<td data-label="Peso">' + (editable ? '<label class="rhc-sr" for="gw-' + x.id + '">Peso de ' + esc(x.name) + '</label><input id="gw-' + x.id + '" class="rhc-num" type="number" min="1" max="100" value="' + x.weight + '" data-change="perf.goalWeight" data-id="' + x.id + '"> %' : x.weight + '%') + '</td>' +
         (editable ? '<td><button type="button" class="rhc-iconbtn" data-act="perf.goalDel" data-id="' + x.id + '" aria-label="Remover meta ' + esc(x.name) + '">' + UI.icon('trash') + '</button></td>' : '') + '</tr>'
       );
@@ -84,7 +84,7 @@
     if (rv && rv.status === 'Liberada') {
       var fin = PF.finalRating(rv);
       result = '<div class="rhc-final">' + UI.icon('award') + '<div><small>Nota final do ciclo</small><strong>' + fin + ' / 5</strong></div></div>' +
-        '<dl class="rhc-kvlist">' + UI.kv('Avaliação do gestor', '<strong>' + (rv.managerRating || '—') + '</strong> de 5') + UI.kv('Comentários do gestor', esc(rv.comments || '—')) + UI.kv('Liberada em', U.fmtBR(rv.releasedDate)) + '</dl>';
+        '<dl class="rhc-kvlist">' + UI.kv('Avaliação do gestor', '<strong>' + (rv.managerRating || '-') + '</strong> de 5') + UI.kv('Comentários do gestor', esc(rv.comments || '-')) + UI.kv('Liberada em', U.fmtBR(rv.releasedDate)) + '</dl>';
     } else {
       result = UI.empty('lock', 'Resultado ainda não liberado', 'A avaliação do seu gestor só fica visível depois que o RH calibrar as notas e liberar o ciclo. Até lá, ela não aparece para você.');
     }
@@ -141,7 +141,7 @@
         '<h5 class="rhc-subtitle">Autoavaliação</h5>' + (self.submitted ? '<dl class="rhc-kvlist">' + UI.kv('Nota', '<strong>' + self.rating + '</strong> de 5') + UI.kv('Pontos fortes', esc(self.strengths)) + UI.kv('A melhorar', esc(self.improvements)) + '</dl>' : '<p class="rhc-muted">O colaborador ainda não enviou a autoavaliação.</p>') +
         '<h5 class="rhc-subtitle">Sua avaliação</h5>' + (direct && !locked
           ? '<div class="rhc-field"><span class="rhc-label">Nota (1 a 5)</span>' + ratingButtons('rating', rv.managerRating, false) + '</div>' + UI.field({ id: 'mr-com', name: 'comments', label: 'Comentários', type: 'textarea', rows: 4, value: rv.comments })
-          : '<dl class="rhc-kvlist">' + UI.kv('Status', esc(PF.REVIEW_LABEL[rv.status])) + UI.kv('Nota', rv.managerRating ? rv.managerRating + ' de 5' : '—') + UI.kv('Comentários', esc(rv.comments || '—')) + '</dl>' + (direct ? '' : '<p class="rhc-muted">Somente o gestor direto (avaliador) edita esta avaliação.</p>')),
+          : '<dl class="rhc-kvlist">' + UI.kv('Status', esc(PF.REVIEW_LABEL[rv.status])) + UI.kv('Nota', rv.managerRating ? rv.managerRating + ' de 5' : '-') + UI.kv('Comentários', esc(rv.comments || '-')) + '</dl>' + (direct ? '' : '<p class="rhc-muted">Somente o gestor direto (avaliador) edita esta avaliação.</p>')),
       onConfirm: function (d) {
         if (!(direct && !locked)) return true;
         var r = RH.store.act(function (s, actor) { return A.performance.saveManagerReview(s, actor, num, { rating: d.rating, comments: d.comments }, true); });
@@ -186,8 +186,8 @@
         var rv = st.reviews[n];
         var e = idx.byNum[n];
         var cal = rv.status === 'Liberada'
-          ? '<strong>' + (rv.calibrated || '—') + '</strong>'
-          : '<label class="rhc-sr" for="cal-' + n + '">Nota calibrada de ' + esc(e.name) + '</label><select id="cal-' + n + '" class="rhc-num" data-change="perf.calibrate" data-num="' + n + '"><option value="">—</option>' + [1, 2, 3, 4, 5].map(function (k) { return '<option value="' + k + '"' + (rv.calibrated === k ? ' selected' : '') + '>' + k + '</option>'; }).join('') + '</select>';
+          ? '<strong>' + (rv.calibrated || '-') + '</strong>'
+          : '<label class="rhc-sr" for="cal-' + n + '">Nota calibrada de ' + esc(e.name) + '</label><select id="cal-' + n + '" class="rhc-num" data-change="perf.calibrate" data-num="' + n + '"><option value="">-</option>' + [1, 2, 3, 4, 5].map(function (k) { return '<option value="' + k + '"' + (rv.calibrated === k ? ' selected' : '') + '>' + k + '</option>'; }).join('') + '</select>';
         return '<tr><td data-label="Colaborador"><strong>' + esc(e.name) + '</strong></td><td data-label="Nota do gestor">' + rv.managerRating + '</td><td data-label="Calibrada">' + cal + '</td><td data-label="Status">' + reviewBadge(rv) + '</td></tr>';
       }).join('');
     }

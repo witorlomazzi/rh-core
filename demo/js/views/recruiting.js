@@ -72,7 +72,7 @@
       '<div class="rhc-kpi">' + UI.icon('flag') + '<div><strong>' + job.openings + '</strong><span>vaga(s) a preencher</span></div></div>' +
       '<div class="rhc-kpi">' + UI.icon('check') + '<div><strong>' + (byStage.Contratado || 0) + '</strong><span>contratado(s)</span></div></div></div>' +
       '<h5 class="rhc-subtitle">Tempo médio por etapa (dias)</h5><ul class="rhc-bars">' + avgs.map(function (x) {
-        return '<li><span>' + esc(x.s.label) + '</span><div class="rhc-bar"><i style="width:' + Math.round((x.avg / maxAvg) * 100) + '%"></i></div><b>' + (x.n ? x.avg.toFixed(1).replace('.', ',') : '—') + '</b></li>';
+        return '<li><span>' + esc(x.s.label) + '</span><div class="rhc-bar"><i style="width:' + Math.round((x.avg / maxAvg) * 100) + '%"></i></div><b>' + (x.n ? x.avg.toFixed(1).replace('.', ',') : '-') + '</b></li>';
       }).join('') + '</ul>'
     );
   }
@@ -113,7 +113,7 @@
       var hm = Q.emp(ctx.st, j.hiringManager);
       return (
         '<article class="rhc-job"><header>' + UI.icon('briefcase') + '<div><strong>' + esc(j.title) + '</strong><small>' + esc(Q.deptName(ctx.st, j.dept)) + ' · ' + esc(j.location) + ' · ' + esc(j.workModel) + '</small></div>' + UI.badge(j.status, j.status === 'Aberta' ? 'success' : closed ? 'neutral' : 'warning') + '</header>' +
-        '<dl class="rhc-kvlist rhc-kvlist-inline">' + UI.kv('Gestor contratante', esc(hm ? hm.name : '—')) + UI.kv('Candidaturas', n + ' (' + open + ' ativas)') + UI.kv('Vagas', String(j.openings)) + UI.kv('Portal', j.publishOnPortal ? 'Publicada' : 'Não publicada') + UI.kv('Slug público', '<code>' + esc(j.slug) + '</code>') + '</dl>' +
+        '<dl class="rhc-kvlist rhc-kvlist-inline">' + UI.kv('Gestor contratante', esc(hm ? hm.name : '-')) + UI.kv('Candidaturas', n + ' (' + open + ' ativas)') + UI.kv('Vagas', String(j.openings)) + UI.kv('Portal', j.publishOnPortal ? 'Publicada' : 'Não publicada') + UI.kv('Slug público', '<code>' + esc(j.slug) + '</code>') + '</dl>' +
         (staff && !closed ? '<footer class="rhc-actions">' +
           '<button type="button" class="rhc-btn rhc-btn-secondary rhc-btn-sm" data-act="rec.status" data-id="' + j.id + '" data-to="' + (j.status === 'Aberta' ? 'Pausada' : 'Aberta') + '">' + UI.icon(j.status === 'Aberta' ? 'clock' : 'play') + (j.status === 'Aberta' ? 'Pausar' : 'Reabrir') + '</button>' +
           '<button type="button" class="rhc-btn rhc-btn-secondary rhc-btn-sm" data-act="rec.publish" data-id="' + j.id + '">' + UI.icon('globe') + (j.publishOnPortal ? 'Despublicar do portal' : 'Publicar no portal') + '</button>' +
@@ -204,7 +204,7 @@
       confirm: 'Fechar',
       body:
         '<p class="rhc-muted">' + esc(job.title) + ' · etapa atual: <strong>' + esc(R.label(app.stage)) + '</strong> há ' + R.daysInStage(app.stageEntered, st.today) + ' dia(s)</p>' +
-        '<dl class="rhc-kvlist rhc-kvlist-inline">' + UI.kv('E-mail', esc(cand.email)) + UI.kv('Telefone', esc(cand.phone || '—')) + UI.kv('Cidade', esc(cand.city || '—')) + UI.kv('Origem', esc(app.source)) +
+        '<dl class="rhc-kvlist rhc-kvlist-inline">' + UI.kv('E-mail', esc(cand.email)) + UI.kv('Telefone', esc(cand.phone || '-')) + UI.kv('Cidade', esc(cand.city || '-')) + UI.kv('Origem', esc(app.source)) +
         UI.kv('Consentimento LGPD', cand.consent ? 'Sim, versão ' + esc(cand.consentVersion) + ' em ' + U.fmtBR(cand.consentDate) : 'Não') + '</dl>' +
         (app.coverLetter ? '<p class="rhc-note rhc-note-info">' + UI.icon('mail') + '<span>' + esc(app.coverLetter) + '</span></p>' : '') +
         (canScore ? '<div class="rhc-scorebox"><span>Nota:</span>' + scoreBtns + '</div>' : '') +

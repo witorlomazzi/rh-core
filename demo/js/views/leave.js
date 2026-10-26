@@ -286,7 +286,7 @@
         '<td data-label="Direito">' + r.x.period.entitled + ' d' + (r.x.period.absences ? ' <small class="rhc-muted">(' + r.x.period.absences + ' faltas)</small>' : '') + '</td>' +
         '<td data-label="Saldo"><strong>' + r.x.bal.balance + '</strong> d</td>' +
         '<td data-label="Prazo concessivo">' + U.fmtBR(r.x.period.concessionDeadline) + '</td>' +
-        '<td data-label="Restam">' + (r.x.status === 'Perdido' ? '—' : left + ' dias') + '</td>' +
+        '<td data-label="Restam">' + (r.x.status === 'Perdido' ? '-' : left + ' dias') + '</td>' +
         '<td data-label="Status">' + UI.periodBadge(r.x.status) + '</td></tr>'
       );
     }).join('');
