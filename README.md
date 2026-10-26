@@ -162,7 +162,7 @@ Doze verificações (V1 a V12) com mensagem em português para cada uma; o aviso
 
 Números recontados no repositório e na org de integração:
 
-- Apex: 420 testes, 0 falhas, cobertura de 97% (`RunLocalTests` em scratch org com todos os módulos). Todas as
+- Apex: 440 testes, 0 falhas, cobertura de 97% (`RunLocalTests` em scratch org com todos os módulos). Todas as
   classes do pacote acima de 85%.
 - Jest (LWC): 241 testes em 30 suítes.
 - Demo pública (regras em JavaScript): 62 testes Node.
