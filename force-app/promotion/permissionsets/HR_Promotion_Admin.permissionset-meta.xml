@@ -153,4 +153,12 @@
         <tab>Promotion_Request__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>RH_Historico_Cargos</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Revisao_Promocoes</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
