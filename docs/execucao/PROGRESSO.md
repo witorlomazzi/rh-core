@@ -47,6 +47,7 @@ Nas três orgs o admin recebeu os PSG `HR_Admin` e `HR_Manager` e entrou no grup
 | 25/10 23:55 | Onda 1 disparada: 4 agentes em worktree (leave, promotion, recruiting, performance). Sessão parou sem nenhum commit dos agentes. |
 | 26/10 07:45 | Retomada pela sessão local do Witor (ordem: seguir ondas 1, 2 e 3 e entregar a demo funcional no site). Worktrees limpas, feat/* avançadas por ff para develop. Onda 1 relançada. |
 | 26/10 07:55 | 4 agentes da Onda 1 em segundo plano (leave e promotion em rh-w1; recruiting e performance em rh-w2). Agente de demo pública lançado em feat/demo (worktree .claude/worktrees/demo, pasta demo/): a worktree do portfolio-site não é tocada porque os agentes de conteúdo escrevem nela; a demo será portada depois, com aprovação. |
+| 26/10 12:35 | Integração 1 parcial: leave (99 testes na rh-w1), promotion (66 testes) e demo (62 testes Node) em develop; RunLocalTests em rh-int com leave: 151 aprovados, 0 falhas, cobertura 97%. Core ajustado: JobPositionSelector sem coluna Salary_Band__c (falhava em USER_MODE para quem não lê a faixa) e abas de férias e promoções no app RH_Core. Pendentes: recruiting e performance. Sessão caiu por limite de uso entre 07:55 e 12:10; agentes retomados. |
 
 ## Divergências e decisões
 
