@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>PositionHistorySelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PositionHistoryService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionApprovalHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionPositionSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionRequestController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionRequestSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Solicitação de promoção sem acesso a salário; leitura do histórico de cargo sem salário.</description>
     <fieldPermissions>
         <editable>false</editable>
@@ -39,6 +67,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Promotion_Request__c.Current_Step__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion_Request__c.Justification__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
