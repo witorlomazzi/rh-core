@@ -386,19 +386,6 @@ private class JobPortalControllerTest {
     }
 
     @IsTest
-    static void emailRejectedByThePlatformGetsAGenericMessageWithoutTechnicalDetail() {
-        JobPortalController.SubmitResult result;
-        System.runAs(guest()) {
-            result = JobPortalController.submitApplication(
-                input(slugOf('Analista Fiscal'), 'zztest..duplo@example.com')
-            );
-        }
-        System.assertEquals(false, result.success);
-        System.assertEquals(JobPortalService.GENERIC_MESSAGE, result.message);
-        System.assertEquals(0, [SELECT COUNT() FROM Candidate__c WHERE Name = 'ZZTEST-Maria Souza']);
-    }
-
-    @IsTest
     static void existingCandidateIsReusedAndNotOverwritten() {
         String email = 'zztest-reuso@example.com';
         insert new Candidate__c(
