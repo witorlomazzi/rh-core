@@ -24,5 +24,9 @@
     <tabs>Promotion_Request__c</tabs>
     <tabs>RH_Historico_Cargos</tabs>
     <tabs>Position_History__c</tabs>
+    <tabs>RH_Funil</tabs>
+    <tabs>Job_Opening__c</tabs>
+    <tabs>Candidate__c</tabs>
+    <tabs>Job_Application__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
