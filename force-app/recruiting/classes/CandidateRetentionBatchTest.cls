@@ -102,6 +102,10 @@ private class CandidateRetentionBatchTest {
 
     @IsTest
     static void scheduleRegistersAWeeklyJob() {
+        // Orgs que ja agendaram o job (ex.: apos o seed de demonstracao) recusam um segundo agendamento com o mesmo nome.
+        for (CronTrigger existing : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = :CandidateRetentionBatch.JOB_NAME]) {
+            System.abortJob(existing.Id);
+        }
         Test.startTest();
         Id jobId = CandidateRetentionBatch.schedule();
         Test.stopTest();

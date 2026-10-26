@@ -128,6 +128,10 @@ private class LeaveBatchTest {
         Employee__c fresh = HrTestDataFactory.buildEmployee(null, null);
         fresh.Hire_Date__c = Date.today().addMonths(-14);
         insert fresh;
+        // Orgs que ja agendaram o job (ex.: apos o seed de demonstracao) recusam um segundo agendamento com o mesmo nome.
+        for (CronTrigger existing : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = :LeaveScheduler.JOB_NAME]) {
+            System.abortJob(existing.Id);
+        }
         Test.startTest();
         Id jobId = LeaveScheduler.scheduleDaily();
         CronTrigger job = [SELECT CronJobDetail.Name, CronExpression FROM CronTrigger WHERE Id = :jobId];

@@ -98,6 +98,10 @@ private class PromotionEffectivationBatchTest {
 
     @IsTest
     static void dailyScheduleIsRegistered() {
+        // Orgs que ja agendaram o job (ex.: apos o seed de demonstracao) recusam um segundo agendamento com o mesmo nome.
+        for (CronTrigger existing : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = :PromotionEffectivationBatch.JOB_NAME]) {
+            System.abortJob(existing.Id);
+        }
         Test.startTest();
         Id jobId = PromotionEffectivationBatch.scheduleDaily();
         Test.stopTest();

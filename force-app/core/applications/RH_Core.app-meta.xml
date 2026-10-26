@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>View</actionName>
+        <content>Colaborador_RH_Core</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Employee__c</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#0176D3</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
@@ -34,6 +42,7 @@
     <tabs>RH_Onboarding_Visao_Geral</tabs>
     <tabs>RH_Onboarding_Ativacao</tabs>
     <tabs>RH_Onboarding_Meu</tabs>
+    <tabs>RH_Painel_RH</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
