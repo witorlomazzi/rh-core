@@ -1,0 +1,28 @@
+{
+  "name": "rh-core",
+  "private": true,
+  "version": "1.0.0",
+  "description": "RH Core: produto de RH para Salesforce (unlocked package), projeto demonstrativo.",
+  "scripts": {
+    "lint": "eslint **/{aura,lwc}/**/*.js",
+    "test": "npm run test:unit",
+    "test:unit": "sfdx-lwc-jest",
+    "test:unit:watch": "sfdx-lwc-jest --watch",
+    "test:unit:coverage": "sfdx-lwc-jest --coverage",
+    "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+    "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\""
+  },
+  "devDependencies": {
+    "@lwc/eslint-plugin-lwc": "^2.0.0",
+    "@prettier/plugin-xml": "^3.2.2",
+    "@salesforce/eslint-config-lwc": "^3.2.3",
+    "@salesforce/eslint-plugin-aura": "^2.0.0",
+    "@salesforce/eslint-plugin-lightning": "^1.0.0",
+    "@salesforce/sfdx-lwc-jest": "^7.0.1",
+    "eslint": "8.57.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^28.8.1",
+    "prettier": "^3.1.0",
+    "prettier-plugin-apex": "^2.0.1"
+  }
+}
