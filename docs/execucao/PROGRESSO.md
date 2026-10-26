@@ -4,9 +4,9 @@ Atualizado pelo orquestrador a cada marco. Quem retomar a sessão começa por aq
 
 ## Estado atual
 
-- Fase: Onda 1 (leave, promotion, recruiting, performance) em execução; demo pública em paralelo
-- Último passo concluído: Onda 0 (core) com gate cumprido nas 3 orgs
-- Próximo passo: integrar cada agente da Onda 1 que terminar (Integração 1)
+- Fase: Onda 2 (portal, onboarding, analytics) em execução; myhr depois
+- Último passo concluído: Onda 1 integrada em develop (355 testes, 97%)
+- Próximo passo: integrar portal, onboarding e analytics; depois myhr; depois Onda 3
 
 ## Orgs
 
@@ -24,13 +24,13 @@ Nas três orgs o admin recebeu os PSG `HR_Admin` e `HR_Manager` e entrou no grup
 | Onda | Módulo | Agente/branch | Status | Último commit | Observação |
 |---|---|---|---|---|---|
 | 0 | core | orquestrador / develop | concluída | ver git log develop | 43 testes Apex, cobertura 97%; 16 Jest; analyzer sem sev 1-2 |
-| 1 | leave | feat/leave | em execução | | rh-w1 |
-| 1 | promotion | feat/promotion | em execução | | rh-w1 |
-| 1 | recruiting | feat/recruiting | em execução | | rh-w2 |
-| 1 | performance | feat/performance | em execução | | rh-w2 |
-| 2 | portal | feat/portal | pendente | | |
-| 2 | onboarding | feat/onboarding | pendente | | |
-| 2 | analytics | feat/analytics | pendente | | |
+| 1 | leave | feat/leave | integrada | | rh-w1 |
+| 1 | promotion | feat/promotion | integrada | | rh-w1 |
+| 1 | recruiting | feat/recruiting | integrada | | rh-w2 |
+| 1 | performance | feat/performance | integrada | | rh-w2 |
+| 2 | portal | feat/portal | em execução | | |
+| 2 | onboarding | feat/onboarding | em execução | | |
+| 2 | analytics | feat/analytics | em execução | | |
 | 2 | myhr | feat/myhr | pendente | | |
 | 3 | pacote, README, CI | develop | pendente | | |
 
@@ -48,6 +48,7 @@ Nas três orgs o admin recebeu os PSG `HR_Admin` e `HR_Manager` e entrou no grup
 | 26/10 07:45 | Retomada pela sessão local do Witor (ordem: seguir ondas 1, 2 e 3 e entregar a demo funcional no site). Worktrees limpas, feat/* avançadas por ff para develop. Onda 1 relançada. |
 | 26/10 07:55 | 4 agentes da Onda 1 em segundo plano (leave e promotion em rh-w1; recruiting e performance em rh-w2). Agente de demo pública lançado em feat/demo (worktree .claude/worktrees/demo, pasta demo/): a worktree do portfolio-site não é tocada porque os agentes de conteúdo escrevem nela; a demo será portada depois, com aprovação. |
 | 26/10 12:35 | Integração 1 parcial: leave (99 testes na rh-w1), promotion (66 testes) e demo (62 testes Node) em develop; RunLocalTests em rh-int com leave: 151 aprovados, 0 falhas, cobertura 97%. Core ajustado: JobPositionSelector sem coluna Salary_Band__c (falhava em USER_MODE para quem não lê a faixa) e abas de férias e promoções no app RH_Core. Pendentes: recruiting e performance. Sessão caiu por limite de uso entre 07:55 e 12:10; agentes retomados. |
+| 26/10 12:40 | Integração 1 concluída: recruiting (81 testes) e performance (57 testes) em develop. RunLocalTests em rh-int com core, leave, promotion, recruiting e performance: 355 aprovados, 0 falhas, cobertura 97% (só os controllers padrão de Communities ficam abaixo de 85%, fora do pacote). Abas de recrutamento e desempenho no app RH_Core. Onda 2 lançada: portal (rh-w2), onboarding (rh-w1), analytics (rh-w2). myhr aguarda onboarding. |
 
 ## Divergências e decisões
 
