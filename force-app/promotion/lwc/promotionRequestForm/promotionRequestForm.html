@@ -1,0 +1,94 @@
+<template>
+    <lightning-card title="Solicitar promoção" icon-name="standard:opportunity">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando equipe" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={loadError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{loadError}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmptyTeam}>
+                <div class="slds-p-around_medium slds-text-align_center empty-team">
+                    <lightning-icon icon-name="utility:people" size="small" alternative-text="Sem equipe"></lightning-icon>
+                    <p class="slds-m-top_x-small">Você não tem pessoas na sua equipe para solicitar promoção.</p>
+                </div>
+            </template>
+            <template lwc:if={showForm}>
+                <p class="slds-text-color_weak slds-m-bottom_small">
+                    Você escolhe o cargo, a data e a justificativa. O salário é definido pelo RH na etapa final e não aparece para você.
+                </p>
+                <lightning-combobox
+                    class="employee"
+                    name="employee"
+                    label="Colaborador"
+                    placeholder="Escolha alguém da sua equipe"
+                    options={employeeOptions}
+                    value={employeeId}
+                    required
+                    onchange={handleEmployeeChange}
+                ></lightning-combobox>
+                <template lwc:if={loadingContext}>
+                    <div class="slds-is-relative slds-p-around_medium">
+                        <lightning-spinner alternative-text="Carregando cargos" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template lwc:if={context}>
+                    <p class="slds-m-vertical_x-small slds-text-body_small trail-hint">
+                        <lightning-icon icon-name="utility:trending" size="xx-small" alternative-text="Trilha" class="slds-m-right_xx-small"></lightning-icon>
+                        {trailHint}
+                    </p>
+                    <lightning-combobox
+                        class="position"
+                        name="position"
+                        label="Novo cargo"
+                        placeholder="Escolha o novo cargo"
+                        options={positionOptions}
+                        value={positionId}
+                        required
+                        onchange={handlePositionChange}
+                    ></lightning-combobox>
+                    <template lwc:if={offTrackWarning}>
+                        <div class="slds-notify slds-notify_alert slds-alert_warning slds-m-top_x-small off-track" role="status">
+                            <h2>Promoção fora da trilha prevista.</h2>
+                        </div>
+                    </template>
+                </template>
+                <lightning-input
+                    class="effective-date"
+                    type="date"
+                    name="effectiveDate"
+                    label="Data de efetivação"
+                    min={minDate}
+                    value={effectiveDate}
+                    required
+                    onchange={handleDateChange}
+                ></lightning-input>
+                <lightning-textarea
+                    class="justification"
+                    name="justification"
+                    label="Justificativa"
+                    maxlength="4000"
+                    value={justification}
+                    required
+                    onchange={handleJustificationChange}
+                ></lightning-textarea>
+                <template lwc:if={formError}>
+                    <p class="slds-text-color_error slds-m-top_x-small form-error" role="alert">{formError}</p>
+                </template>
+                <div class="slds-m-top_medium slds-m-bottom_small">
+                    <lightning-button
+                        class="submit"
+                        label="Enviar para aprovação"
+                        variant="brand"
+                        disabled={submitDisabled}
+                        onclick={handleSubmit}
+                    ></lightning-button>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

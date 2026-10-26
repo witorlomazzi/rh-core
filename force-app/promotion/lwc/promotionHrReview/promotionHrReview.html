@@ -1,0 +1,112 @@
+<template>
+    <lightning-card title="Revisão de promoções (RH)" icon-name="standard:approval">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+
+            <template lwc:if={isListEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:success" size="small" alternative-text="Sem pendências"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhuma promoção aguarda a decisão do RH.</p>
+                </div>
+            </template>
+            <template lwc:if={showList}>
+                <ul class="slds-has-dividers_around-space">
+                    <template for:each={pendingRows} for:item="row">
+                        <li key={row.stepId} class="slds-item pending-item">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-col">
+                                    <p class="slds-text-heading_small">{row.title}</p>
+                                    <p class="slds-text-body_small">{row.subtitle}</p>
+                                </div>
+                                <div class="slds-col slds-no-flex">
+                                    <lightning-button label="Revisar" data-id={row.requestId} onclick={handleSelect} class="select"></lightning-button>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+
+            <template lwc:if={showReview}>
+                <template lwc:if={canGoBack}>
+                    <lightning-button variant="base" label="Voltar para a lista" icon-name="utility:back" onclick={handleBack} class="back"></lightning-button>
+                </template>
+                <div class="slds-m-vertical_small">
+                    <p class="slds-text-heading_medium review-title">{review.requestName}: {review.employeeName}</p>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        Solicitada por {review.requestedByName}. Situação: {review.status}.
+                    </p>
+                </div>
+                <dl class="slds-list_horizontal slds-wrap summary">
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate">Cargo atual</dt>
+                    <dd class="slds-item_detail slds-truncate current-position">{review.currentPositionName}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate">Cargo proposto</dt>
+                    <dd class="slds-item_detail slds-truncate proposed-position">{review.proposedPositionName}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate">Efetivação</dt>
+                    <dd class="slds-item_detail slds-truncate effective-date">{reviewView.effectiveDateText}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate">Salário atual</dt>
+                    <dd class="slds-item_detail slds-truncate current-salary">{reviewView.currentSalaryText}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate">Faixa do cargo</dt>
+                    <dd class="slds-item_detail band-range">{reviewView.bandText}</dd>
+                </dl>
+                <div class="slds-box slds-m-vertical_small justification">
+                    <p class="slds-text-title slds-m-bottom_xx-small">Justificativa do gestor</p>
+                    <p>{review.justification}</p>
+                </div>
+
+                <lightning-input
+                    class="salary"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    label="Salário proposto (R$)"
+                    value={salaryText}
+                    disabled={decisionDisabled}
+                    onchange={handleSalaryChange}
+                ></lightning-input>
+                <div class="slds-m-vertical_x-small">
+                    <template lwc:if={increaseText}>
+                        <span class="slds-m-right_small increase">Aumento: {increaseText}</span>
+                    </template>
+                    <template lwc:if={bandBadge}>
+                        <span class={bandBadge.css}>{bandBadge.label}</span>
+                    </template>
+                </div>
+                <lightning-textarea
+                    class="comment"
+                    label={commentLabel}
+                    value={comment}
+                    disabled={decisionDisabled}
+                    onchange={handleCommentChange}
+                ></lightning-textarea>
+                <template lwc:if={decisionError}>
+                    <p class="slds-text-color_error slds-m-top_x-small decision-error" role="alert">{decisionError}</p>
+                </template>
+                <template lwc:if={review.canDecide}>
+                    <div class="slds-m-top_small slds-m-bottom_small">
+                        <lightning-button
+                            class="approve slds-m-right_x-small"
+                            label="Aprovar"
+                            variant="brand"
+                            disabled={busy}
+                            onclick={handleApprove}
+                        ></lightning-button>
+                        <lightning-button class="reject" label="Rejeitar" variant="destructive-text" disabled={busy} onclick={handleReject}></lightning-button>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <p class="slds-m-vertical_small slds-text-color_weak not-awaiting">Esta solicitação não aguarda a decisão do RH.</p>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
