@@ -2,7 +2,7 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Pacote de acesso do recrutador.</description>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>RH Core - Recrutador</label>
+    <label>Grupo RH - Recrutador</label>
     <permissionSets>HR_Core_Employee</permissionSets>
     <permissionSets>HR_Recruiting_Recruiter</permissionSets>
     <permissionSets>HR_MyHR_User</permissionSets>

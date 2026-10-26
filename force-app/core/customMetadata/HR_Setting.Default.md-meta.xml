@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Padrão</label>
+    <protected>false</protected>
+    <values>
+        <field>Weekly_Rest_Days__c</field>
+        <value xsi:type="xsd:string">SUN</value>
+    </values>
+    <values>
+        <field>Leave_Min_Notice_Days__c</field>
+        <value xsi:type="xsd:double">30</value>
+    </values>
+    <values>
+        <field>Leave_Max_Splits__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Leave_Min_Main_Period_Days__c</field>
+        <value xsi:type="xsd:double">14</value>
+    </values>
+    <values>
+        <field>Leave_Min_Other_Period_Days__c</field>
+        <value xsi:type="xsd:double">5</value>
+    </values>
+    <values>
+        <field>Leave_Block_Days_Before_Rest__c</field>
+        <value xsi:type="xsd:double">2</value>
+    </values>
+    <values>
+        <field>Leave_Max_Sold_Days_Divisor__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Abono_Deadline_Days_Before_Period_End__c</field>
+        <value xsi:type="xsd:double">15</value>
+    </values>
+    <values>
+        <field>Accrual_Period_Months__c</field>
+        <value xsi:type="xsd:double">12</value>
+    </values>
+    <values>
+        <field>Concession_Warning_Days__c</field>
+        <value xsi:type="xsd:double">60</value>
+    </values>
+    <values>
+        <field>Candidate_Retention_Days__c</field>
+        <value xsi:type="xsd:double">180</value>
+    </values>
+    <values>
+        <field>Portal_Min_Submit_Seconds__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Portal_Daily_Limit_Per_Email__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Consent_Text_Version__c</field>
+        <value xsi:type="xsd:string">2026-10</value>
+    </values>
+    <values>
+        <field>HR_Group_Developer_Name__c</field>
+        <value xsi:type="xsd:string">HR_Team</value>
+    </values>
+    <values>
+        <field>Recruiting_Queue_Developer_Name__c</field>
+        <value xsi:type="xsd:string">HR_Recruiting_Queue</value>
+    </values>
+</CustomMetadata>

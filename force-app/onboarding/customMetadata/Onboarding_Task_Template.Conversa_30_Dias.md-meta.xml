@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Conversa de 30 dias</label>
+    <protected>false</protected>
+    <values>
+        <field>Title__c</field>
+        <value xsi:type="xsd:string">Conversa de 30 dias</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Conversa de acompanhamento ao fim do primeiro mês.</value>
+    </values>
+    <values>
+        <field>Owner_Role__c</field>
+        <value xsi:type="xsd:string">Gestor</value>
+    </values>
+    <values>
+        <field>Due_Offset_Days__c</field>
+        <value xsi:type="xsd:double">30</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">8</value>
+    </values>
+    <values>
+        <field>Applies_To_Employment_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

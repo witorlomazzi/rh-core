@@ -2,7 +2,7 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Pacote de acesso do gestor: colaborador e gestão da equipe.</description>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>RH Core - Gestor</label>
+    <label>Grupo RH - Gestor</label>
     <permissionSets>HR_Core_Employee</permissionSets>
     <permissionSets>HR_Leave_Employee</permissionSets>
     <permissionSets>HR_Position_History_Employee</permissionSets>
