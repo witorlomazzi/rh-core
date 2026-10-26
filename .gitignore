@@ -1,0 +1,10 @@
+.sf/
+.sfdx/
+.localdevserver/
+.locks/
+node_modules/
+coverage/
+*.log
+.DS_Store
+.vscode/
+.idea/
