@@ -83,7 +83,7 @@ private class RecruitingSharingTest {
         Job_Opening__c second = RecruitingTestData.opening('Segunda', t.mgr1.Id, 'Aberta');
         Candidate__c candidate = RecruitingTestData.candidate('multi');
         Job_Application__c appFirst = RecruitingTestData.applications(new List<Candidate__c>{ candidate }, first.Id)[0];
-        Job_Application__c appSecond = RecruitingTestData.applications(new List<Candidate__c>{ candidate }, second.Id)[0];
+        RecruitingTestData.applications(new List<Candidate__c>{ candidate }, second.Id);
         Assert.areEqual(new Set<Id>{ t.mgr1User.Id }, candidateShares(candidate.Id));
 
         update new Job_Opening__c(Id = first.Id, Hiring_Manager__c = t.emp1.Id);

@@ -52,8 +52,7 @@ export default class RecruitingOpeningSummary extends LightningElement {
         const max = Math.max(1, ...this.summary.stages.map((s) => s.count));
         return this.summary.stages.map((s) => ({
             ...s,
-            averageLabel:
-                s.averageDays === null || s.averageDays === undefined ? 'sem dados' : `${s.averageDays} dias`,
+            averageLabel: s.averageDays === null || s.averageDays === undefined ? 'sem dados' : `${s.averageDays} dias`,
             barStyle: `width: ${Math.round((s.count / max) * 100)}%; background-color: ${s.color || '#706e6b'}`
         }));
     }

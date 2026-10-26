@@ -76,7 +76,12 @@ function board() {
     };
 }
 
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+async function flush() {
+    for (let i = 0; i < 10; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.resolve();
+    }
+}
 
 async function mount(props = {}) {
     const el = createElement('c-recruiting-kanban', { is: RecruitingKanban });
@@ -189,7 +194,9 @@ describe('c-recruiting-kanban', () => {
 
     it('oferece as etapas permitidas e Dar nota no menu do cartao', async () => {
         const el = await mount();
-        const menu = Array.from(el.shadowRoot.querySelectorAll('lightning-button-menu')).find((m) => m.dataset.id === 'c1');
+        const menu = Array.from(el.shadowRoot.querySelectorAll('lightning-button-menu')).find(
+            (m) => m.dataset.id === 'c1'
+        );
         const labels = Array.from(menu.querySelectorAll('lightning-menu-item')).map((i) => i.label);
         expect(labels).toEqual(['Mover para Triagem', 'Mover para Reprovado', 'Dar nota']);
     });
@@ -213,7 +220,9 @@ describe('c-recruiting-kanban', () => {
         select(el, 'c1', 'Proposta');
         await flush();
         expect(moveCard).not.toHaveBeenCalled();
-        expect(el.shadowRoot.querySelector('.error').textContent).toBe('Mudança de etapa não permitida: de Nova para Proposta.');
+        expect(el.shadowRoot.querySelector('.error').textContent).toBe(
+            'Mudança de etapa não permitida: de Nova para Proposta.'
+        );
         expect(toast.mock.calls[0][0].detail.variant).toBe('error');
     });
 
@@ -232,7 +241,9 @@ describe('c-recruiting-kanban', () => {
         expect(el.shadowRoot.querySelector('.modal-error').textContent).toBe('Informe o motivo da reprovação.');
         expect(moveCard).not.toHaveBeenCalled();
 
-        el.shadowRoot.querySelector('lightning-combobox.modal-reason').dispatchEvent(new CustomEvent('change', { detail: { value: 'Perfil' } }));
+        el.shadowRoot
+            .querySelector('lightning-combobox.modal-reason')
+            .dispatchEvent(new CustomEvent('change', { detail: { value: 'Perfil' } }));
         el.shadowRoot.querySelector('lightning-button.modal-confirm').dispatchEvent(new CustomEvent('click'));
         await flush();
 
@@ -278,7 +289,9 @@ describe('c-recruiting-kanban', () => {
         const el = await mount();
         select(el, 'c1', 'Reprovado');
         await flush();
-        el.shadowRoot.querySelector('lightning-combobox.modal-reason').dispatchEvent(new CustomEvent('change', { detail: { value: 'Outro' } }));
+        el.shadowRoot
+            .querySelector('lightning-combobox.modal-reason')
+            .dispatchEvent(new CustomEvent('change', { detail: { value: 'Outro' } }));
         el.shadowRoot.querySelector('lightning-button.modal-confirm').dispatchEvent(new CustomEvent('click'));
         await flush();
         expect(el.shadowRoot.querySelector('.modal')).not.toBeNull();
@@ -301,7 +314,9 @@ describe('c-recruiting-kanban', () => {
         select(el, 'c1', '__rate__');
         await flush();
         expect(el.shadowRoot.querySelector('.modal-title').textContent).toBe('Dar nota');
-        el.shadowRoot.querySelector('lightning-input.modal-score').dispatchEvent(new CustomEvent('change', { detail: { value: '3' } }));
+        el.shadowRoot
+            .querySelector('lightning-input.modal-score')
+            .dispatchEvent(new CustomEvent('change', { detail: { value: '3' } }));
         el.shadowRoot.querySelector('lightning-button.modal-confirm').dispatchEvent(new CustomEvent('click'));
         await flush();
         expect(rateCard).toHaveBeenCalledWith({ applicationId: 'c1', score: 3 });

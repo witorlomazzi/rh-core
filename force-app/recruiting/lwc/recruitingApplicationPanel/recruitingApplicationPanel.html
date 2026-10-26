@@ -26,10 +26,17 @@
             <template lwc:if={hasItems}>
                 <ol class="slds-timeline timeline">
                     <template for:each={items} for:item="item">
-                        <li key={item.id} class="slds-timeline__item_expandable slds-is-open timeline-item slds-p-vertical_x-small">
+                        <li
+                            key={item.id}
+                            class="slds-timeline__item_expandable slds-is-open timeline-item slds-p-vertical_x-small"
+                        >
                             <div class="slds-media">
                                 <div class="slds-media__figure">
-                                    <lightning-icon icon-name="utility:right" size="x-small" alternative-text="Mudança de etapa"></lightning-icon>
+                                    <lightning-icon
+                                        icon-name="utility:right"
+                                        size="x-small"
+                                        alternative-text="Mudança de etapa"
+                                    ></lightning-icon>
                                 </div>
                                 <div class="slds-media__body">
                                     <p class="slds-text-body_regular item-title">{item.title}</p>

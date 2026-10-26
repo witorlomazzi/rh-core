@@ -2,7 +2,9 @@ import { createElement } from 'lwc';
 import RecruitingOpeningSummary from 'c/recruitingOpeningSummary';
 import getOpeningSummary from '@salesforce/apex/RecruitingInsightsController.getOpeningSummary';
 
-jest.mock('@salesforce/apex/RecruitingInsightsController.getOpeningSummary', () => ({ default: jest.fn() }), { virtual: true });
+jest.mock('@salesforce/apex/RecruitingInsightsController.getOpeningSummary', () => ({ default: jest.fn() }), {
+    virtual: true
+});
 
 const SUMMARY = {
     openingId: 'v1',
@@ -17,7 +19,12 @@ const SUMMARY = {
     ]
 };
 
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+async function flush() {
+    for (let i = 0; i < 10; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.resolve();
+    }
+}
 
 async function mount() {
     const el = createElement('c-recruiting-opening-summary', { is: RecruitingOpeningSummary });

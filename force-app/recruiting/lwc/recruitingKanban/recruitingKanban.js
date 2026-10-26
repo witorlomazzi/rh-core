@@ -346,7 +346,11 @@ export default class RecruitingKanban extends LightningElement {
             const updated = await rateCard({ applicationId: id, score: Number(score) });
             this.replaceCard(updated);
             this.announcement = `Nota ${updated.score} registrada.`;
-            this.toast('Nota registrada', `Nota ${updated.score} para ${updated.candidateName || updated.applicationNumber}.`, 'success');
+            this.toast(
+                'Nota registrada',
+                `Nota ${updated.score} para ${updated.candidateName || updated.applicationNumber}.`,
+                'success'
+            );
             this.modal = undefined;
         } catch (e) {
             const message = errorMessage(e);

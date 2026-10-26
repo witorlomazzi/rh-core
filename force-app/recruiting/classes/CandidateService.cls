@@ -41,6 +41,8 @@ public inherited sharing class CandidateService {
      * sobrescrito: so campos vazios sao preenchidos, o consentimento e registrado se ainda nao existia e a
      * ultima atividade e renovada. Assim, quem informa um e-mail alheio nao altera os dados da outra pessoa.
      */
+    // Contexto de sistema da spec 02: o portal publico (usuario convidado, sem CRUD) cadastra candidatos por aqui.
+    @SuppressWarnings('PMD.ApexCRUDViolation')
     public static Map<String, Candidate__c> upsertByEmail(List<CandidateInput> inputs) {
         Map<String, CandidateInput> byEmail = new Map<String, CandidateInput>();
         for (CandidateInput input : inputs) {

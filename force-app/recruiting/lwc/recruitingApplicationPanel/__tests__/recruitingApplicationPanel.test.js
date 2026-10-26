@@ -2,7 +2,9 @@ import { createElement } from 'lwc';
 import RecruitingApplicationPanel from 'c/recruitingApplicationPanel';
 import getHistory from '@salesforce/apex/RecruitingInsightsController.getHistory';
 
-jest.mock('@salesforce/apex/RecruitingInsightsController.getHistory', () => ({ default: jest.fn() }), { virtual: true });
+jest.mock('@salesforce/apex/RecruitingInsightsController.getHistory', () => ({ default: jest.fn() }), {
+    virtual: true
+});
 
 const HISTORY = [
     {
@@ -40,7 +42,12 @@ const HISTORY = [
     }
 ];
 
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+async function flush() {
+    for (let i = 0; i < 10; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.resolve();
+    }
+}
 
 async function mount() {
     const el = createElement('c-recruiting-application-panel', { is: RecruitingApplicationPanel });

@@ -57,6 +57,8 @@ public inherited sharing class JobApplicationService {
      * Cadastra a candidatura de uma pessoa a uma vaga. O candidato e reaproveitado pelo e-mail (C4). Se a
      * candidatura for recusada (vaga fechada, duplicada), o candidato recem-criado tambem e desfeito.
      */
+    // Contexto de sistema da spec 02: o portal publico (usuario convidado, sem CRUD) cria candidaturas por aqui.
+    @SuppressWarnings('PMD.ApexCRUDViolation')
     public static Job_Application__c apply(
         CandidateService.CandidateInput input,
         Id openingId,

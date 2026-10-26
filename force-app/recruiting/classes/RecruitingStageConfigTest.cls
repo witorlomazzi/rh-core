@@ -44,11 +44,11 @@ private class RecruitingStageConfigTest {
             'Entrevista_Tecnica' => new Set<String>{ 'Proposta', 'Reprovado', 'Desistiu' },
             'Proposta' => new Set<String>{ 'Contratado', 'Reprovado', 'Desistiu' }
         };
-        for (String from_x : expected.keySet()) {
+        for (String fromStage : expected.keySet()) {
             Assert.areEqual(
-                expected.get(from_x),
-                new Set<String>(RecruitingStageConfig.byValue(from_x).allowedNext),
-                'Transicoes de ' + from_x
+                expected.get(fromStage),
+                new Set<String>(RecruitingStageConfig.byValue(fromStage).allowedNext),
+                'Transicoes de ' + fromStage
             );
         }
         Assert.isFalse(RecruitingStageConfig.isAllowed('Nova', 'Proposta'));
