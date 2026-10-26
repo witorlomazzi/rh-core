@@ -4,7 +4,7 @@ Atualizado pelo orquestrador a cada marco. Quem retomar a sessão começa por aq
 
 ## Estado atual
 
-- Fase: Onda 1 (leave, promotion, recruiting, performance) disparada
+- Fase: Onda 1 (leave, promotion, recruiting, performance) em execução; demo pública em paralelo
 - Último passo concluído: Onda 0 (core) com gate cumprido nas 3 orgs
 - Próximo passo: integrar cada agente da Onda 1 que terminar (Integração 1)
 
@@ -46,6 +46,7 @@ Nas três orgs o admin recebeu os PSG `HR_Admin` e `HR_Manager` e entrou no grup
 | 25/10 23:50 | LWCs coreOrgChart e coreApprovalInbox (16 Jest), app RH_Core, páginas Organograma e Aprovações. Analyzer sem violação sev 1-2. force-app implantado em rh-w1 e rh-w2. |
 | 25/10 23:55 | Onda 1 disparada: 4 agentes em worktree (leave, promotion, recruiting, performance). Sessão parou sem nenhum commit dos agentes. |
 | 26/10 07:45 | Retomada pela sessão local do Witor (ordem: seguir ondas 1, 2 e 3 e entregar a demo funcional no site). Worktrees limpas, feat/* avançadas por ff para develop. Onda 1 relançada. |
+| 26/10 07:55 | 4 agentes da Onda 1 em segundo plano (leave e promotion em rh-w1; recruiting e performance em rh-w2). Agente de demo pública lançado em feat/demo (worktree .claude/worktrees/demo, pasta demo/): a worktree do portfolio-site não é tocada porque os agentes de conteúdo escrevem nela; a demo será portada depois, com aprovação. |
 
 ## Divergências e decisões
 
