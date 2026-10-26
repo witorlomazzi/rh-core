@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RH Core: demo interativa</title>
+  <meta name="description" content="Demonstração interativa do RH Core, produto de RH para Salesforce: férias CLT, promoções, recrutamento, portal de vagas e avaliação. Empresa e dados fictícios.">
+  <link rel="stylesheet" href="css/demo.css">
+  <style>
+    html, body { margin: 0; background: #f3f6fa; }
+    noscript { display: block; padding: 24px; font-family: system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="rhc-app" aria-live="off"></div>
+  <noscript>Esta demonstração precisa de JavaScript. Ela roda 100% no navegador, sem servidor e sem dados reais.</noscript>
+
+  <!-- Regras puras (sem DOM) -->
+  <script src="js/util.js"></script>
+  <script src="js/rules-leave.js"></script>
+  <script src="js/rules-approval.js"></script>
+  <script src="js/rules-recruiting.js"></script>
+  <script src="js/rules-portal.js"></script>
+  <script src="js/rules-promotion.js"></script>
+  <script src="js/rules-performance.js"></script>
+  <script src="js/rules-visibility.js"></script>
+  <!-- Dados ficticios, consultas e acoes -->
+  <script src="js/data.js"></script>
+  <script src="js/queries.js"></script>
+  <script src="js/actions-leave.js"></script>
+  <script src="js/actions-promotion.js"></script>
+  <script src="js/actions-approvals.js"></script>
+  <script src="js/actions-recruiting.js"></script>
+  <script src="js/actions-performance.js"></script>
+  <script src="js/actions-onboarding.js"></script>
+  <!-- Interface -->
+  <script src="js/store.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tour.js"></script>
+  <script src="js/views/org.js"></script>
+  <script src="js/views/leave.js"></script>
+  <script src="js/views/approvals.js"></script>
+  <script src="js/views/promotion.js"></script>
+  <script src="js/views/recruiting.js"></script>
+  <script src="js/views/portal.js"></script>
+  <script src="js/views/performance.js"></script>
+  <script src="js/views/onboarding.js"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/dashboard.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      RH.app.init(document.getElementById('rhc-app'));
+    });
+  </script>
+</body>
+</html>
