@@ -220,7 +220,8 @@ export default class PortalApplicationForm extends LightningElement {
             message: v.message,
             consent: this.consent,
             website: v.website,
-            renderedAt: this.renderedAt
+            // Texto: o runtime do site nao entrega numero grande a campo numerico do Apex.
+            renderedAt: this.renderedAt == null ? null : String(this.renderedAt)
         };
     }
 

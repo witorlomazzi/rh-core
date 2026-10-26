@@ -25,7 +25,10 @@ public class PortalApplicationInput {
     /** Honeypot: campo escondido que pessoas nao preenchem. */
     @AuraEnabled
     public String website;
-    /** Momento (epoch ms, relogio do servidor; Decimal porque o runtime do site pode enviar o numero em notacao cientifica) em que o formulario foi exibido. */
+    /**
+     * Momento (epoch ms, relogio do servidor) em que o formulario foi exibido, como texto: o runtime do site (LWR)
+     * nao entrega numero grande a campo Long ou Decimal.
+     */
     @AuraEnabled
-    public Decimal renderedAt;
+    public String renderedAt;
 }

@@ -201,12 +201,21 @@ public inherited sharing class JobPortalService {
         return dto;
     }
 
-    private static void assertNotTooFast(Decimal renderedAt) {
+    private static void assertNotTooFast(String renderedAtText) {
         Decimal configured = HrSettings.get().Portal_Min_Submit_Seconds__c;
         Decimal minSeconds = configured == null ? DEFAULT_MIN_SECONDS : configured;
+        Long renderedAt = parseEpoch(renderedAtText);
         if (renderedAt == null || (Datetime.now().getTime() - renderedAt) < (minSeconds * 1000)) {
             throw fail(TOO_FAST_MESSAGE, null);
         }
+    }
+
+    /** Epoch em milissegundos recebido como texto; null se vier vazio ou invalido. */
+    private static Long parseEpoch(String text) {
+        if (String.isBlank(text) || text.trim().length() > 15 || !text.trim().isNumeric()) {
+            return null;
+        }
+        return Long.valueOf(text.trim());
     }
 
     private static void assertUnderDailyLimit(String normalizedEmail) {

@@ -55,7 +55,7 @@ private class JobPortalControllerTest {
         i.message = 'Tenho interesse na vaga.';
         i.consent = true;
         i.website = '';
-        i.renderedAt = Datetime.now().getTime() - 10000;
+        i.renderedAt = String.valueOf(Datetime.now().getTime() - 10000);
         return i;
     }
 
@@ -230,18 +230,23 @@ private class JobPortalControllerTest {
     static void tooFastSubmissionIsRejected() {
         String slug = slugOf('Analista Fiscal');
         PortalApplicationInput fast = input(slug, 'zztest-rapido@example.com');
-        fast.renderedAt = Datetime.now().getTime();
+        fast.renderedAt = String.valueOf(Datetime.now().getTime());
         PortalApplicationInput noClock = input(slug, 'zztest-rapido@example.com');
         noClock.renderedAt = null;
+        PortalApplicationInput garbage = input(slug, 'zztest-rapido@example.com');
+        garbage.renderedAt = 'abc';
         JobPortalController.SubmitResult fastResult;
         JobPortalController.SubmitResult noClockResult;
+        JobPortalController.SubmitResult garbageResult;
         System.runAs(guest()) {
             fastResult = JobPortalController.submitApplication(fast);
             noClockResult = JobPortalController.submitApplication(noClock);
+            garbageResult = JobPortalController.submitApplication(garbage);
         }
         System.assertEquals(false, fastResult.success);
         System.assertEquals(JobPortalService.TOO_FAST_MESSAGE, fastResult.message);
         System.assertEquals(false, noClockResult.success);
+        System.assertEquals(false, garbageResult.success);
         System.assertEquals(
             0,
             [SELECT COUNT() FROM Candidate__c WHERE Email_Normalized__c = 'zztest-rapido@example.com']

@@ -146,7 +146,7 @@ describe("c-portal-application-form", () => {
                 message: "Tenho interesse.",
                 consent: true,
                 website: "",
-                renderedAt: 1790000000000
+                renderedAt: "1790000000000"
             }
         });
         const success = el.shadowRoot.querySelector(".success");
