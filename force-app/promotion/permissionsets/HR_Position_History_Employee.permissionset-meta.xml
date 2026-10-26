@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>PositionHistorySelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PositionHistoryService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionRequestController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Leitura do próprio histórico de cargo, sem salário.</description>
     <fieldPermissions>
         <editable>false</editable>
@@ -53,6 +65,10 @@
     </objectPermissions>
     <tabSettings>
         <tab>Position_History__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Historico_Cargos</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

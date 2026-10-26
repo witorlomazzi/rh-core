@@ -1,0 +1,47 @@
+<template>
+    <lightning-card title="Histórico de cargos" icon-name="standard:timeline">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando histórico" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error load-error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={isEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:info" size="small" alternative-text="Sem histórico"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhum cargo registrado para este colaborador.</p>
+                </div>
+            </template>
+            <template lwc:if={hasEntries}>
+                <ul class="timeline">
+                    <template for:each={rows} for:item="row">
+                        <li key={row.key} class={row.itemClass}>
+                            <span class="timeline-marker">
+                                <lightning-icon icon-name={row.icon} size="x-small" alternative-text={row.reasonLabel}></lightning-icon>
+                            </span>
+                            <div class="timeline-body">
+                                <p class="slds-text-heading_small position-name">{row.positionName}</p>
+                                <p class="slds-text-body_small department-name">{row.departmentName}</p>
+                                <p class="slds-text-body_small slds-text-color_weak period">{row.period}</p>
+                                <p class="slds-m-top_xx-small">
+                                    <span class="slds-badge reason">{row.reasonLabel}</span>
+                                    <template lwc:if={row.isCurrent}>
+                                        <span class="slds-badge slds-theme_success slds-m-left_x-small current">Cargo atual</span>
+                                    </template>
+                                </p>
+                                <template lwc:if={row.showSalary}>
+                                    <p class="slds-text-body_small slds-m-top_xx-small salary">Salário: {row.salaryText}</p>
+                                </template>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>
