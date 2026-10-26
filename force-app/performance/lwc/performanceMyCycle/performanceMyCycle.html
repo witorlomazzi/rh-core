@@ -1,0 +1,133 @@
+<template>
+    <lightning-card title="Meu ciclo de avaliação" icon-name="standard:performance">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={noEmployee}>
+                <p class="slds-text-color_weak no-employee">Seu usuário não está vinculado a um colaborador.</p>
+            </template>
+            <template lwc:if={noCycle}>
+                <p class="slds-text-color_weak no-cycle">Nenhum ciclo de avaliação aberto para você.</p>
+            </template>
+            <template lwc:if={hasCycle}>
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                        <h2 class="slds-text-heading_small cycle-name">{view.cycle.name}</h2>
+                        <span class="slds-badge cycle-status">{statusLabel}</span>
+                        <span class="slds-m-left_small slds-text-color_weak due">{dueLabel}</span>
+                    </div>
+                    <template lwc:if={showCyclePicker}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-combobox
+                                label="Ciclo"
+                                value={view.cycle.id}
+                                options={cycleOptions}
+                                onchange={handleCycleChange}
+                                class="cycle-picker"
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                </div>
+
+                <h3 class="slds-text-heading_small slds-m-bottom_x-small">Metas</h3>
+                <p class={weightClass} role="status">{weightMessage}</p>
+                <ul class="slds-m-top_small">
+                    <template for:each={goalRows} for:item="goal">
+                        <li key={goal.id} class={goal.cssClass}>
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12">
+                                    <strong class="goal-name">{goal.name}</strong>
+                                    <span class="slds-badge slds-m-left_x-small goal-weight">{goal.weightLabel}</span>
+                                    <p class="slds-text-body_small">{goal.target}</p>
+                                    <p class="slds-text-body_small slds-text-color_weak">{goal.description}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                                    <template lwc:if={goal.canScore}>
+                                        <lightning-combobox
+                                            label="Nota da meta"
+                                            value={goal.scoreValue}
+                                            options={ratingOptions}
+                                            data-id={goal.id}
+                                            onchange={handleScore}
+                                            class="goal-score"
+                                        ></lightning-combobox>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-text-align_right">
+                                    <template lwc:if={goal.canScore}>
+                                        <lightning-button
+                                            label="Remover"
+                                            variant="destructive-text"
+                                            data-id={goal.id}
+                                            onclick={handleCancelGoal}
+                                            class="goal-cancel"
+                                        ></lightning-button>
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+
+                <template lwc:if={view.canEditGoals}>
+                    <div class="slds-box slds-m-vertical_medium new-goal">
+                        <h4 class="slds-text-heading_small">Nova meta</h4>
+                        <lightning-input label="Título" required value={newName} data-field="newName" onchange={handleField} class="new-name"></lightning-input>
+                        <lightning-input label="Alvo" value={newTarget} data-field="newTarget" onchange={handleField} class="new-target"></lightning-input>
+                        <lightning-textarea label="Descrição" value={newDescription} data-field="newDescription" onchange={handleField}></lightning-textarea>
+                        <lightning-input
+                            type="number"
+                            label="Peso (%)"
+                            min="1"
+                            max="100"
+                            value={newWeight}
+                            data-field="newWeight"
+                            onchange={handleField}
+                            class="new-weight"
+                        ></lightning-input>
+                        <lightning-button label="Adicionar meta" variant="brand" disabled={busy} onclick={handleAddGoal} class="add-goal slds-m-top_small"></lightning-button>
+                    </div>
+                </template>
+
+                <h3 class="slds-text-heading_small slds-m-top_large slds-m-bottom_x-small">Autoavaliação</h3>
+                <template lwc:if={submitted}>
+                    <p class="slds-text-color_success submitted-note">Autoavaliação enviada. Ela não pode mais ser alterada.</p>
+                </template>
+                <lightning-combobox
+                    label="Nota geral"
+                    value={rating}
+                    options={ratingOptions}
+                    disabled={selfReadOnly}
+                    data-field="rating"
+                    onchange={handleField}
+                    class="self-rating"
+                ></lightning-combobox>
+                <lightning-textarea label="Pontos fortes" value={strengths} disabled={selfReadOnly} data-field="strengths" onchange={handleField} class="self-strengths"></lightning-textarea>
+                <lightning-textarea label="Pontos a melhorar" value={improvements} disabled={selfReadOnly} data-field="improvements" onchange={handleField} class="self-improvements"></lightning-textarea>
+                <template lwc:if={view.canEditSelf}>
+                    <div class="slds-m-top_small">
+                        <lightning-button label="Salvar rascunho" disabled={busy} onclick={handleSaveDraft} class="save-draft slds-m-right_x-small"></lightning-button>
+                        <lightning-button label="Enviar autoavaliação" variant="brand" disabled={submitDisabled} onclick={handleSubmit} class="submit-self"></lightning-button>
+                    </div>
+                </template>
+
+                <template lwc:if={released}>
+                    <div class="result-box slds-m-top_large result">
+                        <h3 class="slds-text-heading_small">Resultado da avaliação</h3>
+                        <p>Nota do gestor: <strong class="manager-rating">{released.managerRating}</strong></p>
+                        <p>Nota final: <strong class="final-rating">{released.finalRating}</strong></p>
+                        <p class="manager-comments">{released.managerComments}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

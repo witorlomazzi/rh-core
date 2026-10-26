@@ -212,4 +212,12 @@
         <tab>Review_Cycle__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>RH_Desempenho_Meu_Ciclo</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RH_Desempenho_Equipe</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
