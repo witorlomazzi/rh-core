@@ -17,5 +17,12 @@
     <tabs>Salary_Band__c</tabs>
     <tabs>HR_Holiday__c</tabs>
     <tabs>Approval_Step__c</tabs>
+    <tabs>Leave_Request__c</tabs>
+    <tabs>Leave_Accrual_Period__c</tabs>
+    <tabs>RH_Solicitar_Promocao</tabs>
+    <tabs>RH_Revisao_Promocoes</tabs>
+    <tabs>Promotion_Request__c</tabs>
+    <tabs>RH_Historico_Cargos</tabs>
+    <tabs>Position_History__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
