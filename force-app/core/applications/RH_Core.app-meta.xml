@@ -28,5 +28,8 @@
     <tabs>Job_Opening__c</tabs>
     <tabs>Candidate__c</tabs>
     <tabs>Job_Application__c</tabs>
+    <tabs>RH_Desempenho_Meu_Ciclo</tabs>
+    <tabs>RH_Desempenho_Equipe</tabs>
+    <tabs>RH_Desempenho_Admin</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
