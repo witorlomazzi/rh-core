@@ -2,6 +2,8 @@
  * Envio de notificacoes personalizadas (sino do Lightning e app movel). Falha de notificacao nunca derruba a
  * transacao de negocio: o erro fica registrado em debug.
  */
+// CustomNotificationType e metadado de configuracao, nao dado de negocio.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public with sharing class HrNotificationService {
     private static Map<String, Id> typeIds = new Map<String, Id>();
     @TestVisible

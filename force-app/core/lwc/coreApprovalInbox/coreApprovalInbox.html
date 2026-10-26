@@ -1,0 +1,85 @@
+<template>
+    <lightning-card title="Aprovações pendentes" icon-name="standard:approval">
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:refresh" alternative-text="Atualizar" title="Atualizar" onclick={handleRefresh}></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando aprovações" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={isEmpty}>
+                <div class="slds-p-around_medium slds-text-align_center empty">
+                    <lightning-icon icon-name="utility:success" size="small" alternative-text="Sem pendências"></lightning-icon>
+                    <p class="slds-m-top_x-small">Nenhuma aprovação pendente.</p>
+                </div>
+            </template>
+            <template lwc:if={items.length}>
+                <p class="slds-text-color_weak slds-m-bottom_small count">{countLabel}</p>
+                <ul class="slds-has-dividers_around-space">
+                    <template for:each={viewItems} for:item="item">
+                        <li key={item.stepId} class="slds-item approval-item">
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-gutters_x-small">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                    <span class="slds-badge slds-m-right_x-small">{item.typeLabel}</span>
+                                    <button class="slds-button item-title" data-id={item.requestId} onclick={handleOpen}>{item.title}</button>
+                                    <p class="slds-text-body_small">{item.subtitle}</p>
+                                    <p class="slds-text-body_small slds-text-color_weak">{item.stepLabel}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-text-align_right">
+                                    <lightning-button
+                                        label="Aprovar"
+                                        variant="brand"
+                                        data-id={item.stepId}
+                                        disabled={item.isBusy}
+                                        onclick={handleApprove}
+                                        class="approve slds-m-right_x-small"
+                                    ></lightning-button>
+                                    <lightning-button
+                                        label="Rejeitar"
+                                        variant="destructive-text"
+                                        data-id={item.stepId}
+                                        disabled={item.isBusy}
+                                        onclick={handleStartReject}
+                                        class="reject"
+                                    ></lightning-button>
+                                </div>
+                            </div>
+                            <template lwc:if={item.isRejecting}>
+                                <div class="slds-m-top_small reject-box">
+                                    <lightning-textarea
+                                        label="Motivo da rejeição"
+                                        required
+                                        value={comment}
+                                        message-when-value-missing="Informe um comentário para rejeitar a solicitação."
+                                        onchange={handleCommentChange}
+                                        class="comment"
+                                    ></lightning-textarea>
+                                    <template lwc:if={commentError}>
+                                        <p class="slds-text-color_error slds-text-body_small comment-error" role="alert">{commentError}</p>
+                                    </template>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-button label="Cancelar" onclick={handleCancelReject} class="cancel-reject slds-m-right_x-small"></lightning-button>
+                                        <lightning-button
+                                            label="Confirmar rejeição"
+                                            variant="destructive"
+                                            data-id={item.stepId}
+                                            onclick={handleConfirmReject}
+                                            class="confirm-reject"
+                                        ></lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>

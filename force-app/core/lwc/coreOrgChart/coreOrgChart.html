@@ -1,0 +1,115 @@
+<template>
+    <lightning-card title="Organograma" icon-name="standard:hierarchy">
+        <div class="slds-p-horizontal_medium">
+            <lightning-input
+                type="search"
+                label="Buscar colaborador"
+                placeholder="Digite pelo menos 2 letras do nome"
+                value={searchTerm}
+                onchange={handleSearchChange}
+                data-id="search"
+            ></lightning-input>
+
+            <template lwc:if={searching}>
+                <div class="slds-is-relative slds-m-vertical_small search-spinner">
+                    <lightning-spinner alternative-text="Buscando" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={hasResults}>
+                <ul class="slds-has-dividers_bottom-space slds-m-vertical_small" aria-label="Resultados da busca">
+                    <template for:each={results} for:item="r">
+                        <li key={r.id} class="slds-item">
+                            <button class="slds-button result" data-id={r.id} onclick={handleOpen}>
+                                <span class="slds-avatar slds-avatar_circle slds-avatar_small slds-m-right_x-small">
+                                    <abbr class="slds-avatar__initials slds-icon-standard-user" title={r.name}>{r.initials}</abbr>
+                                </span>
+                                <span class="slds-truncate">{r.name}</span>
+                                <span class="slds-text-color_weak slds-m-left_x-small">{r.positionName}</span>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template lwc:if={showNoResults}>
+                <p class="slds-text-color_weak slds-m-vertical_small no-results">Nenhum colaborador encontrado.</p>
+            </template>
+
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando organograma" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-m-vertical_small error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={showEmpty}>
+                <div class="slds-illustration slds-p-around_medium empty">
+                    <p class="slds-text-body_regular">{emptyMessage}</p>
+                </div>
+            </template>
+
+            <template lwc:if={manager}>
+                <p class="slds-text-title_caps slds-m-top_medium">Gestor</p>
+                <div class="org-card manager-card slds-m-vertical_x-small">
+                    <span class="slds-avatar slds-avatar_circle slds-avatar_medium">
+                        <abbr class="slds-avatar__initials slds-icon-standard-account" title={manager.name}>{manager.initials}</abbr>
+                    </span>
+                    <div class="org-card__body">
+                        <button class="slds-button org-card__name" data-id={manager.id} onclick={handleOpen}>{manager.name}</button>
+                        <p class="slds-text-body_small">{manager.positionName}</p>
+                        <p class="slds-text-body_small slds-text-color_weak">{manager.departmentName}</p>
+                    </div>
+                </div>
+            </template>
+
+            <template lwc:if={hasTree}>
+                <p class="slds-text-title_caps slds-m-top_medium">Estrutura</p>
+                <ul role="tree" aria-label="Organograma" class="slds-m-vertical_x-small">
+                    <template for:each={rows} for:item="row">
+                        <li
+                            key={row.key}
+                            role="treeitem"
+                            aria-level={row.ariaLevel}
+                            aria-expanded={row.ariaExpanded}
+                            class="org-row"
+                            style={row.indentStyle}
+                        >
+                            <div class="org-card">
+                                <template lwc:if={row.hasChildren}>
+                                    <button
+                                        class="slds-button slds-button_icon slds-button_icon-border-filled toggle"
+                                        data-id={row.id}
+                                        aria-expanded={row.ariaExpanded}
+                                        title={row.toggleLabel}
+                                        onclick={handleToggle}
+                                    >
+                                        <lightning-icon icon-name={row.toggleIcon} size="xx-small" alternative-text={row.toggleLabel}></lightning-icon>
+                                    </button>
+                                </template>
+                                <template lwc:else>
+                                    <span class="toggle-placeholder"></span>
+                                </template>
+                                <span class="slds-avatar slds-avatar_circle slds-avatar_medium">
+                                    <abbr class="slds-avatar__initials slds-icon-standard-user" title={row.name}>{row.initials}</abbr>
+                                </span>
+                                <div class="org-card__body">
+                                    <button class="slds-button org-card__name" data-id={row.id} onclick={handleOpen}>{row.name}</button>
+                                    <p class="slds-text-body_small">{row.positionName}</p>
+                                    <p class="slds-text-body_small slds-text-color_weak">{row.departmentName}</p>
+                                </div>
+                                <template lwc:if={row.hasChildren}>
+                                    <span class="slds-badge slds-m-left_auto">{row.reportsLabel}</span>
+                                </template>
+                                <template lwc:if={row.loadingChildren}>
+                                    <lightning-spinner alternative-text="Carregando equipe" size="small"></lightning-spinner>
+                                </template>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>

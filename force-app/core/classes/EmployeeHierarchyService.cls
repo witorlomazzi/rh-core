@@ -6,6 +6,8 @@
  * estruturais (Id, Manager__c, User__c, Hierarchy_Path__c) e nunca devolve dado pessoal ou salarial.
  * Registrado em PROGRESSO.md (Divergencias e decisoes).
  */
+// Leitura de campos estruturais da cadeia de gestores em contexto de sistema (ver comentario da classe).
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public without sharing class EmployeeHierarchyService {
     /** Ids dos colaboradores da cadeia, do gestor direto ate a raiz. */
     public static List<Id> managerChainEmployeeIds(Id employeeId) {

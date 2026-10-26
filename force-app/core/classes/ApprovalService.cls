@@ -7,6 +7,8 @@
  * etapas sao feitas pela classe interna Privileged, em contexto de sistema, porque o aprovador nao tem Edit no
  * Status__c do pedido (spec 02); antes de cada escrita o servico valida quem pode decidir.
  */
+// Escritas de status e etapas em contexto de sistema (spec 02, ApprovalService.decide); leitura de Group e de pedidos ja validados.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public with sharing class ApprovalService {
     public static final String STATUS_DRAFT = 'Rascunho';
     public static final String STATUS_PENDING = 'Pendente';

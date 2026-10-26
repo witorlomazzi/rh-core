@@ -5,6 +5,8 @@
  * Contexto de sistema (spec 02): criar e remover shares e atualizar campos de hierarquia de qualquer colaborador,
  * inclusive de subarvores que o usuario que disparou a mudanca nao enxerga.
  */
+// Contexto de sistema da spec 02: shares e campos de hierarquia mantidos por Apex.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public without sharing class EmployeeSharingService {
     public static final String SELF_REASON = Schema.Employee__Share.RowCause.Self__c;
     public static final String CHAIN_REASON = Schema.Employee__Share.RowCause.Manager_Chain__c;

@@ -6,6 +6,8 @@
  * colaborador nao tem share no registro do proprio gestor. Sao os mesmos dados que o campo de pesquisa Gestor ja
  * exibe no registro do colaborador.
  */
+// Leitura em sistema restrita ao cartao do gestor (ver comentario da classe); o resto usa EmployeeSelector em USER_MODE.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public with sharing class OrgChartController {
     private static final Integer SEARCH_LIMIT = 20;
 

@@ -4,6 +4,8 @@
  * FLS por stripInaccessible em vez de USER_MODE: o campo de pesquisa para um objeto que o usuario nao le (ex.:
  * Promotion_Request__c para o colaborador) faria a consulta inteira falhar em USER_MODE.
  */
+// FLS aplicada por Security.stripInaccessible e checagem de objeto em assertReadable; registro por with sharing.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public with sharing class ApprovalStepSelector {
     public class NoAccessException extends Exception {
     }

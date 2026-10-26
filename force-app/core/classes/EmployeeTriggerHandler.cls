@@ -4,6 +4,8 @@
  * As consultas daqui rodam em modo sistema: em contexto de trigger, WITH USER_MODE com bind dispara erro de
  * plataforma (tmpVar1) e a validacao precisa enxergar colaboradores fora do alcance do usuario.
  */
+// Validacoes de trigger precisam enxergar colaboradores fora do alcance do usuario (ver comentario da classe).
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public with sharing class EmployeeTriggerHandler extends TriggerHandler {
     public static final String CYCLE_MESSAGE = 'O gestor escolhido está abaixo deste colaborador na hierarquia.';
     public static final String DUPLICATE_USER_MESSAGE = 'Este usuário já está vinculado a outro colaborador.';

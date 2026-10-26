@@ -2,6 +2,8 @@
  * Recalculo de compartilhamento de subarvores grandes, em blocos encadeados de 200 colaboradores.
  * Contexto de sistema herdado de EmployeeSharingService (spec 02).
  */
+// Contexto de sistema da spec 02 herdado de EmployeeSharingService.
+@SuppressWarnings('PMD.ApexCRUDViolation')
 public without sharing class EmployeeSharingQueueable implements Queueable {
     private final List<Id> pending;
 
