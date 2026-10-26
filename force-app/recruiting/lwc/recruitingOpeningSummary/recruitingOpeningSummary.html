@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Funil da vaga" icon-name="standard:opportunity">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Atualizar resumo"
+                title="Atualizar resumo"
+                onclick={handleRefresh}
+                class="refresh"
+            ></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={loading}>
+                <div class="slds-is-relative slds-p-around_large">
+                    <lightning-spinner alternative-text="Carregando resumo" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            <template lwc:if={hasSummary}>
+                <p class="slds-text-color_weak slds-m-bottom_small total">{totalLabel}</p>
+                <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col"><div class="slds-truncate">Etapa</div></th>
+                            <th scope="col"><div class="slds-truncate">Candidaturas</div></th>
+                            <th scope="col"><div class="slds-truncate">Tempo médio na etapa</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                            <tr key={row.stage} class="stage-row">
+                                <th scope="row" data-label="Etapa">
+                                    <div class="slds-truncate row-label">{row.label}</div>
+                                </th>
+                                <td data-label="Candidaturas">
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <span class="row-count slds-m-right_x-small">{row.count}</span>
+                                        <div class="bar-track">
+                                            <div class="bar" style={row.barStyle}></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Tempo médio na etapa">
+                                    <div class="slds-truncate row-average">{row.averageLabel}</div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+    </lightning-card>
+</template>
