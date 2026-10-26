@@ -44,7 +44,8 @@ Nas três orgs o admin recebeu os PSG `HR_Admin` e `HR_Manager` e entrou no grup
 | 25/10 23:30 | Descoberta: campos sem FLS ficam invisíveis ao Apex anônimo e ao describe do próprio admin (decisão 1). |
 | 25/10 23:41 | Apex do core verde em rh-int: 43 testes, 97% de cobertura, todas as classes acima de 85%. |
 | 25/10 23:50 | LWCs coreOrgChart e coreApprovalInbox (16 Jest), app RH_Core, páginas Organograma e Aprovações. Analyzer sem violação sev 1-2. force-app implantado em rh-w1 e rh-w2. |
-| 25/10 23:55 | Onda 1 disparada: 4 agentes em worktree (leave, promotion, recruiting, performance). |
+| 25/10 23:55 | Onda 1 disparada: 4 agentes em worktree (leave, promotion, recruiting, performance). Sessão parou sem nenhum commit dos agentes. |
+| 26/10 07:45 | Retomada pela sessão local do Witor (ordem: seguir ondas 1, 2 e 3 e entregar a demo funcional no site). Worktrees limpas, feat/* avançadas por ff para develop. Onda 1 relançada. |
 
 ## Divergências e decisões
 
