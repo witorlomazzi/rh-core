@@ -1,0 +1,10 @@
+{
+  "name": "rh-core-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Demo interativa publica do RH Core (HTML, CSS e JS puros, sem build). Empresa e dados ficticios.",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\"",
+    "roteiro": "node tools/gen-roteiro.js"
+  }
+}
