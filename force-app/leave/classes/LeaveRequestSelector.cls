@@ -61,24 +61,32 @@ public inherited sharing class LeaveRequestSelector {
     /**
      * Contexto de sistema (regra V12): o colaborador nao enxerga as ferias dos colegas (OWD privado), mas o aviso de
      * conflito de equipe precisa saber se elas existem. A consulta devolve so datas e o colaborador; o motor de
-     * regras reduz isso a uma contagem, sem nomes, antes de qualquer exibicao.
+     * regras reduz isso a uma contagem, sem nomes, antes de qualquer exibicao. A leitura roda na classe interna
+     * without sharing porque inherited sharing herdaria o compartilhamento do usuario.
      */
-    @SuppressWarnings('PMD.ApexCRUDViolation')
     public static List<Leave_Request__c> teamOverlaps(Id managerId, Id employeeId, Date rangeStart, Date rangeEnd) {
         if (managerId == null) {
             return new List<Leave_Request__c>();
         }
-        Set<String> active = new Set<String>{ 'Pendente', 'Aprovado', 'Em_Gozo' };
-        return [
-            SELECT Id, Employee__c, Start_Date__c, End_Date__c, Days__c, Status__c
-            FROM Leave_Request__c
-            WHERE
-                Employee__r.Manager__c = :managerId
-                AND Employee__c != :employeeId
-                AND Status__c IN :active
-                AND Start_Date__c <= :rangeEnd
-                AND End_Date__c >= :rangeStart
-            LIMIT 200
-        ];
+        return new SystemReader().teamOverlaps(managerId, employeeId, rangeStart, rangeEnd);
+    }
+
+    // Leitura em contexto de sistema documentada no metodo teamOverlaps (spec 02).
+    @SuppressWarnings('PMD.ApexCRUDViolation')
+    private without sharing class SystemReader {
+        List<Leave_Request__c> teamOverlaps(Id managerId, Id employeeId, Date rangeStart, Date rangeEnd) {
+            Set<String> active = new Set<String>{ 'Pendente', 'Aprovado', 'Em_Gozo' };
+            return [
+                SELECT Id, Employee__c, Start_Date__c, End_Date__c, Days__c, Status__c
+                FROM Leave_Request__c
+                WHERE
+                    Employee__r.Manager__c = :managerId
+                    AND Employee__c != :employeeId
+                    AND Status__c IN :active
+                    AND Start_Date__c <= :rangeEnd
+                    AND End_Date__c >= :rangeStart
+                LIMIT 200
+            ];
+        }
     }
 }

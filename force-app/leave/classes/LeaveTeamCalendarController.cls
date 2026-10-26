@@ -4,6 +4,9 @@
  * solicitacoes da equipe pelo compartilhamento da cadeia de gestores; quem nao tem equipe recebe a tela vazia.
  */
 public with sharing class LeaveTeamCalendarController {
+    public class CalendarException extends Exception {
+    }
+
     public class DayView {
         @AuraEnabled
         public Integer day;
@@ -60,7 +63,7 @@ public with sharing class LeaveTeamCalendarController {
     public static MonthView getMonth(Integer year, Integer month) {
         try {
             if (year == null || month == null || month < 1 || month > 12) {
-                throw new AuraHandledException('Informe um mês válido.');
+                throw new CalendarException('Informe um mês válido.');
             }
             MonthView view = new MonthView();
             view.year = year;
@@ -81,8 +84,6 @@ public with sharing class LeaveTeamCalendarController {
             }
             fillRows(view, team, firstDay, lastDay);
             return view;
-        } catch (AuraHandledException e) {
-            throw e;
         } catch (Exception e) {
             AuraHandledException ex = new AuraHandledException(e.getMessage());
             ex.setMessage(e.getMessage());
