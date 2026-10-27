@@ -38,7 +38,7 @@ Os números por módulo são os relatados nos relatórios em `docs/execucao/modu
 - [x] Deploy de `force-app` inteiro numa scratch org sem erro (`rh-int`, 513 componentes e depois 600 e poucos com portal e analytics; não foi testado numa scratch org criada do zero para o projeto inteiro).
 - [x] Testes Apex passando, cobertura de cada classe do pacote de pelo menos 85%; Jest passando.
 - [~] Code Analyzer: informado por módulo; sem rodada única no repositório.
-- [ ] Versão do pacote criada com cobertura: ver "Pendências".
+- [x] Versão do pacote criada com `--code-coverage`: 1.0.0-1, `04tbm000000t3JpAAI`, cobertura de 97%, validação de cobertura aprovada (terceira tentativa).
 - [x] README no formato do portfólio.
 
 ## Decisões e divergências relevantes
@@ -53,7 +53,7 @@ Registradas em `docs/execucao/PROGRESSO.md` (decisões 1 a 8 do core) e em cada 
 
 ## Pendências
 
-- **Pacote.** Duas tentativas de criar a versão com `--code-coverage` falharam na validação por testes que dependiam de permissão de campo do administrador (corrigidos depois). A terceira e última tentativa permitida pela instrução da noite depende da rodada completa de testes numa org com admin sem permissões. Ver estado no fim deste arquivo.
+- **Pacote.** A versão 1.0.0-1 foi criada na terceira e última tentativa permitida. As duas primeiras falharam na validação por testes que dependiam de permissão de campo do administrador (corrigidos). A versão é beta (não promovida) e não foi instalada numa org nova para testar a instalação nem rodar o seed lá.
 - **Validação visual dos componentes Salesforce.** Os LWCs foram validados por Jest e por deploy; só o site de vagas (portal) foi aberto e usado em navegador como visitante anônimo.
 - **Site de vagas.** Roda numa scratch org (expira em 02/11/2026); o Network está em `UnderConstruction`, publicado e acessível sem login.
 - **Agendamentos.** Em `rh-int` os jobs recorrentes foram criados pelo seed; precisam ser abortados antes de novo deploy de classes agendáveis.
@@ -81,11 +81,11 @@ node --test "demo/tests/*.test.js"
 
 ## O que depende de decisão do Witor
 
-1. Abrir o repositório ao público (hoje privado). Antes: licença (o README diz "a definir"), varredura de segredos no histórico e revisão final de confidencialidade.
-2. Publicar a página do RH Core no portfólio (branch local pronta, sem deploy). A publicação em produção exige aprovação explícita.
+1. Abertura do repositório ao público e publicação da página no portfólio: autorizadas pelo Witor na conversa de 26/10/2026 (ver o registro no ClickUp 868mn2r18).
+2. Promover a versão do pacote (hoje beta) e testar a instalação em org nova.
 3. Gravar a demonstração em vídeo.
 4. Quando abrir o repositório, decidir o link do GitHub na página do portfólio.
 
 ## Estado do pacote
 
-(preenchido ao final da rodada)
+Versão 1.0.0-1 (`04tbm000000t3JpAAI`), unlocked sem namespace, 611 arquivos de metadado, cobertura de 97%, `HasPassedCodeCoverageCheck` verdadeiro. Instalação: `sf package install --package 04tbm000000t3JpAAI --target-org <org> --wait 30`. Não promovida (`sf package version promote` fica para quando o Witor decidir). Não testada a instalação em org nova.
