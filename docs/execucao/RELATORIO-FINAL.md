@@ -89,3 +89,10 @@ node --test "demo/tests/*.test.js"
 ## Estado do pacote
 
 Versão 1.0.0-1 (`04tbm000000t3JpAAI`), unlocked sem namespace, 611 arquivos de metadado, cobertura de 97%, `HasPassedCodeCoverageCheck` verdadeiro. Instalação: `sf package install --package 04tbm000000t3JpAAI --target-org <org> --wait 30`. Não promovida (`sf package version promote` fica para quando o Witor decidir). Não testada a instalação em org nova.
+
+## Atualização de 26/10/2026 (noite)
+
+- Repositório público (MIT, branch padrão `develop`).
+- Página https://salesforce.flupdigital.com.br/projetos/rh-core.html publicada em produção; sitemap atualizado.
+- App implantado na org `witor-dev` (560 componentes, 401 testes aprovados), com os grupos HR_Admin e HR_Manager atribuídos ao administrador e dados de demonstração da Vetra. Sem os três usuários de demonstração e sem jobs agendados.
+- Em `witor-dev` a permissão `ViewDashboards` não é reconhecida: o permission set de analytics foi implantado sem ela (diferença só na org, não no repositório).
