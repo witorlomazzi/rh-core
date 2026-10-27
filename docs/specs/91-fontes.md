@@ -42,7 +42,7 @@ Notas:
 
 ## Ambiente (verificado em 25/10/2026)
 
-- Dev Hub: `witor-dev` (sousawitor@gmail.com). Limites: 3 scratch orgs ativas, 6 criações por dia,
+- Dev Hub: `witor-dev`. Limites: 3 scratch orgs ativas, 6 criações por dia,
   6 versões de pacote por dia. Nenhum pacote criado ainda.
 - Node local 22.11 (o Astro do site exige 22.12; para este projeto basta o Node instalado). sf CLI
   2.142.7 com plugin code-analyzer 5.14.0. Java 21.

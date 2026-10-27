@@ -74,7 +74,7 @@ Spec: `docs/specs/17-meu-rh.md`. Pasta: `force-app/myhr`. Branch: `feat/myhr`. O
 
 ```bash
 # trava da org (ver docs/execucao/00-plano-multiagente.md), depois:
-LOCK="C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/rh-w1"
+LOCK="<raiz-do-repositorio>/.locks/rh-w1"
 until mkdir "$LOCK" 2>/dev/null; do sleep 30; done; trap 'rmdir "$LOCK"' EXIT
 sf project deploy start --source-dir force-app/myhr --target-org rh-w1 --ignore-conflicts --wait 30
 sf apex run test --class-names MyHrControllerTest MyHrServiceTest --code-coverage --result-format human --wait 30 --target-org rh-w1

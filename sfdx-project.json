@@ -18,6 +18,7 @@
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "62.0",
   "packageAliases": {
-    "RH Core": "0Hobm0000008g6vCAA"
+    "RH Core": "0Hobm0000008g6vCAA",
+    "RH Core@1.0.0-1": "04tbm000000t3JpAAI"
   }
 }

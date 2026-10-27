@@ -171,6 +171,14 @@ Números recontados no repositório e na org de integração:
 
 ## Como instalar e rodar
 
+Versão 1.0.0-1 do pacote (unlocked, sem namespace, cobertura de 97%): `04tbm000000t3JpAAI`. É uma versão beta, instalável em scratch org e sandbox:
+
+```bash
+sf package install --package 04tbm000000t3JpAAI --target-org <sua-org> --wait 30
+```
+
+Ou, para ver o código funcionando do zero:
+
 Pré-requisitos: Salesforce CLI, Node 20 ou superior e um Dev Hub.
 
 ```bash
@@ -213,4 +221,4 @@ O seed é idempotente: pode rodar mais de uma vez sem duplicar dados. Os persona
 
 ## Licença
 
-A definir pelo autor antes de abrir o repositório ao público.
+MIT. Veja o arquivo `LICENSE`.

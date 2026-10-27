@@ -13,10 +13,10 @@ e siga. O objetivo é chegar de manhã com o máximo entregue, testado e documen
    `docs/execucao/PROMPT-AGENTE-MODULO.md`.
 2. Leia `docs/execucao/PROGRESSO.md`. **Se já houver progresso registrado, você está retomando: continue
    do último passo marcado, não refaça o que está feito.**
-3. Leia as regras do workspace em `C:/Users/sousa/Desktop/Claudio/Salesforce/AGENTS.md` e as notas de
+3. Leia as regras do workspace em `AGENTS.md do workspace` e as notas de
    memória `padrao-projeto-salesforce.md`, `org-deploy-blockers.md`, `apex-approval-e-deploy-gotchas.md`,
    `permset-fls-campo-required-gotcha.md`, `cmdt-record-xmlns-xsd-gotcha.md` em
-   `C:/Users/sousa/.claude/projects/C--Users-sousa-Desktop-Claudio-Salesforce/memory/`.
+   a memoria do workspace.
 4. Registre no ClickUp, na tarefa 868mn2r18 (https://app.clickup.com/t/868mn2r18), um comentário começando com `EM EXECUÇÃO` (agente,
    escopo, repositório, branches, orgs). Ao final, um comentário `CONCLUÍDO` ou `PARCIAL` com o resumo do
    relatório final.

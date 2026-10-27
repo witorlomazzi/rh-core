@@ -74,4 +74,4 @@ npx sfdx-lwc-jest -- force-app/promotion
 sf code-analyzer run --workspace force-app/promotion --rule-selector pmd:Recommended --severity-threshold 2
 ```
 
-Use a trava `C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/rh-w1` antes de implantar e testar.
+Use a trava `<raiz-do-repositorio>/.locks/rh-w1` antes de implantar e testar.

@@ -28,7 +28,7 @@ branch do agente em `rh-int` ao revisar).
 diretório de trava de forma atômica; se já existir, esperar 30 segundos e tentar de novo (até 20 minutos;
 trava com mais de 40 minutos é considerada abandonada e pode ser removida, registrando no PROGRESSO):
 ```bash
-LOCK="C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/<alias>"
+LOCK="<raiz-do-repositorio>/.locks/<alias>"
 until mkdir "$LOCK" 2>/dev/null; do sleep 30; done
 # ... deploy e testes ...
 rmdir "$LOCK"

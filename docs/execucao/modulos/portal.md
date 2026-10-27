@@ -63,7 +63,7 @@ Site: `unpackaged/site` (`digitalExperiences/site/Vagas_Vetra1`, `digitalExperie
 ## Como reproduzir
 
 ```bash
-LOCK="C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/rh-w2"
+LOCK="<raiz-do-repositorio>/.locks/rh-w2"
 until mkdir "$LOCK" 2>/dev/null; do sleep 30; done; trap 'rmdir "$LOCK"' EXIT
 sf project deploy start --source-dir force-app/portal --target-org rh-w2 --ignore-conflicts --wait 20
 sf apex run test --target-org rh-w2 --code-coverage --result-format human --wait 30 \

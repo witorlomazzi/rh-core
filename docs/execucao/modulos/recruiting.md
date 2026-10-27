@@ -80,7 +80,7 @@ Metadados novos: app `RH_Recrutamento`, aba `RH_Funil`, FlexiPages `RH_Funil`, `
 
 ```bash
 # trava obrigatória da org (mkdir atômico) e libera no trap
-LOCK="C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/rh-w2"
+LOCK="<raiz-do-repositorio>/.locks/rh-w2"
 until mkdir "$LOCK" 2>/dev/null; do sleep 30; done; trap 'rmdir "$LOCK"' EXIT
 sf project deploy start --source-dir force-app/recruiting --target-org rh-w2 --ignore-conflicts --wait 20
 sf apex run test --target-org rh-w2 --code-coverage --result-format json --wait 30 \

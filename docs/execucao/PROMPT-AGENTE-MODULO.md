@@ -13,10 +13,10 @@ cumpra a spec e registre a decisão no seu relatório.
   core em `force-app/core` (classes compartilhadas que você deve usar, não reescrever).
 - Org de trabalho: alias **`<org>`** (scratch org já criada, com a Fase 0 implantada). Outro agente pode
   usar a mesma org: respeite a trava descrita em `docs/execucao/00-plano-multiagente.md`
-  (diretório `C:/Users/sousa/Desktop/Claudio/Salesforce/rh-core/.locks/<org>`).
+  (diretório `<raiz-do-repositorio>/.locks/<org>`).
 - Dependências já integradas em `develop`: <lista ou "nenhuma além do core">.
 - Antes de inferir convenções, consulte as notas de memória do workspace citadas em `03-convencoes-e-gates.md`
-  e o arquivo `C:/Users/sousa/.claude/projects/C--Users-sousa-Desktop-Claudio-Salesforce/memory/padrao-projeto-salesforce.md`
+  e o arquivo a memoria do workspacepadrao-projeto-salesforce.md`
   e as notas de gotchas de deploy (`org-deploy-blockers.md`, `apex-approval-e-deploy-gotchas.md`,
   `permset-fls-campo-required-gotcha.md`) do mesmo diretório.
 
