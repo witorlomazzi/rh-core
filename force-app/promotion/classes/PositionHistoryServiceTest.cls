@@ -106,21 +106,25 @@ private class PositionHistoryServiceTest {
 
     @IsTest
     static void timelineIsOrderedAndLabelled() {
-        PromotionTestSupport.Ctx c = PromotionTestSupport.load();
-        PositionHistoryService.registerChanges(
-            new List<PositionHistoryService.Change>{
-                new PositionHistoryService.Change(c.tree.emp1.Id, c.posB.Id, c.department.Id, 6500, Date.today(), 'Promocao', null)
+        // Org limpa: o administrador de teste nao tem permissao de campo sobre os campos do produto.
+        User adminUser = HrTestDataFactory.user('zzadm', 'HR_Admin');
+        System.runAs(adminUser) {
+            PromotionTestSupport.Ctx c = PromotionTestSupport.load();
+            PositionHistoryService.registerChanges(
+                new List<PositionHistoryService.Change>{
+                    new PositionHistoryService.Change(c.tree.emp1.Id, c.posB.Id, c.department.Id, 6500, Date.today(), 'Promocao', null)
+                }
+            );
+            PositionHistoryService.HistoryResult r = PositionHistoryService.timeline(c.tree.emp1.Id);
+            System.assertEquals(true, r.salaryVisible, 'O usuario de teste e administrador');
+            System.assertEquals(2, r.entries.size());
+            System.assertEquals('Promoção', r.entries[0].reasonLabel, 'Mais recente primeiro');
+            System.assertEquals(true, r.entries[0].isCurrent);
+            System.assertEquals(6500, r.entries[0].salary);
+            System.assertEquals('ZZTEST-Cargo B', r.entries[0].positionName);
+            System.assertEquals('ZZTEST-Departamento P', r.entries[0].departmentName);
+            System.assertEquals('Admissão', r.entries[1].reasonLabel);
+            System.assertEquals(false, r.entries[1].isCurrent);
             }
-        );
-        PositionHistoryService.HistoryResult r = PositionHistoryService.timeline(c.tree.emp1.Id);
-        System.assertEquals(true, r.salaryVisible, 'O usuario de teste e administrador');
-        System.assertEquals(2, r.entries.size());
-        System.assertEquals('Promoção', r.entries[0].reasonLabel, 'Mais recente primeiro');
-        System.assertEquals(true, r.entries[0].isCurrent);
-        System.assertEquals(6500, r.entries[0].salary);
-        System.assertEquals('ZZTEST-Cargo B', r.entries[0].positionName);
-        System.assertEquals('ZZTEST-Departamento P', r.entries[0].departmentName);
-        System.assertEquals('Admissão', r.entries[1].reasonLabel);
-        System.assertEquals(false, r.entries[1].isCurrent);
     }
 }

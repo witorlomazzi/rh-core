@@ -180,107 +180,119 @@ private class JobApplicationStageTest {
 
     @IsTest
     static void bulkOf200ThroughTheServiceIsAllOrNothing() {
-        Job_Opening__c opening = RecruitingTestData.opening('Servico 200', null, 'Aberta');
-        List<Candidate__c> candidates = new List<Candidate__c>();
-        for (Integer i = 0; i < 200; i++) {
-            candidates.add(RecruitingTestData.buildCandidate('s' + i));
-        }
-        insert candidates;
-        List<Job_Application__c> apps = new List<Job_Application__c>();
-        for (Candidate__c c : candidates) {
-            apps.add(new Job_Application__c(Candidate__c = c.Id, Job_Opening__c = opening.Id));
-        }
-        insert apps;
+        // Org limpa: o administrador de teste nao tem permissao de campo sobre os campos do produto.
+        User adminUser = HrTestDataFactory.user('zzadm', 'HR_Admin');
+        System.runAs(adminUser) {
+            Job_Opening__c opening = RecruitingTestData.opening('Servico 200', null, 'Aberta');
+            List<Candidate__c> candidates = new List<Candidate__c>();
+            for (Integer i = 0; i < 200; i++) {
+                candidates.add(RecruitingTestData.buildCandidate('s' + i));
+            }
+            insert candidates;
+            List<Job_Application__c> apps = new List<Job_Application__c>();
+            for (Candidate__c c : candidates) {
+                apps.add(new Job_Application__c(Candidate__c = c.Id, Job_Opening__c = opening.Id));
+            }
+            insert apps;
 
-        List<JobApplicationService.StageChange> changes = new List<JobApplicationService.StageChange>();
-        for (Job_Application__c a : apps) {
-            changes.add(new JobApplicationService.StageChange(a.Id, 'Triagem', null, null));
-        }
-        Test.startTest();
-        List<Job_Application__c> moved = JobApplicationService.changeStages(changes);
-        Test.stopTest();
-        Assert.areEqual(200, moved.size());
-        Assert.areEqual(200, [SELECT COUNT() FROM Job_Application__c WHERE Stage__c = 'Triagem' AND Job_Opening__c = :opening.Id]);
+            List<JobApplicationService.StageChange> changes = new List<JobApplicationService.StageChange>();
+            for (Job_Application__c a : apps) {
+                changes.add(new JobApplicationService.StageChange(a.Id, 'Triagem', null, null));
+            }
+            Test.startTest();
+            List<Job_Application__c> moved = JobApplicationService.changeStages(changes);
+            Test.stopTest();
+            Assert.areEqual(200, moved.size());
+            Assert.areEqual(200, [SELECT COUNT() FROM Job_Application__c WHERE Stage__c = 'Triagem' AND Job_Opening__c = :opening.Id]);
 
-        // Um pedido invalido derruba o lote inteiro.
-        List<JobApplicationService.StageChange> mixed = new List<JobApplicationService.StageChange>();
-        for (Integer i = 0; i < 3; i++) {
-            mixed.add(new JobApplicationService.StageChange(apps[i].Id, 'Entrevista_RH', null, null));
-        }
-        mixed.add(new JobApplicationService.StageChange(apps[3].Id, 'Contratado', null, null));
-        try {
-            JobApplicationService.changeStages(mixed);
-            Assert.fail('Lote invalido deve falhar');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.isTrue(e.getMessage().startsWith('Mudança de etapa não permitida'), e.getMessage());
-        }
-        Assert.areEqual(0, [SELECT COUNT() FROM Job_Application__c WHERE Stage__c = 'Entrevista_RH' AND Job_Opening__c = :opening.Id]);
+            // Um pedido invalido derruba o lote inteiro.
+            List<JobApplicationService.StageChange> mixed = new List<JobApplicationService.StageChange>();
+            for (Integer i = 0; i < 3; i++) {
+                mixed.add(new JobApplicationService.StageChange(apps[i].Id, 'Entrevista_RH', null, null));
+            }
+            mixed.add(new JobApplicationService.StageChange(apps[3].Id, 'Contratado', null, null));
+            try {
+                JobApplicationService.changeStages(mixed);
+                Assert.fail('Lote invalido deve falhar');
+            } catch (JobApplicationService.RecruitingException e) {
+                Assert.isTrue(e.getMessage().startsWith('Mudança de etapa não permitida'), e.getMessage());
+            }
+            Assert.areEqual(0, [SELECT COUNT() FROM Job_Application__c WHERE Stage__c = 'Entrevista_RH' AND Job_Opening__c = :opening.Id]);
+            }
     }
 
     @IsTest
     static void serviceValidatesBeforeTheDml() {
-        Job_Application__c app = newApplication('svc');
-        try {
-            JobApplicationService.changeStage(app.Id, 'Reprovado', null, null);
-            Assert.fail('Sem motivo deve falhar');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.areEqual('Informe o motivo da reprovação.', e.getMessage());
-        }
-        Job_Application__c moved = JobApplicationService.changeStage(app.Id, 'Reprovado', 'Perfil', null);
-        Assert.areEqual('Reprovado', moved.Stage__c);
-        Assert.areEqual('Perfil', moved.Rejection_Reason__c);
-
-        Job_Application__c same = JobApplicationService.changeStage(moved.Id, 'Reprovado', null, null);
-        Assert.areEqual('Reprovado', same.Stage__c, 'Mesma etapa e no-op');
-
-        try {
-            JobApplicationService.changeStage(app.Id, 'Triagem', null, 9);
-            Assert.fail('Nota fora da faixa');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.areEqual('A nota deve estar entre 0 e 5.', e.getMessage());
-        }
-        for (JobApplicationService.StageChange bad : new List<JobApplicationService.StageChange>{
-            new JobApplicationService.StageChange(null, 'Triagem', null, null),
-            new JobApplicationService.StageChange(app.Id, '', null, null)
-        }) {
+        // Org limpa: o administrador de teste nao tem permissao de campo sobre os campos do produto.
+        User adminUser = HrTestDataFactory.user('zzadm', 'HR_Admin');
+        System.runAs(adminUser) {
+            Job_Application__c app = newApplication('svc');
             try {
-                JobApplicationService.changeStages(new List<JobApplicationService.StageChange>{ bad });
-                Assert.fail('Pedido incompleto');
+                JobApplicationService.changeStage(app.Id, 'Reprovado', null, null);
+                Assert.fail('Sem motivo deve falhar');
             } catch (JobApplicationService.RecruitingException e) {
-                Assert.isNotNull(e.getMessage());
+                Assert.areEqual('Informe o motivo da reprovação.', e.getMessage());
             }
-        }
-        try {
-            JobApplicationService.changeStages(
-                new List<JobApplicationService.StageChange>{
-                    new JobApplicationService.StageChange(app.Id, 'Triagem', null, null),
-                    new JobApplicationService.StageChange(app.Id, 'Triagem', null, null)
+            Job_Application__c moved = JobApplicationService.changeStage(app.Id, 'Reprovado', 'Perfil', null);
+            Assert.areEqual('Reprovado', moved.Stage__c);
+            Assert.areEqual('Perfil', moved.Rejection_Reason__c);
+
+            Job_Application__c same = JobApplicationService.changeStage(moved.Id, 'Reprovado', null, null);
+            Assert.areEqual('Reprovado', same.Stage__c, 'Mesma etapa e no-op');
+
+            try {
+                JobApplicationService.changeStage(app.Id, 'Triagem', null, 9);
+                Assert.fail('Nota fora da faixa');
+            } catch (JobApplicationService.RecruitingException e) {
+                Assert.areEqual('A nota deve estar entre 0 e 5.', e.getMessage());
+            }
+            for (JobApplicationService.StageChange bad : new List<JobApplicationService.StageChange>{
+                new JobApplicationService.StageChange(null, 'Triagem', null, null),
+                new JobApplicationService.StageChange(app.Id, '', null, null)
+            }) {
+                try {
+                    JobApplicationService.changeStages(new List<JobApplicationService.StageChange>{ bad });
+                    Assert.fail('Pedido incompleto');
+                } catch (JobApplicationService.RecruitingException e) {
+                    Assert.isNotNull(e.getMessage());
                 }
-            );
-            Assert.fail('Repetida');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.isTrue(e.getMessage().contains('mais de uma vez'));
-        }
-        Assert.isTrue(JobApplicationService.changeStages(null).isEmpty());
+            }
+            try {
+                JobApplicationService.changeStages(
+                    new List<JobApplicationService.StageChange>{
+                        new JobApplicationService.StageChange(app.Id, 'Triagem', null, null),
+                        new JobApplicationService.StageChange(app.Id, 'Triagem', null, null)
+                    }
+                );
+                Assert.fail('Repetida');
+            } catch (JobApplicationService.RecruitingException e) {
+                Assert.isTrue(e.getMessage().contains('mais de uma vez'));
+            }
+            Assert.isTrue(JobApplicationService.changeStages(null).isEmpty());
+            }
     }
 
     @IsTest
     static void rateStoresTheScoreAndValidatesRange() {
-        Job_Application__c app = newApplication('rate');
-        JobApplicationService.rate(app.Id, 4);
-        Assert.areEqual(4, RecruitingTestData.reloadApplication(app.Id).Score__c);
-        try {
-            JobApplicationService.rate(app.Id, 6);
-            Assert.fail('Nota fora da faixa');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.areEqual('A nota deve estar entre 0 e 5.', e.getMessage());
-        }
-        try {
-            JobApplicationService.rate(null, 3);
-            Assert.fail('Sem candidatura');
-        } catch (JobApplicationService.RecruitingException e) {
-            Assert.isNotNull(e.getMessage());
-        }
+        // Org limpa: o administrador de teste nao tem permissao de campo sobre os campos do produto.
+        User adminUser = HrTestDataFactory.user('zzadm', 'HR_Admin');
+        System.runAs(adminUser) {
+            Job_Application__c app = newApplication('rate');
+            JobApplicationService.rate(app.Id, 4);
+            Assert.areEqual(4, RecruitingTestData.reloadApplication(app.Id).Score__c);
+            try {
+                JobApplicationService.rate(app.Id, 6);
+                Assert.fail('Nota fora da faixa');
+            } catch (JobApplicationService.RecruitingException e) {
+                Assert.areEqual('A nota deve estar entre 0 e 5.', e.getMessage());
+            }
+            try {
+                JobApplicationService.rate(null, 3);
+                Assert.fail('Sem candidatura');
+            } catch (JobApplicationService.RecruitingException e) {
+                Assert.isNotNull(e.getMessage());
+            }
+            }
     }
 
     @IsTest
