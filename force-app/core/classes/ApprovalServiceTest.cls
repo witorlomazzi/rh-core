@@ -223,6 +223,58 @@ private class ApprovalServiceTest {
     }
 
     @IsTest
+    static void hrMemberCannotDecideOwnRequest() {
+        bypassModules();
+        useTwoSteps();
+        HrTestDataFactory.OrgTree t = HrTestDataFactory.loadOrgTree();
+        // O colaborador 1 tambem e do RH: a etapa do grupo aparece para ele, mas o pedido e dele.
+        System.runAs(new User(Id = UserInfo.getUserId())) {
+            HrTestDataFactory.addToHrTeam(t.emp1User.Id);
+        }
+        Leave_Request__c r = newLeave(t.emp1, t.emp1User);
+        System.runAs(t.emp1User) {
+            ApprovalService.submit(r.Id, 'Leave');
+        }
+        System.runAs(t.mgr1User) {
+            ApprovalService.decide(pendingStep(r.Id).Id, true, null);
+        }
+        Approval_Step__c hrStep = pendingStep(r.Id);
+        Assert.areEqual('HR_Team', hrStep.Approver_Type__c);
+        Test.startTest();
+        System.runAs(t.emp1User) {
+            Assert.isTrue(ApprovalService.pendingForCurrentUser().isEmpty(), 'O proprio pedido fica fora da caixa');
+            try {
+                ApprovalService.decide(hrStep.Id, true, null);
+                Assert.fail('RH nao aprova a propria solicitacao');
+            } catch (ApprovalService.ApprovalException e) {
+                Assert.areEqual('Você não pode decidir a própria solicitação.', e.getMessage());
+            }
+        }
+        System.runAs(t.hrUser) {
+            Assert.areEqual(1, ApprovalService.pendingForCurrentUser().size(), 'Outro membro do RH ve a etapa');
+            ApprovalService.decide(hrStep.Id, true, null);
+        }
+        Test.stopTest();
+        Assert.areEqual('Aprovado', reload(r.Id).Status__c);
+    }
+
+    @IsTest
+    static void onlyRequesterSubmits() {
+        bypassModules();
+        useTwoSteps();
+        HrTestDataFactory.OrgTree t = HrTestDataFactory.loadOrgTree();
+        Leave_Request__c r = newLeave(t.emp1, t.emp1User);
+        Test.startTest();
+        // O RH le o rascunho do colaborador, mas nao o envia em nome dele.
+        System.runAs(t.hrUser) {
+            assertFails(r.Id, 'Leave', 'Somente quem fez');
+        }
+        Test.stopTest();
+        Assert.areEqual('Rascunho', reload(r.Id).Status__c);
+        Assert.areEqual(0, [SELECT COUNT() FROM Approval_Step__c WHERE Leave_Request__c = :r.Id]);
+    }
+
+    @IsTest
     static void unavailableApproverIsSkipped() {
         bypassModules();
         useTwoSteps();

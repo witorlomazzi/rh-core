@@ -39,10 +39,13 @@ public with sharing class ApprovalService {
 
     // ------------------------------------------------------------------------------------------------- API
 
-    /** Envia o pedido para aprovacao: cria a primeira etapa com aprovador disponivel. */
+    /** Envia o pedido para aprovacao: cria a primeira etapa com aprovador disponivel. Somente o solicitante. */
     public static void submit(Id requestId, String requestType) {
         RequestConfig cfg = config(requestType);
         SObject request = loadRequestAsUser(cfg, requestId);
+        if (requesterOf(request) != UserInfo.getUserId()) {
+            throw new ApprovalException('Somente quem fez a solicitação pode enviá-la para aprovação.');
+        }
         if ((String) request.get('Status__c') != STATUS_DRAFT) {
             throw new ApprovalException('Somente solicitações em rascunho podem ser enviadas para aprovação.');
         }
@@ -59,7 +62,10 @@ public with sharing class ApprovalService {
         }
     }
 
-    /** Registra a decisao do usuario atual na etapa. Rejeicao exige comentario. */
+    /**
+     * Registra a decisao do usuario atual na etapa. Rejeicao exige comentario. Ninguem decide a propria solicitacao,
+     * nem como solicitante nem como o colaborador do pedido: na etapa do RH, outro membro do grupo decide.
+     */
     public static void decide(Id approvalStepId, Boolean approve, String comments) {
         Privileged p = new Privileged();
         Approval_Step__c step = p.loadStep(approvalStepId);
@@ -72,15 +78,18 @@ public with sharing class ApprovalService {
         if (!canDecide(step)) {
             throw new ApprovalException('Você não é o aprovador desta etapa.');
         }
+        String requestType = step.Request_Type__c;
+        RequestConfig cfg = config(requestType);
+        SObject request = p.loadRequest(cfg, (Id) step.get(cfg.lookupField));
+        if (isOwnRequest(request)) {
+            throw new ApprovalException('Você não pode decidir a própria solicitação.');
+        }
         if (approve != true && String.isBlank(comments)) {
             throw new ApprovalException('Informe um comentário para rejeitar a solicitação.');
         }
-        String requestType = step.Request_Type__c;
-        RequestConfig cfg = config(requestType);
-        Id requestId = (Id) step.get(cfg.lookupField);
         Savepoint sp = Database.setSavepoint();
         try {
-            applyDecision(p, cfg, requestType, step, requestId, approve == true, comments);
+            applyDecision(p, cfg, requestType, step, request, approve == true, comments);
         } catch (Exception e) {
             Database.rollback(sp);
             throw e;
@@ -92,12 +101,11 @@ public with sharing class ApprovalService {
         RequestConfig cfg,
         String requestType,
         Approval_Step__c step,
-        Id requestId,
+        SObject request,
         Boolean approve,
         String comments
     ) {
         p.recordDecision(step, approve, comments);
-        SObject request = p.loadRequest(cfg, requestId);
         List<HR_Approval_Step__mdt> steps = stepsFor(requestType);
         if (approve) {
             Integer nextIndex = steps.size();
@@ -144,9 +152,16 @@ public with sharing class ApprovalService {
         Map<Id, SObject> requests = new Map<Id, SObject>();
         requests.putAll(requestSummaries('Leave_Request__c', leaveIds));
         requests.putAll(requestSummaries('Promotion_Request__c', promotionIds));
+        // A etapa do RH aparece para todo o grupo; a propria solicitacao fica fora da caixa de quem a fez.
+        Privileged p = new Privileged();
+        Set<Id> ownIds = p.ownRequestIds('Leave_Request__c', leaveIds);
+        ownIds.addAll(p.ownRequestIds('Promotion_Request__c', promotionIds));
         List<ApprovalItem> items = new List<ApprovalItem>();
         for (Approval_Step__c s : steps) {
             ApprovalItem item = new ApprovalItem(s, null);
+            if (ownIds.contains(item.requestId)) {
+                continue;
+            }
             item.setRequest(requests.get(item.requestId));
             items.add(item);
         }
@@ -276,6 +291,16 @@ public with sharing class ApprovalService {
         return requester != null ? requester : (Id) request.get('CreatedById');
     }
 
+    /** O usuario atual fez a solicitacao ou e o colaborador dela (pedido aberto por outra pessoa em seu nome). */
+    private static Boolean isOwnRequest(SObject request) {
+        Id me = UserInfo.getUserId();
+        if (requesterOf(request) == me) {
+            return true;
+        }
+        SObject employee = request.getSObject('Employee__r');
+        return employee != null && (Id) employee.get('User__c') == me;
+    }
+
     private static Boolean canDecide(Approval_Step__c step) {
         if (step.Approver_Type__c == 'HR_Team') {
             return isHrMember();
@@ -327,12 +352,30 @@ public with sharing class ApprovalService {
 
         SObject loadRequest(RequestConfig cfg, Id requestId) {
             return Database.queryWithBinds(
-                'SELECT Id, Name, Employee__c, Status__c, Current_Step__c, Requested_By__c, CreatedById FROM ' +
+                'SELECT Id, Name, Employee__c, Employee__r.User__c, Status__c, Current_Step__c, Requested_By__c, CreatedById FROM ' +
                     cfg.objectType.getDescribe().getName() +
                     ' WHERE Id = :requestId',
                 new Map<String, Object>{ 'requestId' => requestId },
                 AccessLevel.SYSTEM_MODE
             )[0];
+        }
+
+        /** Dos pedidos informados, os que o usuario atual fez ou dos quais e o colaborador. */
+        Set<Id> ownRequestIds(String objectName, Set<Id> ids) {
+            Set<Id> own = new Set<Id>();
+            if (ids.isEmpty()) {
+                return own;
+            }
+            for (SObject r : Database.queryWithBinds(
+                'SELECT Id, Requested_By__c, CreatedById, Employee__r.User__c FROM ' + objectName + ' WHERE Id IN :ids',
+                new Map<String, Object>{ 'ids' => ids },
+                AccessLevel.SYSTEM_MODE
+            )) {
+                if (isOwnRequest(r)) {
+                    own.add(r.Id);
+                }
+            }
+            return own;
         }
 
         void recordDecision(Approval_Step__c step, Boolean approve, String comments) {
